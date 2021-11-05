@@ -1,0 +1,48 @@
+[color]
+ui = true
+[user]
+name = minhyeoky
+email = minhyeok.lee95@gmail.com
+[log]
+date = iso
+[push]
+default = simple
+[core]
+editor = vim
+autocrlf = input
+precomposeunicode = true
+quotepath = false
+excludesfile = ~/.gitignore
+[alias]
+co = checkout
+ci = commit
+st = status
+lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%n''          %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)'
+br = branch -vv
+rp = rev-parse HEAD
+[filter "lfs"]
+clean = git-lfs clean -- %f
+smudge = git-lfs smudge -- %f
+process = git-lfs filter-process
+required = true
+[credential]
+username = minhyeoky
+[url "git@github.com:"]
+insteadOf = https://github.com/
+[author]
+name = mhlee
+email = minhyeok.lee95@gmail.com
+[committer]
+name = mhlee
+email = minhyeok.lee95@gmail.com
+[rerere]
+enabled = true
+[diff]
+tool = vimdiff
+[merge]
+tool = vimdiff
+[difftool]
+prompt = false
+[mergetool]
+prompt = false
+keepBackup = false

@@ -1,0 +1,131 @@
+[
+  {
+    "src": {
+      "path": ["git/.gitignore"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": ["git/.gitconfig"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": [".zshrc"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": ["git/.gitignore"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": [".bash_aliases"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": [".bash_constants"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": [".bash_functions"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": [".bashrc"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": [".gitconfig"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": [".tmux.local"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": [".tmux.conf.local"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": [".vimrc"]
+    },
+    "dst": {
+      "path": ["$HOME"]
+    }
+  },
+  {
+    "src": {
+      "path": [".config", "alacritty"]
+    },
+    "dst": {
+      "path": ["$HOME", ".config"]
+    }
+  },
+  {
+    "src": {
+      "path": [".config", "nvim"]
+    },
+    "dst": {
+      "path": ["$HOME", ".config"]
+    }
+  },
+  {
+    "src": {
+      "path": [".config", "karabiner"]
+    },
+    "dst": {
+      "path": ["$HOME", ".config"]
+    }
+  },
+  {
+    "src": {
+      "path": [".config", "tmuxinator"]
+    },
+    "dst": {
+      "path": ["$HOME", ".config"]
+    }
+  }
+]
+
