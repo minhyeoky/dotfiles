@@ -7,4 +7,4 @@ tags
 .vim
 venv
 scripts_ignored
-_*
+__ignore*

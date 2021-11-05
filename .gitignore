@@ -1,3 +1,7 @@
+# Common
+
+node_modules
+
 .bash_constants
 
 .config/karabiner/automatic_backups

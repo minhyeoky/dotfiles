@@ -46,3 +46,5 @@ prompt = false
 [mergetool]
 prompt = false
 keepBackup = false
+[pull]
+  rebase = false
