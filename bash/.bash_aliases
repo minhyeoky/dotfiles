@@ -4,6 +4,7 @@
 alias python='python3'
 alias v='nvim'
 alias vim='nvim'
+alias g='git'
 
 # --------------------------------------------------------------------------------
 # docker & docker-compose
