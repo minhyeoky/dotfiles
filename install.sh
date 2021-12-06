@@ -22,6 +22,11 @@ function _backup() {
   fi
 }
 
+function install_bash() {
+  _backup ~/.bashrc
+  ln -s -f -v $PWD/bash/.bashrc ~/.bashrc
+}
+
 function install_vim() {
   _backup ~/.vimrc
   ln -s -f -v $PWD/vim/.vimrc ~/.vimrc
@@ -50,6 +55,11 @@ function install_git() {
   _backup ~/.gitignore
   ln -s -f -v $PWD/git/.gitignore ~/.gitignore
 }
+
+read -p "---- Install bash? [Y/n]: " input
+if [[ ${input,,} != "n" ]]; then
+  install_bash
+fi
 
 read -p "---- Install vim? [Y/n]: " input
 if [[ ${input,,} != "n" ]]; then
