@@ -37,8 +37,3 @@ alias tme='task project.not:Allganize'
 alias tpa='task project:Allganize'
 alias tw='timew summary :week; timew week'
 
-# --------------------------------------------------------------------------------
-# etc
-# --------------------------------------------------------------------------------
-alias ctags="`brew --prefix`/bin/ctags"
-
