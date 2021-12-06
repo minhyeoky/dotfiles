@@ -25,6 +25,12 @@ function _backup() {
 function install_bash() {
   _backup ~/.bashrc
   ln -s -f -v $PWD/bash/.bashrc ~/.bashrc
+
+  _backup ~/.bash_aliases
+  ln -s -f -v $PWD/bash/.bash_aliases ~/.bash_aliases
+
+  _backup ~/.bash_functions
+  ln -s -f -v $PWD/bash/.bash_functions ~/.bash_functions
 }
 
 function install_vim() {
