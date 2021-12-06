@@ -18,7 +18,7 @@ function _backup() {
     cp -L $1 $1_backup
     echo "Backup $1 -> $1_backup"
   else
-    echo "$1 not exists, no backup."
+    echo "Skip backup. $1 not exists."
   fi
 }
 
@@ -38,6 +38,9 @@ function install_vim() {
   mkdir -p -v ~/.config/nvim
   _backup ~/.config/nvim/init.vim
   ln -s -f -v $PWD/nvim/init.vim ~/.config/nvim/init.vim
+
+  _backup ~/.config/nvim/coc-settings.json
+  ln -s -f -v $PWD/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
 }
 
 function install_git() {
