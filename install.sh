@@ -52,6 +52,18 @@ function install_vim() {
 
   _backup ~/.config/nvim/coc-settings.json
   ln -s -f -v $PWD/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
+
+  if [[ -n $(command -v fd) ]]; then
+    echo "Skip fd installation because already installed."
+  elif [[ $uname_out == "Linux" ]]; then
+    # TODO ARM
+    wget -O fd.deb https://github.com/sharkdp/fd/releases/download/v8.3.0/fd_8.3.0_amd64.deb
+    sudo dpkg -i ./fd.deb
+    rm fd.deb
+  else
+    echo "Failed to install fd. for $uname_out"
+    return 1
+  fi
 }
 
 function install_git() {
