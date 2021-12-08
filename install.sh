@@ -33,6 +33,31 @@ function install_bash() {
   ln -s -f -v $PWD/bash/.bash_functions ~/.bash_functions
 }
 
+function install_zsh() {
+  _backup ~/.zshrc
+  ln -s -f -v $PWD/zsh/.zshrc ~/.zshrc
+
+  if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    echo "Clone zsh-syntax-highlighting done"
+  fi
+
+  if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    echo "Clone zsh-autosuggestions done"
+  fi
+
+  if [[ ! -d ~/powerlevel10k ]]; then
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+    echo "Clone powerline theme done"
+  fi
+
+  if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-z ]]; then
+    git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-z
+    echo "Clone zsh-z done"
+  fi
+}
+
 function install_vim() {
   _backup ~/.vimrc
   ln -s -f -v $PWD/vim/.vimrc ~/.vimrc
@@ -77,6 +102,11 @@ function install_git() {
 read -p "---- Install bash? [Y/n]: " input
 if [[ ${input,,} != "n" ]]; then
   install_bash
+fi
+
+read -p "---- Install zsh? [Y/n]: " input
+if [[ ${input,,} != "n" ]]; then
+  install_zsh
 fi
 
 read -p "---- Install vim? [Y/n]: " input

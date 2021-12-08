@@ -91,6 +91,7 @@ tmux
 docker
 docker-compose
 fasd
+zsh-z
 )
 
 
@@ -126,15 +127,12 @@ export PATH=$PATH:~/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-# z
-. $HOME/zsh-z/zsh-z.plugin.zsh
-
 [ -s "~/.scm_breeze/scm_breeze.sh" ] && source "~/.scm_breeze/scm_breeze.sh"
 # --------------------------------------------------------------------------------
 # powerlevel 10k
 # --------------------------------------------------------------------------------
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
