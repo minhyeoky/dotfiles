@@ -144,8 +144,5 @@ source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
 # --------------------------------------------------------------------------------
 export DISABLE_AUTO_TITLE='true'
 
-[ -s "/Users/minhyeoklee/.scm_breeze/scm_breeze.sh" ] && source "/Users/minhyeoklee/.scm_breeze/scm_breeze.sh"
-
-# export TERM=screen-256color
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PATH="/opt/homebrew/opt/tcl-tk/bin:$PATH"
