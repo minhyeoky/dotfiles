@@ -31,6 +31,9 @@ function install_bash() {
 
   _backup ~/.bash_functions
   ln -s -f -v $PWD/bash/.bash_functions ~/.bash_functions
+
+  _backup ~/.bash_macosx
+  ln -s -f -v $PWD/bash/.bash_macosx ~/.bash_macosx
 }
 
 function install_zsh() {
