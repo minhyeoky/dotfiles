@@ -83,6 +83,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'psf/black', { 'branch': 'stable' }
 " Plug 'honza/vim-snippets'
 Plug 'chr4/nginx.vim'
+Plug 'python-rope/ropevim'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#end()
 
