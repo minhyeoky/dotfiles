@@ -95,10 +95,6 @@ function install_vim() {
     echo "Failed to install fd. for $uname_out"
     return 1
   fi
-
-  python3 -m pip install --upgrade pip
-  python3 -m pip install ropevim
-  echo "ropevim is installed"
 }
 
 function install_git() {
