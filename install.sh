@@ -56,6 +56,9 @@ function install_zsh() {
     git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-z
     echo "Clone zsh-z done"
   fi
+
+  sudo chsh -s $(which zsh) $(whoami)
+  echo "Changed default shell to zsh"
 }
 
 function install_vim() {
@@ -85,6 +88,17 @@ function install_vim() {
     wget -O fd.deb https://github.com/sharkdp/fd/releases/download/v8.3.0/fd_8.3.0_amd64.deb
     sudo dpkg -i ./fd.deb
     rm fd.deb
+  else
+    echo "Failed to install fd. for $uname_out"
+    return 1
+  fi
+
+  # Install ctags.
+  if [[ -n $(command -v ctags) ]]; then
+    echo "Skip ctags installation because already installed."
+  elif [[ $uname_out == "Linux" ]]; then
+    # TODO ARM
+    sudo apt install -y ctags
   else
     echo "Failed to install fd. for $uname_out"
     return 1
