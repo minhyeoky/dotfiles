@@ -31,11 +31,17 @@ function install_bash() {
 
   _backup ~/.bash_functions
   ln -s -f -v $PWD/bash/.bash_functions ~/.bash_functions
+
+  _backup ~/.bash_macosx
+  ln -s -f -v $PWD/bash/.bash_macosx ~/.bash_macosx
 }
 
 function install_zsh() {
   _backup ~/.zshrc
   ln -s -f -v $PWD/zsh/.zshrc ~/.zshrc
+
+  _backup ~/.p10k.zsh
+  ln -s -f -v $PWD/zsh/.p10k.zsh ~/.p10k.zsh
 
   if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
@@ -114,22 +120,22 @@ function install_git() {
 }
 
 read -p "---- Install bash? [Y/n]: " input
-if [[ ${input,,} != "n" ]]; then
+if [[ ${input} != "n" ]]; then
   install_bash
 fi
 
 read -p "---- Install zsh? [Y/n]: " input
-if [[ ${input,,} != "n" ]]; then
+if [[ ${input} != "n" ]]; then
   install_zsh
 fi
 
 read -p "---- Install vim? [Y/n]: " input
-if [[ ${input,,} != "n" ]]; then
+if [[ ${input} != "n" ]]; then
   install_vim
 fi
 
 read -p "---- Install git? [Y/n]: " input
-if [[ ${input,,} != "n" ]]; then
+if [[ ${input} != "n" ]]; then
   install_git
 fi
 

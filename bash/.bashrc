@@ -32,8 +32,8 @@ case "${uname_out}" in
     *)          machine="UNKNOWN:${unameOut}"
 esac
 if [[ $uname_out == "Darwin" ]]; then
-    if [[ -z ~/.bash_macosx.sh ]]; then
-        . ~/.bash_macosx.sh
+    if [[ -e ~/.bash_macosx ]]; then
+        . ~/.bash_macosx
     fi
 fi
 # --------------------------------------------------------------------------------

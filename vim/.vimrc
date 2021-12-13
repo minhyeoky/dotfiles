@@ -201,6 +201,9 @@ let g:tagbar_type_vimwiki = {
 " --------------------------------------------------
 " coc.nvim
 " --------------------------------------------------
+nmap <leader>rr <Plug>(coc-rename)
+nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
+
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gr <Plug>(coc-references)
 let g:python3_host_prog = "/usr/local/bin/python3"
@@ -394,3 +397,5 @@ nnoremap <leader>es :UltiSnipsEdit!<cr>
 " Vim-fugitive
 " --------------------------------------------------
 nnoremap <leader>gs :tab Git<cr>
+
+
