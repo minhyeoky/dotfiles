@@ -10,6 +10,7 @@ case "${uname_out}" in
     Darwin*)    machine=Mac;;
     CYGWIN*)    machine=Cygwin;;
     MINGW*)     machine=MinGw;;
+    MSYS*)      machine=Windows;;
     *)          machine="UNKNOWN:${unameOut}"
 esac
 
@@ -79,14 +80,25 @@ function install_vim() {
     echo "Skip neovim installation because already installed."
   elif [[ $uname_out == "Linux" ]]; then
     sudo apt install -y --reinstall neovim
+  elif [[ $machine == "Windows" ]]; then
+    choco install -y neovim
   else
     echo "Failed to install neovim. for $uname_out"
     return 1
   fi
 
-  mkdir -p -v ~/.config/nvim
-  _backup ~/.config/nvim/init.vim
-  ln -s -f -v $PWD/nvim/init.vim ~/.config/nvim/init.vim
+  if [[ $machine == "Linux" ]]; then
+    mkdir -p -v ~/.config/nvim
+    _backup ~/.config/nvim/init.vim
+    ln -s -f -v $PWD/nvim/init.vim ~/.config/nvim/init.vim
+  elif [[ $machine == "Windows" ]]; then
+    mkdir -p -v ~/AppData/Local/nvim
+    _backup ~/AppData/Local/nvim/init.vim
+    ln -s -f -v $PWD/nvim/init.vim ~/AppData/Local/nvim/init.vim
+  else
+    echo "Failed to install neovim. for $uname_out"
+    return 1
+  fi
 
   _backup ~/.config/nvim/coc-settings.json
   ln -s -f -v $PWD/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
@@ -98,6 +110,20 @@ function install_vim() {
     wget -O fd.deb https://github.com/sharkdp/fd/releases/download/v8.3.0/fd_8.3.0_amd64.deb
     sudo dpkg -i ./fd.deb
     rm fd.deb
+  elif [[ $machine == "Windows" ]]; then
+    choco install -y fd
+  else
+    echo "Failed to install fd. for $uname_out"
+    return 1
+  fi
+
+  if [[ -n $(command -v rg) ]]; then
+    echo "Skip rg installation because already installed."
+  elif [[ $machine == "Linux" ]]; then
+    echo "TODO"
+    return 1
+  elif [[ $machine == "Windows" ]]; then
+    choco install -y ripgrep
   else
     echo "Failed to install fd. for $uname_out"
     return 1
@@ -109,6 +135,8 @@ function install_vim() {
   elif [[ $uname_out == "Linux" ]]; then
     # TODO ARM
     sudo apt install -y ctags
+  elif [[ $machine == "Windows" ]]; then
+    choco install -y ctags
   else
     echo "Failed to install fd. for $uname_out"
     return 1
