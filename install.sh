@@ -78,16 +78,16 @@ function install_vim() {
 
   if [[ -n $(command -v nvim) ]]; then
     echo "Skip neovim installation because already installed."
-  elif [[ $uname_out == "Linux" ]]; then
+  elif [[ $machine == "Mac" || $machine == "Linux" ]]; then
     sudo apt install -y --reinstall neovim
   elif [[ $machine == "Windows" ]]; then
     choco install -y neovim
   else
-    echo "Failed to install neovim. for $uname_out"
+    echo "Failed to install neovim. for $machine"
     return 1
   fi
 
-  if [[ $machine == "Linux" ]]; then
+  if [[ $machine == "Linux" || $machine == "Mac" ]]; then
     mkdir -p -v ~/.config/nvim
     _backup ~/.config/nvim/init.vim
     ln -s -f -v $PWD/nvim/init.vim ~/.config/nvim/init.vim
@@ -96,7 +96,7 @@ function install_vim() {
     _backup ~/AppData/Local/nvim/init.vim
     ln -s -f -v $PWD/nvim/init.vim ~/AppData/Local/nvim/init.vim
   else
-    echo "Failed to install neovim. for $uname_out"
+    echo "Failed to install neovim. for $machine"
     return 1
   fi
 
