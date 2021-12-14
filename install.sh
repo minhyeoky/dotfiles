@@ -141,6 +141,25 @@ function install_vim() {
     echo "Failed to install fd. for $uname_out"
     return 1
   fi
+
+  # Install vim-plug
+  sudo curl -fLo ~/.vim/autoload/plug.vim --create-dirs \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+  # Install neovim
+  if [[ $machine == "Linux" ]]; then
+    sudo apt remove neovim -y
+    sudo add-apt-repository ppa:neovim-ppa/stable
+    sudo apt update
+    sudo apt install -y neovim
+  elif [[ $machine == "Windows" ]]; then
+    choco install -y ctags
+  elif [[ $machine == "Mac" ]]; then
+    echo "## TODO install neovim"
+  else
+    echo "Failed to install fd. for $uname_out"
+    return 1
+  fi
 }
 
 function install_git() {
