@@ -98,10 +98,7 @@ set completefunc=emoji#complete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " autocmd vimenter * ++nested colorscheme gruvbox
 colorscheme onedark
-augroup MyColors
-  autocmd!
-  autocmd Colorscheme * highlight VimwikiLink cterm=underline ctermfg=111
-augroup END
+highlight VimwikiLink cterm=underline ctermfg=111
 
 " --------------------------------------------------
 " NerdTree
