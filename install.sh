@@ -190,3 +190,12 @@ if [[ ${input} != "n" ]]; then
   install_git
 fi
 
+read -p "---- Install task? [Y/n]: " input
+if [[ ${input} != "n" ]]; then
+  if [[ $machine == "Mac" ]]; then
+    brew install task
+    echo "yes" | task config taskd.certificate -- ~/.task/Miel.cert.pem
+    echo "yes" | task config taskd.key -- ~/.task/Miel.key.pem
+    echo "yes" | task config taskd.ca -- ~/.task/ca.cert.pem
+  fi
+fi
