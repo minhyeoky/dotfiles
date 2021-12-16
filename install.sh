@@ -196,6 +196,7 @@ if [[ ${input} != "n" ]]; then
     brew install task
   fi
 
+  sudo pip3 install tasklib
   echo "yes" | task config taskd.certificate -- ~/.task/Miel.cert.pem
   echo "yes" | task config taskd.key -- ~/.task/Miel.key.pem
   echo "yes" | task config taskd.ca -- ~/.task/ca.cert.pem
