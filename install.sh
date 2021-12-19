@@ -192,14 +192,6 @@ fi
 
 read -p "---- Install task? [Y/n]: " input
 if [[ ${input} != "n" ]]; then
-  if [[ $machine == "Mac" ]]; then
-    brew install task
-  fi
-
-  sudo pip3 install tasklib
-  echo "yes" | task config taskd.certificate -- ~/.task/Miel.cert.pem
-  echo "yes" | task config taskd.key -- ~/.task/Miel.key.pem
-  echo "yes" | task config taskd.ca -- ~/.task/ca.cert.pem
-  echo "yes" | task config taskd.server -- task.mhlee.dev:53589
-  echo "yes" | task config taskd.credentials -- Personal/Miel/8b0c78b3-9376-40f1-8a7a-f5ea5b27b67d
+  _backup ~/.taskrc
+  ln -s -f -v $PWD/taskwarrior/.taskrc ~/.taskrc
 fi
