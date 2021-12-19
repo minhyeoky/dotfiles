@@ -35,7 +35,4 @@ alias bw='buku -w'  # create or update
 # Task & Time
 # --------------------------------------------------------------------------------
 alias t='task'
-alias tme='task project.not:Allganize'
-alias tpa='task project:Allganize'
-alias tw='timew summary :week; timew week'
-
+alias tt='task due:today'

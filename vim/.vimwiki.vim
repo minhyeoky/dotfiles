@@ -7,7 +7,6 @@ Plug 'vimwiki/vimwiki', {'branch': 'dev'}
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 let g:vimwiki_autowriteall = 1
 let g:vimwiki_folding = 'syntax'
-let g:vimwiki_conceallevel = 2
 
 let vimwiki_path = $VIMWIKI_PATH
 
