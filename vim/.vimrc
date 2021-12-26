@@ -76,20 +76,16 @@ Plug 'ferrine/md-img-paste.vim'
 Plug 'preservim/tagbar'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'alok/notational-fzf-vim'
 Plug 'ryanoasis/vim-devicons'
-" Plug 'SirVer/ultisnips'
 Plug 'mhinz/vim-startify'
 Plug 'airblade/vim-gitgutter'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
-" Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/vim-emoji'
 Plug 'wookayin/vim-typora'
 Plug 'joshdick/onedark.vim'
 Plug 'psf/black', { 'branch': 'stable' }
-" Plug 'honza/vim-snippets'
 Plug 'chr4/nginx.vim'
 Plug 'Yggdroot/indentLine'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -123,10 +119,6 @@ map <leader>T :Typora<cr>
 " --------------------------------------------------
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
-
-" notational-fzf-vim
-let g:nv_search_paths = ['$VIMWIKI_PATH']
-nnoremap <silent> <leader>e :NV<CR>
 
 " --------------------------------------------------
 " auto save
