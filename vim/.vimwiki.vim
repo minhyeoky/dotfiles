@@ -3,6 +3,7 @@ if empty($VIMWIKI_PATH)
 endif
 
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}
+Plug 'alok/notational-fzf-vim'
 
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 let g:vimwiki_autowriteall = 1
@@ -107,3 +108,7 @@ autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownCli
 autocmd FileType vimwiki,markdown set foldlevel=3                                 
 " autocmd FileType vimwiki,markdown set nowrap                               
 let g:mdip_imgdir = 'img'
+
+" notational-fzf-vim
+let g:nv_search_paths = ['$VIMWIKI_PATH']
+nnoremap <silent> <leader>e :NV<CR>
