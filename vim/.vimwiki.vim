@@ -9,6 +9,8 @@ let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown'
 let g:vimwiki_autowriteall = 1
 let g:vimwiki_folding = 'syntax'
 
+nnoremap <Leader>c :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &cole <CR>
+
 let vimwiki_path = $VIMWIKI_PATH
 
 let g:vimwiki_list = [
