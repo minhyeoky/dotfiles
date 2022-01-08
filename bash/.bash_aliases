@@ -6,6 +6,8 @@ alias v='nvim'
 alias vim='nvim'
 alias g='git'
 alias ll='ls -alhF'
+alias tf='terraform'
+
 
 # --------------------------------------------------------------------------------
 # docker & docker-compose
