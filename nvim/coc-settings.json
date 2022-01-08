@@ -1277,6 +1277,12 @@
         "command": "docker-langserver",
         "filetypes": ["dockerfile"],
         "args": ["--stdio"]
+      },
+      "terraform": {
+        "command": "terraform-ls",
+        "args": ["serve"],
+        "filetypes": ["terraform", "tf"],
+        "initializationOptions": {}
       }
     }
   },
