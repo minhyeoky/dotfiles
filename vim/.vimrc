@@ -88,8 +88,12 @@ Plug 'joshdick/onedark.vim'
 Plug 'psf/black', { 'branch': 'stable' }
 Plug 'chr4/nginx.vim'
 Plug 'Yggdroot/indentLine'
+Plug 'preservim/tagbar'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#end()
+
+" Set conceallevel after loading plugins.
+set conceallevel=0
 
 set completefunc=emoji#complete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
