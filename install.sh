@@ -190,8 +190,3 @@ if [[ ${input} != "n" ]]; then
   install_git
 fi
 
-read -p "---- Install task? [Y/n]: " input
-if [[ ${input} != "n" ]]; then
-  _backup ~/.taskrc
-  ln -s -f -v $PWD/taskwarrior/.taskrc ~/.taskrc
-fi
