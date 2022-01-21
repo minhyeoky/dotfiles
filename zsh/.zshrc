@@ -144,3 +144,10 @@ export DISABLE_AUTO_TITLE='true'
 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PATH="/opt/homebrew/opt/tcl-tk/bin:$PATH"
+
+# Set PATH for flutter.
+export PATH="$PATH:$HOME/flutter/bin"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
