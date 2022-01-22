@@ -75,6 +75,8 @@ function install_vim() {
   mkdir -p -v ~/.vim
   _backup ~/.vim/.vimwiki.vim
   ln -s -f -v $PWD/vim/.vimwiki.vim ~/.vim/.vimwiki.vim
+  _backup ~/.vim/.coc_nvim.vim
+  ln -s -f -v $PWD/vim/.coc_nvim.vim ~/.vim/.coc_nvim.vim
 
   if [[ -n $(command -v nvim) ]]; then
     echo "Skip neovim installation because already installed."
