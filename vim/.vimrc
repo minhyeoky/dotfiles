@@ -84,7 +84,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/vim-emoji'
 Plug 'wookayin/vim-typora'
-Plug 'joshdick/onedark.vim'
 Plug 'psf/black', { 'branch': 'stable' }
 Plug 'chr4/nginx.vim'
 Plug 'Yggdroot/indentLine'
@@ -97,9 +96,6 @@ set conceallevel=0
 
 set completefunc=emoji#complete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" autocmd vimenter * ++nested colorscheme gruvbox
-colorscheme onedark
-highlight VimwikiLink cterm=underline ctermfg=111
 
 " --------------------------------------------------
 " NerdTree
