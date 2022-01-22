@@ -94,6 +94,7 @@ Plug 'psf/black', { 'branch': 'stable' }
 Plug 'chr4/nginx.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'preservim/tagbar'
+Plug 'edkolev/tmuxline.vim'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#end()
 
