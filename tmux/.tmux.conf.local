@@ -314,3 +314,8 @@ set -g pane-active-border-style 'fg=colour51,bg=colour236'
 # https://unix.stackexchange.com/questions/30270/tmux-disable-confirmation-prompt-on-kill-window
 bind-key @ kill-window
 bind-key x kill-pane 
+
+
+set -g status off
+source -q ~/.tmux.line
+
