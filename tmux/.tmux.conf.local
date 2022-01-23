@@ -312,3 +312,5 @@ bind-key x kill-pane
 set -g status off
 source -q ~/.tmux.line
 
+set-option -g status-position top
+
