@@ -127,6 +127,8 @@ map <leader>T :Typora<cr>
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
 
+let g:fzf_preview_window = ['up:35%', 'ctrl-/']
+
 " --------------------------------------------------
 " auto save
 " https://stackoverflow.com/questions/17365324/auto-save-in-vim-as-you-type
