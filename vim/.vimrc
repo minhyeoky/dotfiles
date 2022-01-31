@@ -96,8 +96,12 @@ Plug 'chr4/nginx.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'preservim/tagbar'
 Plug 'edkolev/tmuxline.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#end()
+
+let g:dracula_colorterm = 0
+colorscheme dracula
 
 " Set conceallevel after loading plugins.
 set conceallevel=0
