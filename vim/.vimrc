@@ -46,6 +46,7 @@ map <leader>sv :source ${MYVIMRC}<CR>
 
 " Execute current file
 map <leader>r :!./%<CR>
+nnoremap <leader>cd :lcd %:h<CR>
 
 map! <C-h> <left>
 map! <C-j> <down>
