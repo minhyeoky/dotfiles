@@ -5,6 +5,7 @@
       "args": ["serve"],
       "filetypes": ["terraform", "tf"],
       "initializationOptions": {}
+    }
   },
   "bash": {
     "command": "bash-language-server",
