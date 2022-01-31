@@ -102,6 +102,7 @@ call plug#end()
 
 let g:dracula_colorterm = 0
 colorscheme dracula
+highlight VimwikiLink cterm=underline ctermfg=111
 
 " Set conceallevel after loading plugins.
 set conceallevel=0
