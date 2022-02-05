@@ -89,13 +89,9 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
-Plug 'junegunn/vim-emoji'
-Plug 'wookayin/vim-typora'
 Plug 'psf/black', { 'branch': 'stable' }
 Plug 'chr4/nginx.vim'
-Plug 'Yggdroot/indentLine'
 Plug 'preservim/tagbar'
-Plug 'edkolev/tmuxline.vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#end()
@@ -106,6 +102,7 @@ highlight VimwikiLink cterm=underline ctermfg=111
 
 " Set conceallevel after loading plugins.
 set conceallevel=0
+let g:vimwiki_conceallevel=0
 
 set completefunc=emoji#complete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
