@@ -22,6 +22,7 @@ function install_vim() {
   ln -s -f -v "$PWD"/vim/.vimrc ~/.vimrc
 
   # Link .vim files. (Plugins)
+  mkdir -p -v ~/.vim
   backup ~/.vim/.coc_nvim.vim
   ln -s -f -v "$PWD"/vim/.coc_nvim.vim ~/.vim/.coc_nvim.vim
 
