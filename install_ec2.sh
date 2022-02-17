@@ -9,7 +9,7 @@ source ./utils.sh
 
 guard_os "Linux"
 
-function install_vim() {
+function install() {
   # Install neovim.
   sudo apt remove -y neovim || true
   sudo add-apt-repository --yes ppa:neovim-ppa/stable
@@ -17,12 +17,21 @@ function install_vim() {
   sudo apt --fix-broken install
   sudo apt install -y neovim
 
+  # Install nodejs (for coc.nvim - LSP)
+  curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+  sudo apt install -y nodejs
+  sudo apt install -y build-essential
+
+  # Install ctags (for tagbar)
+  sudo snap install universal-ctags
+
   # Link .vimrc.
   backup ~/.vimrc
   ln -s -f -v "$PWD"/vim/.vimrc ~/.vimrc
 
   # Link .vim files. (Plugins)
   mkdir -p -v ~/.vim
+  mkdir -p -v ~/.vim/files/info
   backup ~/.vim/.coc_nvim.vim
   ln -s -f -v "$PWD"/vim/.coc_nvim.vim ~/.vim/.coc_nvim.vim
 
@@ -37,16 +46,8 @@ function install_vim() {
 
   # Install vim-plug.
   curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  sudo sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 }
 
-    # wget -O fd.deb https://github.com/sharkdp/fd/releases/download/v8.3.0/fd_8.3.0_amd64.deb
-    # sudo dpkg -i ./fd.deb
-    # rm fd.deb
+install
 
-
-
-install_vim
-
-
-    # ctags, Rg, ...

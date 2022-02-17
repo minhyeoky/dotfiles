@@ -4,6 +4,9 @@ nmap <leader>rr <Plug>(coc-rename)
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 
 nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gc <Plug>(coc-declaration)
+nmap <leader>gt <Plug>(coc-type-definition)
+nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gr <Plug>(coc-references)
 let g:python3_host_prog = "/usr/local/bin/python3"
 
