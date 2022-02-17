@@ -39,8 +39,8 @@ fi
 # --------------------------------------------------------------------------------
 # vim
 # --------------------------------------------------------------------------------
-export MYVIMRC='$HOME/.vimrc'
-export EDITOR='nvim'
+export VIMRC="${HOME}/.vimrc"
+export EDITOR=nvim
 
 # fzf & fzf-vim
 [ -z "$ZSH_NAME" ] && [ -f ~/.fzf.bash ] && source ~/.fzf.bash 

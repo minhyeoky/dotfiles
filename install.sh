@@ -1,48 +1,35 @@
 #!/usr/bin/env bash
+#
+# Install dotfiles for Mac OSX.
+
 
 set -e
 
 cd $(dirname "$0")
+source ./utils.sh
 
-uname_out="$(uname -s)"
-case "${uname_out}" in
-    Linux*)     machine=Linux;;
-    Darwin*)    machine=Mac;;
-    CYGWIN*)    machine=Cygwin;;
-    MINGW*)     machine=MinGw;;
-    MSYS*)      machine=Windows;;
-    *)          machine="UNKNOWN:${unameOut}"
-esac
-
-function _backup() {
-  if [[ -e $1 ]]; then
-    cp -L $1 $1_backup
-    echo "Backup $1 -> $1_backup"
-  else
-    echo "Skip backup. $1 not exists."
-  fi
-}
+guard_os "Mac"
 
 function install_bash() {
-  _backup ~/.bashrc
-  ln -s -f -v $PWD/bash/.bashrc ~/.bashrc
+  backup ~/.bashrc
+  ln -s -f -v "$PWD"/bash/.bashrc ~/.bashrc
 
-  _backup ~/.bash_aliases
-  ln -s -f -v $PWD/bash/.bash_aliases ~/.bash_aliases
+  backup ~/.bash_aliases
+  ln -s -f -v "$PWD"/bash/.bash_aliases ~/.bash_aliases
 
-  _backup ~/.bash_functions
-  ln -s -f -v $PWD/bash/.bash_functions ~/.bash_functions
+  backup ~/.bash_functions
+  ln -s -f -v "$PWD"/bash/.bash_functions ~/.bash_functions
 
-  _backup ~/.bash_macosx
-  ln -s -f -v $PWD/bash/.bash_macosx ~/.bash_macosx
+  backup ~/.bash_macosx
+  ln -s -f -v "$PWD"/bash/.bash_macosx ~/.bash_macosx
 }
 
 function install_zsh() {
-  _backup ~/.zshrc
-  ln -s -f -v $PWD/zsh/.zshrc ~/.zshrc
+  backup ~/.zshrc
+  ln -s -f -v "$PWD"/zsh/.zshrc ~/.zshrc
 
-  _backup ~/.p10k.zsh
-  ln -s -f -v $PWD/zsh/.p10k.zsh ~/.p10k.zsh
+  backup ~/.p10k.zsh
+  ln -s -f -v "$PWD"/zsh/.p10k.zsh ~/.p10k.zsh
 
   if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
@@ -63,113 +50,44 @@ function install_zsh() {
     git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-z
     echo "Clone zsh-z done"
   fi
-
-  sudo chsh -s $(which zsh) $(whoami)
-  echo "Changed default shell to zsh"
 }
 
 function install_vim() {
-  _backup ~/.vimrc
-  ln -s -f -v $PWD/vim/.vimrc ~/.vimrc
+  # Install neovim.
+  brew update
+  brew install neovim --HEAD
 
+  # Link .vimrc.
+  backup ~/.vimrc
+  ln -s -f -v "$PWD"/vim/.vimrc ~/.vimrc
+
+  # Link .vim files. (Plugins)
   mkdir -p -v ~/.vim
-  _backup ~/.vim/.vimwiki.vim
-  ln -s -f -v $PWD/vim/.vimwiki.vim ~/.vim/.vimwiki.vim
-  _backup ~/.vim/.coc_nvim.vim
-  ln -s -f -v $PWD/vim/.coc_nvim.vim ~/.vim/.coc_nvim.vim
+  backup ~/.vim/.vimwiki.vim
+  ln -s -f -v "$PWD"/vim/.vimwiki.vim ~/.vim/.vimwiki.vim
+  backup ~/.vim/.coc_nvim.vim
+  ln -s -f -v "$PWD"/vim/.coc_nvim.vim ~/.vim/.coc_nvim.vim
 
-  if [[ -n $(command -v nvim) ]]; then
-    echo "Skip neovim installation because already installed."
-  elif [[ $machine == "Mac" || $machine == "Linux" ]]; then
-    sudo apt install -y --reinstall neovim
-  elif [[ $machine == "Windows" ]]; then
-    choco install -y neovim
-  else
-    echo "Failed to install neovim. for $machine"
-    return 1
-  fi
+  # Link init.vim (neovim)
+  mkdir -p -v ~/.config/nvim
+  backup ~/.config/nvim/init.vim
+  ln -s -f -v "$PWD"/nvim/init.vim ~/.config/nvim/init.vim
+  
+  # Link nvim files. (Plugins)
+  backup ~/.config/nvim/coc-settings.json
+  ln -s -f -v "$PWD"/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
 
-  if [[ $machine == "Linux" || $machine == "Mac" ]]; then
-    mkdir -p -v ~/.config/nvim
-    _backup ~/.config/nvim/init.vim
-    ln -s -f -v $PWD/nvim/init.vim ~/.config/nvim/init.vim
-  elif [[ $machine == "Windows" ]]; then
-    mkdir -p -v ~/AppData/Local/nvim
-    _backup ~/AppData/Local/nvim/init.vim
-    ln -s -f -v $PWD/nvim/init.vim ~/AppData/Local/nvim/init.vim
-  else
-    echo "Failed to install neovim. for $machine"
-    return 1
-  fi
-
-  _backup ~/.config/nvim/coc-settings.json
-  ln -s -f -v $PWD/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
-
-  if [[ -n $(command -v fd) ]]; then
-    echo "Skip fd installation because already installed."
-  elif [[ $uname_out == "Linux" ]]; then
-    # TODO ARM
-    wget -O fd.deb https://github.com/sharkdp/fd/releases/download/v8.3.0/fd_8.3.0_amd64.deb
-    sudo dpkg -i ./fd.deb
-    rm fd.deb
-  elif [[ $machine == "Windows" ]]; then
-    choco install -y fd
-  else
-    echo "Failed to install fd. for $uname_out"
-    return 1
-  fi
-
-  if [[ -n $(command -v rg) ]]; then
-    echo "Skip rg installation because already installed."
-  elif [[ $machine == "Linux" ]]; then
-    echo "TODO"
-    return 1
-  elif [[ $machine == "Windows" ]]; then
-    choco install -y ripgrep
-  else
-    echo "Failed to install fd. for $uname_out"
-    return 1
-  fi
-
-  # Install ctags.
-  if [[ -n $(command -v ctags) ]]; then
-    echo "Skip ctags installation because already installed."
-  elif [[ $uname_out == "Linux" ]]; then
-    # TODO ARM
-    sudo apt install -y ctags
-  elif [[ $machine == "Windows" ]]; then
-    choco install -y ctags
-  else
-    echo "Failed to install fd. for $uname_out"
-    return 1
-  fi
-
-  # Install vim-plug
-  sudo curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  sudo sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
-  # Install neovim
-  if [[ $machine == "Linux" ]]; then
-    sudo apt remove neovim -y
-    sudo add-apt-repository ppa:neovim-ppa/stable
-    sudo apt update
-    sudo apt install -y neovim
-  elif [[ $machine == "Windows" ]]; then
-    choco install -y ctags
-  elif [[ $machine == "Mac" ]]; then
-    echo "## TODO install neovim"
-  else
-    echo "Failed to install fd. for $uname_out"
-    return 1
-  fi
+  # Install vim-plug.
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 }
 
 function install_git() {
-  _backup ~/.gitconfig
-  ln -s -f -v $PWD/git/.gitconfig ~/.gitconfig
+  backup ~/.gitconfig
+  ln -s -f -v "$PWD"/git/.gitconfig ~/.gitconfig
 
-  _backup ~/.gitignore
-  ln -s -f -v $PWD/git/.gitignore ~/.gitignore
+  backup ~/.gitignore
+  ln -s -f -v "$PWD"/git/.gitignore ~/.gitignore
 }
 
 read -p "---- Install bash? [Y/n]: " input

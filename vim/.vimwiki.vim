@@ -2,15 +2,18 @@ if empty($VIMWIKI_PATH)
   finish
 endif
 
+Plug 'mhinz/vim-startify'
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}
-Plug 'alok/notational-fzf-vim'
+Plug 'djoshea/vim-autoread'
+Plug 'ferrine/md-img-paste.vim'
 
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 let g:vimwiki_autowriteall = 1
 let g:vimwiki_folding = 'syntax'
+let g:vimwiki_conceallevel=0
 
+autocmd TextChanged,TextChangedI *.md silent write
 autocmd FileType vimwiki :set foldmethod=syntax
-nnoremap <Leader>c :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &cole <CR>
 
 let vimwiki_path = $VIMWIKI_PATH
 
@@ -94,13 +97,6 @@ function! LastModified()
   call setpos('.', save_cursor)
 endfunction
 
-function! ReplaceEmoji()
-  let save_cursor = getpos(".")
-  exe 'silent! %s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g'
-  call setpos('.', save_cursor)
-endfunction
-
-
 augroup vimwikiauto
   autocmd BufRead,BufNewFile *.md silent call NewTemplate()
   autocmd BufWrite,FileWritePre *.md silent call LastModified()
@@ -108,9 +104,5 @@ augroup END
 
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 autocmd FileType vimwiki,markdown set foldlevel=3                                 
-" autocmd FileType vimwiki,markdown set nowrap                               
 let g:mdip_imgdir = 'img'
 
-" notational-fzf-vim
-let g:nv_search_paths = ['$VIMWIKI_PATH']
-nnoremap <silent> <leader>e :NV<CR>
