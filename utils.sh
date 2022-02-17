@@ -7,10 +7,8 @@ function guard_os() {
   case "$(uname -s)" in
       Linux*)     os=Linux;;
       Darwin*)    os=Mac;;
-      CYGWIN*)    os=Cygwin;;
-      MINGW*)     os=MinGw;;
       MSYS*)      os=Windows;;
-      *)          os="UNKNOWN:${unameOut}"
+      *)          os="UNKNOWN"
   esac
   if [[ "${os}" != "${target_os}" ]]; then
     echo "Invalid OS. target: ${target_os}"
