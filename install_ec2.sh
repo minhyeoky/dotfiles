@@ -11,7 +11,6 @@ guard_os "Linux"
 
 function install() {
   # Install neovim.
-  sudo apt remove -y neovim || true
   sudo add-apt-repository --yes ppa:neovim-ppa/stable
   sudo apt update -y
   sudo apt --fix-broken install
