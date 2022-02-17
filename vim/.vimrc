@@ -5,107 +5,118 @@
 " ------------------------------------------------
 " General
 " ------------------------------------------------
-" Options
 lang en_US.UTF-8
+filetype plugin indent on
+syntax on
+
+" ------------------------------------------------
+" Options
+" ------------------------------------------------
 set encoding=utf-8 
 set fileencoding=utf-8
 set number
 set relativenumber
 
- 
-" Tab options
+" Tab Options
 set expandtab " escape: CTRL+V<Tab>
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2  " when using `>`
 set smartindent
+
+" Fold Options
+set foldlevel=3
+set foldmethod=indent
+
+" ETC
 set nobackup
 set noswapfile
 set smartcase
-set pastetoggle=<F10>
 set cursorline
 set colorcolumn=80
 set mouse=a
-set ve=all                                        
+set virtualedit=block                                     
 set splitbelow                                    
 set splitright                                    
-set foldlevel=3
-set so=5
+set scrolloff=5
 set lazyredraw
+
 if !has('nvim')
   set ttymouse=xterm2
 endif
 
-filetype plugin indent on
-syntax on
-
+" ------------------------------------------------
+" Variables
+" ------------------------------------------------
 let g:mapleader=',' 
 
+" ------------------------------------------------
+" Maps
+" ------------------------------------------------
+" Tab
+noremap <leader>tn :tabnew<cr>
+noremap <leader>to :tabonly<cr>
+
 " Reload .vimrc
-map <leader>sv :source ${MYVIMRC}<CR> 
+map <silent> <leader>sv :source ${VIMRC}<CR> 
+
+" Switch conceallevel
+noremap <Leader>c :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &cole <CR>
 
 " Execute current file
-map <leader>r :!./%<CR>
-nnoremap <leader>cd :lcd %:h<CR>
+noremap <leader>r :!./%<CR>
 
-map! <C-h> <left>
-map! <C-j> <down>
-map! <C-k> <up>
-map! <C-l> <right>
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
+" Move to current buffer directory
+noremap <leader>cd :lcd %:h<CR>
 
-syntax on
-set foldmethod=indent
-" Copy to clipboard
-
-autocmd TextChanged,TextChangedI *.md silent write
-
+" ------------------------------------------------
+" vim-plug
+"
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
-call plug#begin('~/.vim/plugged')
-""""""""""""""""""""""vim-plug""""""""""""""""""""""""""""
-function SourceWhenExistsInVimDir(name)
+" ------------------------------------------------
+function SourceIfExistsInVimDir(name)
   let l:file_path = $HOME . "/.vim/" . a:name
   if !empty(glob(l:file_path))
     execute "source" l:file_path
   endif
 endfunction
 
-call SourceWhenExistsInVimDir(".vimwiki.vim")
-call SourceWhenExistsInVimDir(".coc_nvim.vim")
+call plug#begin('~/.vim/plugged')
+call SourceIfExistsInVimDir(".vimwiki.vim")
+call SourceIfExistsInVimDir(".coc_nvim.vim")
 
-Plug 'preservim/nerdtree'
-Plug 'godlygeek/tabular'
-Plug 'djoshea/vim-autoread'
-Plug 'ferrine/md-img-paste.vim'
-Plug 'preservim/tagbar'
+" Search
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'ryanoasis/vim-devicons'
-Plug 'mhinz/vim-startify'
-Plug 'airblade/vim-gitgutter'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline'
-Plug 'psf/black', { 'branch': 'stable' }
-Plug 'chr4/nginx.vim'
+
+" Tags
 Plug 'preservim/tagbar'
+
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" File explorer
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" session & start screen
+Plug 'mhinz/vim-startify'
+
+" ETC
+Plug 'vim-airline/vim-airline'
 Plug 'dracula/vim', { 'as': 'dracula' }
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
+" --------------------------------------------------
+" colorscheme
+" --------------------------------------------------
 let g:dracula_colorterm = 0
 colorscheme dracula
 highlight VimwikiLink cterm=underline ctermfg=111
-
-" Set conceallevel after loading plugins.
-set conceallevel=0
-let g:vimwiki_conceallevel=0
-
-set completefunc=emoji#complete
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " --------------------------------------------------
 " NerdTree
@@ -120,23 +131,12 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let NERDTreeIgnore=['\.pyc$', '\~$', '__pycache__'] " ignore files in NERD Tree
 
 " --------------------------------------------------
-" vim-typora
-" --------------------------------------------------
-map <leader>T :Typora<cr>
-
-" --------------------------------------------------
 " fzf-vim
 " --------------------------------------------------
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
 
 let g:fzf_preview_window = ['up:35%', 'ctrl-/']
-
-" --------------------------------------------------
-" auto save
-" https://stackoverflow.com/questions/17365324/auto-save-in-vim-as-you-type
-" --------------------------------------------------
-" autocmd TextChanged,TextChangedI *.md silent write
 
 " --------------------------------------------------
 " tagbar
@@ -196,26 +196,15 @@ let g:tagbar_type_markdown = {
 let g:tagbar_type_vimwiki = g:tagbar_type_markdown
 let g:tagbar_type_vimwiki.ctagstype = 'vimwiki'
 
-
-" --------------------------------------------------
-" Ultisnips
-" --------------------------------------------------
-let g:UltiSnipsExpandTrigger = '<nop>'
-let g:UltiSnipsJumpForwardTrigger = '<c-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
-let g:UltiSnipsRemoveSelectModeMappings = 0
-
-nnoremap <leader>es :UltiSnipsEdit!<cr>
-
-" --------------------------------------------------
-" Black
-" --------------------------------------------------
-" autocmd BufWritePre *.py silent execute ':Black'
-
-
 " --------------------------------------------------
 " Vim-fugitive
 " --------------------------------------------------
-nnoremap <leader>gs :tab Git<cr>
+
+" Run Git command in the new tab.
+noremap <leader>gs :tab Git<cr>
 
 
+" --------------------------------------------------
+" ETC
+" --------------------------------------------------
+let g:webdevicons_enable_startify = 0

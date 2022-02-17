@@ -26,7 +26,7 @@ alias tx=tmux
 # git
 # --------------------------------------------------------------------------------
 alias ggh='~/scripts/copy_git_log_hash.sh'
-alias gbad="git branch | grep -v "master" | xargs git branch -D"
+alias clean_branches="git branch | grep -v "master" | xargs git branch -D"
 
 
 # --------------------------------------------------------------------------------
