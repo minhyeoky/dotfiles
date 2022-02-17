@@ -144,11 +144,9 @@ let g:fzf_preview_window = ['up:35%', 'ctrl-/']
 nmap <C-t> :TagbarToggle<CR>
 let g:tagbar_left=1
 let g:tagbar_width=50
-let g:tagbar_autofocus=1
-let g:tagbar_autoclose=1
 let g:tagbar_autopreview=0
+let g:tagbar_autofocus=1
 let g:tagbar_show_linenumbers=1
-" let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 
 let g:tagbar_type_json = {
     \ 'ctagstype' : 'json',
@@ -181,23 +179,22 @@ let g:tagbar_type_json = {
     \ }
 
 let g:tagbar_type_markdown = {
-    \ 'ctagstype' : 'markdown',
+    \ 'ctagstype': 'markdown',
+    \ 'ctagsbin' : '~/scripts/markdown2ctags.py',
+    \ 'ctagsargs' : '-f - --sort=yes --sro=»',
     \ 'kinds' : [
-        \ 'h:Heading_L1',
-        \ 'i:Heading_L2',
-        \ 'k:Heading_L3'
-    \ ]
+        \ 's:sections',
+        \ 'i:images'
+    \ ],
+    \ 'sro' : '»',
+    \ 'kind2scope' : {
+        \ 's' : 'section',
+    \ },
+    \ 'sort': 0,
 \ }
 
-let g:tagbar_type_vimwiki = {
-    \ 'ctagstype' : 'vimwiki',
-    \ 'sort': 0,
-    \ 'kinds' : [
-        \ 'h:Heading_L1',
-        \ 'i:Heading_L2',
-        \ 'k:Heading_L3'
-    \ ]
-\ }
+let g:tagbar_type_vimwiki = g:tagbar_type_markdown
+let g:tagbar_type_vimwiki.ctagstype = 'vimwiki'
 
 
 " --------------------------------------------------
