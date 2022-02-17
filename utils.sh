@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Util functions for installation scripts.
+# utility functions for installation scripts.
 
 function guard_os() {
   target_os=$1
@@ -16,7 +16,7 @@ function guard_os() {
   fi
 }
 
-# Create a copy of $1 at same directory.
+# Create a copy of $1 in the same directory.
 function backup() {
   if [[ -e $1 ]]; then
     cp -L $1 $1_backup
