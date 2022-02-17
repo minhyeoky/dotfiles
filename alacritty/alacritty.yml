@@ -14,7 +14,7 @@
 
 window:
   # When colors.transparent_background_colors is true.
-  opacity: 0.7
+  opacity: 0.75
 
   # Window dimensions (changes require restart)
   #
