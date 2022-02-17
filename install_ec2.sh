@@ -49,4 +49,5 @@ function install() {
 }
 
 install
-
+echo "alias vim=nvim" >> ~/.bashrc
+source ~/.bashrc

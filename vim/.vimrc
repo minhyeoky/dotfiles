@@ -87,12 +87,6 @@ call plug#begin('~/.vim/plugged')
 call SourceIfExistsInVimDir(".vimwiki.vim")
 call SourceIfExistsInVimDir(".coc_nvim.vim")
 
-" session & start screen
-Plug 'mhinz/vim-startify'
-
-" File explorer
-Plug 'preservim/nerdtree'
-
 " Search
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -103,7 +97,13 @@ Plug 'preservim/tagbar'
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+
+" File explorer
+Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" session & start screen
+Plug 'mhinz/vim-startify'
 
 " ETC
 Plug 'vim-airline/vim-airline'
@@ -203,3 +203,8 @@ let g:tagbar_type_vimwiki.ctagstype = 'vimwiki'
 " Run Git command in the new tab.
 noremap <leader>gs :tab Git<cr>
 
+
+" --------------------------------------------------
+" ETC
+" --------------------------------------------------
+let g:webdevicons_enable_startify = 0
