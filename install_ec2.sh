@@ -13,7 +13,7 @@ function install_vim() {
   # Install neovim.
   sudo apt remove neovim || true
   sudo add-apt-repository --yes ppa:neovim-ppa/stable
-  sudo apt update
+  sudo apt update -y
   sudo apt --fix-broken install
   sudo apt install -y neovim
 
@@ -42,6 +42,8 @@ function install_vim() {
     # wget -O fd.deb https://github.com/sharkdp/fd/releases/download/v8.3.0/fd_8.3.0_amd64.deb
     # sudo dpkg -i ./fd.deb
     # rm fd.deb
+
+
 
 install_vim
 
