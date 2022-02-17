@@ -104,7 +104,6 @@ endfunction
 augroup vimwikiauto
   autocmd BufRead,BufNewFile *.md silent call NewTemplate()
   autocmd BufWrite,FileWritePre *.md silent call LastModified()
-  autocmd BufWrite,FileWritePre *.md silent call ReplaceEmoji()
 augroup END
 
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
