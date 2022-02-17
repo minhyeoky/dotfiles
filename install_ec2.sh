@@ -11,7 +11,7 @@ guard_os "Linux"
 
 function install_vim() {
   # Install neovim.
-  sudo apt remove neovim -y 2> /dev/null
+  sudo apt remove neovim -y 2> /dev/null || true
   sudo add-apt-repository ppa:neovim-ppa/stable
   sudo apt update
   sudo apt install -y neovim
