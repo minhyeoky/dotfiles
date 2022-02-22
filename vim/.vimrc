@@ -136,7 +136,7 @@ let NERDTreeIgnore=['\.pyc$', '\~$', '__pycache__'] " ignore files in NERD Tree
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
 
-let g:fzf_preview_window = ['up:35%', 'ctrl-/']
+let g:fzf_preview_window = ['right:45%', 'ctrl-/']
 
 " --------------------------------------------------
 " tagbar
