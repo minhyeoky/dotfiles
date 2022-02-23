@@ -103,6 +103,6 @@ augroup vimwikiauto
 augroup END
 
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
-autocmd FileType vimwiki,markdown set foldlevel=3                                 
+autocmd FileType vimwiki,markdown set foldlevel=1
 let g:mdip_imgdir = 'img'
 
