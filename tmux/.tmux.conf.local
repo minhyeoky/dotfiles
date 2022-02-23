@@ -295,9 +295,6 @@ set -g mode-keys vi
 # set -g prefix C-a
 # bind C-a send-prefix
 
-# move status line to top
-set -g status-position bottom
-
 # shortcut for synchronize-panes toggle
 bind S set-window-option synchronize-panes
 
@@ -310,3 +307,5 @@ bind-key x kill-pane
 
 set-option -g status-position top
 
+bind-key -r C-p next-window
+bind-key -r C-n previous-window
