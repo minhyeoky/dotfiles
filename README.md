@@ -5,7 +5,7 @@ These are dotfiles i use.
 
 This installation script can override existing configuration so use at your own risk.
 
-## Installaion
+## Installation
 
 ```sh
 git clone https://github.com/minhyeoky/dotfiles
