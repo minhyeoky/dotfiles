@@ -2,6 +2,9 @@
 
 node_modules
 
-.bash_constants
-
 .config/karabiner/automatic_backups
+
+# Git Secret
+.gitsecret/keys/random_seed
+!*.secret
+bash/.bash_constants
