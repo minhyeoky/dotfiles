@@ -8,3 +8,6 @@ tags
 venv
 scripts_ignored
 __ignore*
+
+# Allganize
+web/.pylintrc
