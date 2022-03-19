@@ -81,7 +81,6 @@ function! NewTemplate()
   call add(l:template, '')
   call add(l:template, '---')
   call add(l:template, '')
-  call add(l:template, '## ')
   call setline(1, l:template)
   execute 'normal! G'
   execute 'normal! $'
@@ -105,4 +104,3 @@ augroup END
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 autocmd FileType vimwiki,markdown set foldlevel=1
 let g:mdip_imgdir = 'img'
-

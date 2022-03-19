@@ -12,7 +12,7 @@ syntax on
 " ------------------------------------------------
 " Options
 " ------------------------------------------------
-set encoding=utf-8 
+set encoding=utf-8
 set fileencoding=utf-8
 set number
 set relativenumber
@@ -35,11 +35,21 @@ set smartcase
 set cursorline
 set colorcolumn=80
 set mouse=a
-set virtualedit=block                                     
-set splitbelow                                    
-set splitright                                    
+set virtualedit=block
+set splitbelow
+set splitright
 set scrolloff=5
 set lazyredraw
+
+set wildmode=longest,list,full
+set wildmenu
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=**/coverage/*
+set wildignore+=**/node_modules/*
+set wildignore+=**/android/*
+set wildignore+=**/ios/*
+set wildignore+=**/.git/*
 
 if !has('nvim')
   set ttymouse=xterm2
@@ -48,7 +58,7 @@ endif
 " ------------------------------------------------
 " Variables
 " ------------------------------------------------
-let g:mapleader=',' 
+let g:mapleader=','
 
 " ------------------------------------------------
 " Maps
@@ -58,7 +68,7 @@ noremap <leader>tn :tabnew<cr>
 noremap <leader>to :tabonly<cr>
 
 " Reload .vimrc
-map <silent> <leader>sv :source ${VIMRC}<CR> 
+map <silent> <leader>sv :source ${VIMRC}<CR>
 
 " Switch conceallevel
 noremap <Leader>c :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &cole <CR>
@@ -105,10 +115,19 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 " session & start screen
 Plug 'mhinz/vim-startify'
 
+"" Lint
+Plug 'dense-analysis/ale'
+
 " ETC
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'ryanoasis/vim-devicons'
+"Plug 'tools-life/taskwiki'
+
+" Language
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'martinda/Jenkinsfile-vim-syntax'
 call plug#end()
 
 " --------------------------------------------------
@@ -137,6 +156,13 @@ nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
 
 let g:fzf_preview_window = ['right:45%', 'ctrl-/']
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --iglob !.git --iglob !pylint-ignore.md
+  \   --hidden --column --line-number --no-heading --color=always --smart-case
+  \ -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
 
 " --------------------------------------------------
 " tagbar
@@ -205,6 +231,28 @@ noremap <leader>gs :tab Git<cr>
 
 
 " --------------------------------------------------
+" ALE
+" --------------------------------------------------
+let g:ale_fix_on_save = 1
+"let g:ale_completion_enabled = 1
+"highlight ALEWarning ctermbg=DarkMagenta
+"highlight ALEError ctermbg=DarkBlue
+let g:ale_disable_lsp = 1
+let g:ale_linters = {'python': ['pyright', 'pylint']}
+let g:ale_fixers = {
+      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \ 'sh': ['shfmt'],
+      \ 'xml': ['xmllint'],
+      \ 'json': ['jq'],
+      \ 'python': ['black', 'isort'],
+      \ 'dart': ['dart-format'],
+      \ }
+
+
+" --------------------------------------------------
 " ETC
 " --------------------------------------------------
 let g:webdevicons_enable_startify = 0
+let g:airline_theme = 'dracula'
+let g:airline#extensions#hunks#enabled=0
+let g:airline#extensions#branch#enabled=1
