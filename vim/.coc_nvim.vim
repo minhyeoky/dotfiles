@@ -1,5 +1,7 @@
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+
+nmap <leader>gb :CocCommand fzf-preview.GitBranches<CR>
 nmap <leader>rr <Plug>(coc-rename)
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 
@@ -41,7 +43,7 @@ set shortmess+=c
 "   set signcolumn=yes
 " endif
 set signcolumn=yes
-highlight clear SignColumn 
+highlight clear SignColumn
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
