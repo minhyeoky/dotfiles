@@ -303,9 +303,11 @@ bind C-k clear-history
 # disable confirmation prompt
 # https://unix.stackexchange.com/questions/30270/tmux-disable-confirmation-prompt-on-kill-window
 bind-key @ kill-window
-bind-key x kill-pane 
+bind-key x kill-pane
 
 set-option -g status-position top
 
 bind-key -r C-p next-window
 bind-key -r C-n previous-window
+
+bind-key ! run-shell "tmux new-window $HOME/scripts/run-scripts.sh"
