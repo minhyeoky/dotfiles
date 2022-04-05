@@ -91,7 +91,9 @@ function SourceIfExistsInVimDir(name)
 endfunction
 
 call SourceIfExistsInVimDir(".vimwiki.vim")
-call SourceIfExistsInVimDir(".coc_nvim.vim")
+
+" lsp
+Plug 'neovim/nvim-lspconfig'
 
 " Fuzzy finder
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
