@@ -124,11 +124,11 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'ryanoasis/vim-devicons'
-"Plug 'tools-life/taskwiki'
 
 " Language
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'martinda/Jenkinsfile-vim-syntax'
+
 call plug#end()
 
 " --------------------------------------------------
@@ -173,6 +173,7 @@ command! -bang -nargs=* Rg
 nmap <C-t> :TagbarToggle<CR>
 let g:tagbar_left=1
 let g:tagbar_width=50
+let g:tagbar_autoclose=1
 let g:tagbar_autopreview=0
 let g:tagbar_autofocus=1
 let g:tagbar_show_linenumbers=1
@@ -241,10 +242,13 @@ let g:ale_fix_on_save = 1
 "highlight ALEWarning ctermbg=DarkMagenta
 "highlight ALEError ctermbg=DarkBlue
 let g:ale_disable_lsp = 1
-let g:ale_linters = {'python': ['pyright', 'pylint']}
+let g:ale_linters = {
+      \ 'python': ['pyright', 'pylint'],
+      \ }
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
       \ 'sh': ['shfmt'],
+      \ 'typescript': ['eslint'],
       \ 'xml': ['xmllint'],
       \ 'json': ['jq'],
       \ 'python': ['black', 'isort'],
