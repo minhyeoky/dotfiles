@@ -154,6 +154,8 @@ let NERDTreeIgnore=['\.pyc$', '\~$', '__pycache__'] " ignore files in NERD Tree
 " fzf-vim
 " --------------------------------------------------
 nnoremap <silent> <leader>ff :Files<CR>
+nnoremap <silent> <leader>ft :Tags!<CR>
+nnoremap <silent> <leader>fr :Rg!<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
 
 let g:fzf_preview_window = ['right:45%', 'ctrl-/']
