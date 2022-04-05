@@ -1,67 +1,31 @@
-#!/usr/bin/env sh
+#!/bin/bash
+
 # --------------------------------------------------------------------------------
 # General
 # --------------------------------------------------------------------------------
 function watch() {
   while true; do
     clear
-    date
-    $*
-    sleep 5
+    "$*"
+    sleep 1
   done
 }
 
 # --------------------------------------------------------------------------------
-# git
-# --------------------------------------------------------------------------------
-function copy_commit() {
-  idx=$1
-  echo "INDEX: ${idx:-0}" > /dev/null
-
-  logs=$(git log --oneline -n 1 --skip=$idx)
-
-  echo $logs
-  echo $logs | awk '{ print $1 }' | tr -d '\n' | pbcopy
-  # TODO pbcopy for linux?
-}
-
-function rebase_with_commit() {
-  idx=$1
-
-  logs=$(git log --oneline -n 1 --skip=$idx)
-
-  echo $logs
-  target=$(echo $logs | awk '{ print $1 }' | tr -d '\n')
-
-  git fetch --all
-  git reset --hard origin/staging
-  git cherry-pick $target
-}
-
-# --------------------------------------------------------------------------------
-# docker & docker-compose
-# --------------------------------------------------------------------------------
-function dc_while() {
-    echo $*
-    while true; do
-        docker-compose $*
-        sleep 2
-    done
-}
-
-
-# --------------------------------------------------------------------------------
 # Python
 # --------------------------------------------------------------------------------
-function cd() {
-  if [[ -d ./venv ]] ; then
-    deactivate
+function cd {
+  if [[ -d ./venv || -d ./.venv ]]; then
+    deactivate && echo "Deactivated python virtualen. (venv or .venv)"
   fi
 
-  builtin cd $1
+  builtin cd "$1"
 
-  if [[ -d ./venv ]] ; then
-    . ./venv/bin/activate
+  if [[ -d ./venv ]]; then
+    . "${PWD}/venv/bin/activate" && echo "Activated ${PWD}/venv"
+  fi
+
+  if [[ -d ./.venv ]]; then
+    . "${PWD}/venv/bin/activate" && echo "Activated ${PWD}/.venv"
   fi
 }
-
