@@ -12,6 +12,7 @@ syntax on
 " ------------------------------------------------
 " Options
 " ------------------------------------------------
+set completeopt=menu,menuone,noselect  " nvim-cmp
 set encoding=utf-8
 set fileencoding=utf-8
 set number
@@ -94,6 +95,11 @@ call SourceIfExistsInVimDir(".vimwiki.vim")
 
 " lsp
 Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
 
 " Fuzzy finder
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
