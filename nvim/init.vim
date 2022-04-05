@@ -115,7 +115,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mhinz/vim-startify'
 
 " Linter
-" Plug 'dense-analysis/ale'
+Plug 'dense-analysis/ale'
 
 " Status bar
 Plug 'vim-airline/vim-airline'
@@ -242,7 +242,7 @@ let g:ale_fix_on_save = 1
 "highlight ALEError ctermbg=DarkBlue
 let g:ale_disable_lsp = 1
 let g:ale_linters = {
-      \ 'python': ['pyright', 'pylint'],
+      \ 'python': ['pylint', 'pydocstyle'],
       \ }
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
