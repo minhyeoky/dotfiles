@@ -9,7 +9,7 @@ import os
 import time
 
 _HOME = os.environ["HOME"]
-_ALACRITTY_FILE = f"{_HOME}/.config/alacritty/alacritty.yml"
+_ALACRITTY_FILE = f"{_HOME}/.alacritty.yml"
 _ALACRITTY_LOCK = f"{_HOME}/.alacritty_lock"
 _OPACITY_STEP = 0.1
 
