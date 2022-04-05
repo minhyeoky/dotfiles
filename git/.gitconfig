@@ -30,10 +30,10 @@ username = minhyeoky
 [url "git@github.com:"]
 insteadOf = https://github.com/
 [author]
-name = mhlee
+name = Minhyeok Lee
 email = minhyeok.lee95@gmail.com
 [committer]
-name = mhlee
+name = Minhyeok Lee
 email = minhyeok.lee95@gmail.com
 [rerere]
 enabled = true
