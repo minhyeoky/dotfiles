@@ -1,13 +1,24 @@
+# IDE
 .idea
-__pycache__
+
+# OS
 .DS_Store
-*.ipynb
-MH_*
+
+# ctags
 tags
+tags.lock
+tags.temp
+
+# vim
 .vim
+
+# python
 venv
+.venv
+__pycache__
+*.ipynb
+
+# allganize
+web/.pylintrc
 scripts_ignored
 __ignore*
-
-# Allganize
-web/.pylintrc
