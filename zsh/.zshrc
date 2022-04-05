@@ -153,3 +153,4 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
+export PATH="/usr/local/opt/node@14/bin:$PATH"

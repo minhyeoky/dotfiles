@@ -1,5 +1,12 @@
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+let g:coc_global_extensions = [
+    \ 'coc-git',
+    \ 'coc-sh',
+    \ 'coc-json',
+    \ 'coc-vimlsp',
+    \ 'coc-docker',
+    \ ]
 
 nmap <leader>gb :CocCommand fzf-preview.GitBranches<CR>
 nmap <leader>rr <Plug>(coc-rename)
