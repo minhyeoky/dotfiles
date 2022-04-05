@@ -103,6 +103,7 @@ Plug 'junegunn/fzf.vim'
 
 " Tags
 Plug 'preservim/tagbar'
+Plug 'ludovicchabant/vim-gutentags'
 
 " Git
 Plug 'tpope/vim-fugitive'
