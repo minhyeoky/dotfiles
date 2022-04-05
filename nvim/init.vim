@@ -115,7 +115,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mhinz/vim-startify'
 
 " Linter
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 
 " Status bar
 Plug 'vim-airline/vim-airline'
@@ -262,3 +262,8 @@ let g:webdevicons_enable_startify = 0
 let g:airline_theme = 'dracula'
 let g:airline#extensions#hunks#enabled=0
 let g:airline#extensions#branch#enabled=1
+
+" --------------------------------------------------
+" Lua
+" --------------------------------------------------
+lua require('lsp')
