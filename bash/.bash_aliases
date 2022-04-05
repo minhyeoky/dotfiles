@@ -25,7 +25,7 @@ alias tx=tmux
 # --------------------------------------------------------------------------------
 # git
 # --------------------------------------------------------------------------------
-alias ggh='~/scripts/copy_git_log_hash.sh'
+alias ggh='~/scripts/copy-commit-hash.sh'
 alias gsrf='git secret reveal -f'
 alias gshm='git secret hide -m'
 alias clean_branches="git branch | grep -v "master" | xargs git branch -D"
