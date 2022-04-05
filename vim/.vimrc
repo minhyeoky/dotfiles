@@ -206,7 +206,7 @@ let g:tagbar_type_json = {
 
 let g:tagbar_type_markdown = {
     \ 'ctagstype': 'markdown',
-    \ 'ctagsbin' : '~/scripts/markdown2ctags.py',
+    \ 'ctagsbin' : '$HOME/scripts/markdown-to-ctags.py',
     \ 'ctagsargs' : '-f - --sort=yes --sro=»',
     \ 'kinds' : [
         \ 's:sections',
