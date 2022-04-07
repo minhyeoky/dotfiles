@@ -29,6 +29,15 @@ let g:vimwiki_list = [
 \]
 
 command! WikiIndex :VimwikiIndex
+command! -bang Todo
+  \ call fzf#vim#grep(
+  \ 'rg --vimgrep --color=always --smart-case -e ' . shellescape('[ ]*^\- \[ \]') . ' -- ' . shellescape($VIMWIKI_PATH),
+  \ 1,
+  \ fzf#vim#with_preview({'options': ['--delimiter=/', '--with-nth=9..']}),
+  \ <bang>0
+  \)
+nmap <Leader>t :Todo<CR>
+nmap <Leader>T :Todo!<CR>
 nmap <Leader>ww <Plug>VimwikiIndex
 nmap <Leader>wi <Plug>VimwikiDiaryIndex
 nmap <Leader>wt :VimwikiTable<CR>
