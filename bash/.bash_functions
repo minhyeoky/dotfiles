@@ -26,6 +26,6 @@ function cd {
   fi
 
   if [[ -d ./.venv ]]; then
-    . "${PWD}/venv/bin/activate" && echo "Activated ${PWD}/.venv"
+    . "${PWD}/.venv/bin/activate" && echo "Activated ${PWD}/.venv"
   fi
 }
