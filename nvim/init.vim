@@ -67,7 +67,7 @@ noremap <leader>tn :tabnew<cr>
 noremap <leader>to :tabonly<cr>
 
 " Reload .vimrc
-map <silent> <leader>sv :source ${VIMRC}<CR>
+map <silent> <leader>sv :source ~/.config/nvim/init.vim<CR>
 
 " Switch conceallevel
 noremap <Leader>c :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &cole <CR>
