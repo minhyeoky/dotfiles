@@ -139,6 +139,7 @@ Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'akinsho/flutter-tools.nvim'
 
+Plug 'arkav/lualine-lsp-progress'
 
 call plug#end()
 
@@ -146,7 +147,7 @@ call plug#end()
 " colorscheme
 " --------------------------------------------------
 let g:tokyonight_transparent = 1
-let g:tokyonight_style = "night"
+let g:tokyonight_style = "storm"
 colorscheme tokyonight
 
 " --------------------------------------------------
@@ -277,6 +278,8 @@ let g:webdevicons_enable_startify = 0
 lua require("nvim-treesitter.configs").setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
 lua require("lsp")
 lua << END
+-- 1: relative, 2: absolute.
+local filename_path = 2
 require('lualine').setup{
   options = {
     theme = "tokyonight",
@@ -290,12 +293,12 @@ require('lualine').setup{
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {'filename'},
-    lualine_x = {'encoding', 'filetype'},
+    lualine_x = {'lsp_progress', 'encoding', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
   inactive_sections = {
-    lualine_a = {'filename'},
+    lualine_a = {{'filename', file_status = true, path = filename_path}},
     lualine_b = {'diagnostics'},
     lualine_c = {},
     lualine_x = {'encoding', 'filetype'},
