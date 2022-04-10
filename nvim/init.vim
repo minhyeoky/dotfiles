@@ -72,9 +72,6 @@ map <silent> <leader>sv :source ~/.config/nvim/init.vim<CR>
 " Switch conceallevel
 noremap <Leader>c :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &cole <CR>
 
-" Execute current file
-noremap <leader>r :!./%<CR>
-
 " Move to current buffer directory
 noremap <leader>cd :lcd %:h<CR>
 
