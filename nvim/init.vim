@@ -124,25 +124,30 @@ Plug 'mhinz/vim-startify'
 Plug 'dense-analysis/ale'
 
 " Status bar
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
 
 " Colorscheme
-Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'ryanoasis/vim-devicons'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 " Language
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'martinda/Jenkinsfile-vim-syntax'
+
+" Flutter
+Plug 'nvim-lua/plenary.nvim'
+Plug 'akinsho/flutter-tools.nvim'
+
 
 call plug#end()
 
 " --------------------------------------------------
 " colorscheme
 " --------------------------------------------------
-let g:dracula_colorterm = 0
-colorscheme dracula
-highlight VimwikiLink cterm=underline ctermfg=111
+let g:tokyonight_transparent = 1
+let g:tokyonight_style = "night"
+colorscheme tokyonight
 
 " --------------------------------------------------
 " fzf-vim
@@ -265,12 +270,37 @@ let g:ale_fixers = {
 " ETC
 " --------------------------------------------------
 let g:webdevicons_enable_startify = 0
-let g:airline_theme = 'dracula'
-let g:airline#extensions#hunks#enabled=0
-let g:airline#extensions#branch#enabled=1
 
 " --------------------------------------------------
 " Lua
 " --------------------------------------------------
-lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
-lua require('lsp')
+lua require("nvim-treesitter.configs").setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
+lua require("lsp")
+lua << END
+require('lualine').setup{
+  options = {
+    theme = "tokyonight",
+    globalstatus = false,
+    always_divide_middle = true,
+    icons_enabled = true,
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {'filename'},
+    lualine_b = {'diagnostics'},
+    lualine_c = {},
+    lualine_x = {'encoding', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+}
+END
