@@ -31,7 +31,7 @@ let g:vimwiki_list = [
 command! WikiIndex :VimwikiIndex
 command! -bang Todo
   \ call fzf#vim#grep(
-  \ 'rg --vimgrep --color=always --smart-case -e ' . shellescape('[ ]*^\- \[ \]') . ' -- ' . shellescape($VIMWIKI_PATH),
+  \ 'rg --vimgrep --color=always --smart-case -e ' . shellescape('[ ]*\- \[ \]') . ' -- ' . shellescape($VIMWIKI_PATH),
   \ 1,
   \ fzf#vim#with_preview({'options': ['--delimiter=/', '--with-nth=9..']}),
   \ <bang>0
