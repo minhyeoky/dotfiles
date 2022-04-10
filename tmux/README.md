@@ -1,5 +1,0 @@
-## Tmux
-
-## How to configure
-
-
