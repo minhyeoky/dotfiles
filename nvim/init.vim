@@ -111,7 +111,7 @@ Plug 'ludovicchabant/vim-gutentags'
 
 " Git
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'lewis6991/gitsigns.nvim'
 
 " File explorer
 Plug 'preservim/nerdtree'
