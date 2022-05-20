@@ -73,7 +73,7 @@ map <silent> <leader>sv :source ~/.config/nvim/init.vim<CR>
 noremap <Leader>c :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &cole <CR>
 
 " Move to current buffer directory
-noremap <leader>cd :lcd %:h<CR>
+noremap <leader>cd :tcd %:h<CR>
 
 " command! Scratch lua require'tools'.makeScratch()
 call plug#begin('~/.vim/plugged')
