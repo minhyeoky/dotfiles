@@ -3,7 +3,12 @@ local flutter_tools = require("flutter-tools")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local cmp = require("cmp")
 
-local SERVERS = { "pyright", "bashls", "jsonls", "sumneko_lua", "flutter-tools" }
+local SERVERS = { "pyright", "bashls", "jsonls", "sumneko_lua", "flutter-tools", "html", "jdtls", "tsserver" }
+
+require("nvim-lsp-installer").setup({
+    ensure_installed = SERVERS, -- ensure these servers are always installed
+    automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
+})
 
 -------------------------------------------------------------------------------
 -- Setup nvim-cmp.
@@ -12,31 +17,19 @@ cmp.setup({
   snippet = {
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-      -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-      -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-      -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
     end,
   },
-  mapping = {
-    -- TODO: Which key?
-    -- ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-    ['<C-e>'] = cmp.mapping({
-      i = cmp.mapping.abort(),
-      c = cmp.mapping.close(),
-    }),
-    ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
   },
+  -- Default Mappings: https://github.com/hrsh7th/nvim-cmp/commit/93cf84f7deb2bdb640ffbb1d2f8d6d412a7aa558
+  mapping = cmp.mapping.preset.insert({
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    -- { name = 'vsnip' }, -- For vsnip users.
-    -- TODO: Setup luasnip.
-    -- { name = 'luasnip' }, -- For luasnip users.
-    -- { name = 'ultisnips' }, -- For ultisnips users.
-    -- { name = 'snippy' }, -- For snippy users.
   }, {
     { name = 'buffer' },
   })
@@ -46,14 +39,16 @@ cmp.setup({
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
     { name = 'buffer' },
-  })
+  }),
+  mapping = cmp.mapping.preset.cmdline({}),
 })
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {
   sources = {
     { name = 'buffer' }
-  }
+  },
+  mapping = cmp.mapping.preset.cmdline({}),
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -62,7 +57,8 @@ cmp.setup.cmdline(':', {
     { name = 'path' }
   }, {
     { name = 'cmdline' }
-  })
+  }),
+  mapping = cmp.mapping.preset.cmdline({}),
 })
 
 -------------------------------------------------------------------------------
@@ -149,6 +145,8 @@ for _, lsp in ipairs(SERVERS) do
     }
     flutter_tools.setup(flutter_config)
     goto continue
+  elseif (lsp == "html") then
+    config["capabilities"].textDocument.completion.completionItem.snippetSupport = true
   end
 
   -- Setup

@@ -10,7 +10,7 @@ Plug 'ferrine/md-img-paste.vim'
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 let g:vimwiki_autowriteall = 1
 let g:vimwiki_folding = 'syntax'
-let g:vimwiki_conceallevel = 0
+let g:vimwiki_conceallevel = 2
 let g:vimwiki_global_ext = 0
 
 autocmd TextChanged,TextChangedI *.md silent write
@@ -31,16 +31,60 @@ let g:vimwiki_list = [
 command! WikiIndex :VimwikiIndex
 command! -bang Todo
   \ call fzf#vim#grep(
-  \ 'rg --vimgrep --color=always --smart-case -e ' . shellescape('[ ]*\- \[ \]') . ' -- ' . shellescape($VIMWIKI_PATH),
+  \ 'rg --column --line-number --no-heading --color=always --smart-case -e ' . shellescape('[ ]*\- \[ \]'),
   \ 1,
-  \ fzf#vim#with_preview({'options': ['--delimiter=/', '--with-nth=9..']}),
+  \ fzf#vim#with_preview({'dir': $VIMWIKI_PATH}),
   \ <bang>0
   \)
-nmap <Leader>t :Todo<CR>
-nmap <Leader>T :Todo!<CR>
+
+command! -bang VimwikiRg
+  \ call fzf#vim#grep(
+  \ 'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>),
+  \ 1,
+  \ fzf#vim#with_preview({'dir': $VIMWIKI_PATH}),
+  \ <bang>0
+  \)
+
+command! -bang VimwikiFiles
+  \ call fzf#vim#files(
+  \ $VIMWIKI_PATH,
+  \ <bang>0
+  \)
+
+" TODO: Move to other config
+command! -bang -nargs=* DotSearch
+  \ call fzf#vim#grep(
+  \ 'rg --column --line-number --no-heading --color=always --smart-case -- '. shellescape(<q-args>),
+  \ 1,
+  \ fzf#vim#with_preview({'dir': $DOTFILES_PATH}),
+  \ <bang>0
+  \)
+
+command! -bang DotFiles
+  \ call fzf#vim#files(
+  \ $DOTFILES_PATH,
+  \ <bang>0
+  \)
+
+nmap <Leader>dr :DotSearch<CR>
+nmap <Leader>dR :DotSearch!<CR>
+nmap <Leader>df :DotFiles<CR>
+nmap <Leader>dF :DotFiles!<CR>
+
+command! -bang VimwikiFiles
+  \ call fzf#vim#files(
+  \ $VIMWIKI_PATH,
+  \ <bang>0
+  \)
+
+nmap <Leader>wt :Todo<CR>
+nmap <Leader>wT :Todo!<CR>
 nmap <Leader>ww <Plug>VimwikiIndex
 nmap <Leader>wi <Plug>VimwikiDiaryIndex
-nmap <Leader>wt :VimwikiTable<CR>
+nmap <Leader>ws :VimwikiRg<CR>
+nmap <Leader>wS :VimwikiRg!<CR>
+nmap <Leader>wf :VimwikiFiles<CR>
+nmap <Leader>wF :VimwikiFiles!<CR>
 
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 autocmd FileType vimwiki,markdown set foldlevel=1

@@ -24,6 +24,7 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2  " when using `>`
 set smartindent
+"set termguicolors
 
 " Fold Options
 set foldlevel=3
@@ -34,7 +35,7 @@ set nobackup
 set noswapfile
 set smartcase
 set cursorline
-set colorcolumn=80
+set colorcolumn=120
 set mouse=a
 set virtualedit=block
 set splitbelow
@@ -91,6 +92,7 @@ endfunction
 call SourceIfExistsInVimDir(".vimwiki.vim")
 
 " lsp
+Plug 'williamboman/nvim-lsp-installer'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -147,8 +149,10 @@ call plug#end()
 " colorscheme
 " --------------------------------------------------
 let g:tokyonight_transparent = 1
-let g:tokyonight_style = "storm"
+let g:tokyonight_style = "night"
+let g:tokyonight_lualine_bold = "true"
 colorscheme tokyonight
+
 
 " --------------------------------------------------
 " fzf-vim
@@ -254,18 +258,28 @@ let g:ale_fix_on_save = 1
 "highlight ALEError ctermbg=DarkBlue
 let g:ale_disable_lsp = 1
 let g:ale_linters = {
-      \ 'python': ['pylint', 'pydocstyle'],
+      \ 'python': ['pyright', 'pylint'],
       \ }
+let g:ale_linters_ignore = {
+      \ '*': ['cspell'],
+      \ 'java': ['javac'],
+      \ }
+
+" brew install shfmt, jq
+" pip install black, isort
+" npm i -g prettier
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
       \ 'sh': ['shfmt'],
       \ 'typescript': ['eslint'],
+      \ 'html': ['prettier'],
       \ 'xml': ['xmllint'],
       \ 'json': ['jq'],
       \ 'python': ['black', 'isort'],
       \ 'dart': ['dart-format'],
       \ }
 
+let g:ale_xml_xmllint_indentsize = 4
 
 " --------------------------------------------------
 " ETC
@@ -275,8 +289,9 @@ let g:webdevicons_enable_startify = 0
 " --------------------------------------------------
 " Lua
 " --------------------------------------------------
+lua require("plugins.lsp")
+lua require("plugins.gitsigns")
 lua require("nvim-treesitter.configs").setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
-lua require("lsp")
 lua << END
 -- 1: relative, 2: absolute.
 local filename_path = 2
@@ -292,8 +307,8 @@ require('lualine').setup{
   sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
-    lualine_x = {'lsp_progress', 'encoding', 'filetype'},
+    lualine_c = {{'filename', file_status = true, path = filename_path}},
+    lualine_x = {},
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
@@ -306,4 +321,3 @@ require('lualine').setup{
     lualine_z = {'location'}
   },
 }
-END
