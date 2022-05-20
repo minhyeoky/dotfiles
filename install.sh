@@ -54,6 +54,7 @@ function install_zsh() {
 function install_vim() {
   # Install neovim.
   brew update
+  brew unlink neovim
   brew install neovim --HEAD
 
   # Link .vim files. (Plugins)
