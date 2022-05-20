@@ -17,8 +17,3 @@ venv
 .venv
 __pycache__
 *.ipynb
-
-# allganize
-web/.pylintrc
-scripts_ignored
-__ignore*
