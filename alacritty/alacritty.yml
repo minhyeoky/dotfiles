@@ -659,3 +659,8 @@ key_bindings:
   - { key: F11,      mods: Super,   chars: "\x1b[23;3~"                      }
   - { key: F12,      mods: Super,   chars: "\x1b[24;3~"                      }
   - { key: NumpadEnter,             chars: "\n"                              }
+
+  # "backward-word" & "forward-word" for bash
+  # https://www.gnu.org/software/bash/manual/html_node/Commands-For-Moving.html
+  - { key: J,     mods: Alt,     chars: "\x1bb"                       }
+  - { key: K,     mods: Alt,     chars: "\x1bf"                       }
