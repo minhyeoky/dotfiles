@@ -17,3 +17,7 @@ venv
 .venv
 __pycache__
 *.ipynb
+
+# Vim gutentags
+.gutctags
+.notags
