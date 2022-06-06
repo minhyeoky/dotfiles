@@ -91,6 +91,8 @@ endfunction
 
 call SourceIfExistsInVimDir(".vimwiki.vim")
 
+Plug 'tpope/vim-surround'
+
 " lsp
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'neovim/nvim-lspconfig'
