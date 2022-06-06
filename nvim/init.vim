@@ -33,7 +33,7 @@ set foldmethod=indent
 " ETC
 set nobackup
 set noswapfile
-set smartcase
+set ignorecase smartcase
 set cursorline
 set colorcolumn=120
 set mouse=a
@@ -310,7 +310,7 @@ require('lualine').setup{
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {{'filename', file_status = true, path = filename_path}},
-    lualine_x = {},
+    lualine_x = {'encoding', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
@@ -323,3 +323,4 @@ require('lualine').setup{
     lualine_z = {'location'}
   },
 }
+END
