@@ -1,14 +1,6 @@
-# Common
-
+# Git ignore files for *dotfiles*
 node_modules
 
 .config/karabiner/automatic_backups
 
 bash/.bash_constants
-
-# Vim gutentags
-.gutctags
-.notags
-
-# ipython
-ipython/*.sqlite

@@ -86,6 +86,5 @@ nmap <Leader>wS :VimwikiRg!<CR>
 nmap <Leader>wf :VimwikiFiles<CR>
 nmap <Leader>wF :VimwikiFiles!<CR>
 
-autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
-autocmd FileType vimwiki,markdown set foldlevel=1
+autocmd FileType markdown,vimwiki nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 let g:mdip_imgdir = 'img'

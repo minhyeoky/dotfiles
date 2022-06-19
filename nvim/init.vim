@@ -27,7 +27,7 @@ set smartindent
 "set termguicolors
 
 " Fold Options
-set foldlevel=3
+set foldlevel=99
 set foldmethod=indent
 
 " ETC
@@ -68,6 +68,7 @@ noremap <leader>tn :tabnew<cr>
 noremap <leader>to :tabonly<cr>
 
 " Reload .vimrc
+map <silent> <leader>sc :lua unload_packages()<CR>
 map <silent> <leader>sv :source ~/.config/nvim/init.vim<CR>
 
 " Switch conceallevel
@@ -102,12 +103,17 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
+" snippet
+Plug 'SirVer/ultisnips'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Fuzzy finder
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " Tags
 Plug 'preservim/tagbar'
@@ -143,7 +149,11 @@ Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'akinsho/flutter-tools.nvim'
 
-Plug 'arkav/lualine-lsp-progress'
+Plug 'tpope/vim-commentary'
+Plug 'ap/vim-css-color'
+
+" Markdown Preview
+Plug 'ellisonleao/glow.nvim', { 'branch': 'main' }
 
 call plug#end()
 
@@ -159,19 +169,7 @@ colorscheme tokyonight
 " --------------------------------------------------
 " fzf-vim
 " --------------------------------------------------
-nnoremap <silent> <leader>ff :Files<CR>
-nnoremap <silent> <leader>ft :Tags!<CR>
-nnoremap <silent> <leader>fr :Rg!<CR>
-nnoremap <silent> <leader>fb :Buffers<CR>
-
 let g:fzf_preview_window = ['right:45%', 'ctrl-/']
-
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --iglob !.git --iglob !pylint-ignore.md
-  \   --hidden --column --line-number --no-heading --color=always --smart-case
-  \ -- '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview(), <bang>0)
 
 " --------------------------------------------------
 " NerdTree
@@ -251,6 +249,9 @@ let g:tagbar_type_vimwiki.ctagstype = 'vimwiki'
 " Run Git command in the new tab.
 noremap <leader>gs :tab Git<cr>
 
+" Set foldmethod for git
+autocmd FileType gitcommit set foldmethod=syntax
+
 " --------------------------------------------------
 " ALE
 " --------------------------------------------------
@@ -273,7 +274,8 @@ let g:ale_linters_ignore = {
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
       \ 'sh': ['shfmt'],
-      \ 'typescript': ['eslint'],
+      \ 'javascript': ['eslint', 'prettier'],
+      \ 'typescript': ['eslint', 'prettier'],
       \ 'html': ['prettier'],
       \ 'xml': ['xmllint'],
       \ 'json': ['jq'],
@@ -282,17 +284,44 @@ let g:ale_fixers = {
       \ }
 
 let g:ale_xml_xmllint_indentsize = 4
+" --------------------------------------------------
+" ultisnips
+" --------------------------------------------------
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" --------------------------------------------------
+" Telescope
+" --------------------------------------------------
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fr <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers({sort_mru = true, sort_lastused = true})<cr>
+nnoremap <leader>ft <cmd>lua require('telescope.builtin').tags()<cr>
+nnoremap <leader>fq <cmd>lua require('telescope.builtin').quickfix()<cr>
+nnoremap <leader>fl <cmd>lua require('telescope.builtin').loclist()<cr>
 
 " --------------------------------------------------
 " ETC
 " --------------------------------------------------
 let g:webdevicons_enable_startify = 0
 
+lua << EOF
+function _G.unload_packages()
+  for name,_ in pairs(package.loaded) do
+    if name:match('^core') or name:match('^lsp') or name:match('^plugins') then
+      package.loaded[name] = nil
+    end
+  end
+end
+EOF
+
+
 " --------------------------------------------------
 " Lua
 " --------------------------------------------------
 lua require("plugins.lsp")
 lua require("plugins.gitsigns")
+lua require("plugins.telescope")
 lua require("nvim-treesitter.configs").setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
 lua << END
 -- 1: relative, 2: absolute.
@@ -324,3 +353,6 @@ require('lualine').setup{
   },
 }
 END
+
+nmap <F7> :cprev<CR>
+nmap <F8> :cnext<CR>
