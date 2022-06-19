@@ -321,21 +321,9 @@ EOF
 lua require("plugins.lsp")
 lua require("plugins.gitsigns")
 lua require("plugins.telescope")
+lua require("plugins.treesitter")
 
 lua << END
-require("nvim-treesitter.configs").setup {
-  ensure_installed = "all",
-  highlight = {
-    enable = true,
-  },
-  incremental_selection = {
-    enable = true,
-  },
-  textobjects = {
-    enable = true,
-  },
-}
-
 -- 1: relative, 2: absolute.
 local filename_path = 2
 require('lualine').setup{
