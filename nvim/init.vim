@@ -8,6 +8,7 @@
 lang en_US.UTF-8
 filetype plugin indent on
 syntax on
+let g:mapleader=','
 
 " ------------------------------------------------
 " Options
@@ -56,11 +57,6 @@ set wildignore+=**/venv/*
 set wildignore+=**/.venv/*
 
 " ------------------------------------------------
-" Variables
-" ------------------------------------------------
-let g:mapleader=','
-
-" ------------------------------------------------
 " Maps
 " ------------------------------------------------
 " Tab
@@ -91,8 +87,6 @@ function SourceIfExistsInVimDir(name)
 endfunction
 
 call SourceIfExistsInVimDir(".vimwiki.vim")
-
-Plug 'tpope/vim-surround'
 
 " lsp
 Plug 'williamboman/nvim-lsp-installer'
@@ -146,14 +140,19 @@ Plug 'dart-lang/dart-vim-plugin'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 
 " Flutter
-Plug 'nvim-lua/plenary.nvim'
 Plug 'akinsho/flutter-tools.nvim'
 
 Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
 
 " Markdown Preview
 Plug 'ellisonleao/glow.nvim', { 'branch': 'main' }
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-neorg/neorg'
 
 call plug#end()
 
@@ -322,8 +321,21 @@ EOF
 lua require("plugins.lsp")
 lua require("plugins.gitsigns")
 lua require("plugins.telescope")
-lua require("nvim-treesitter.configs").setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
+
 lua << END
+require("nvim-treesitter.configs").setup {
+  ensure_installed = "all",
+  highlight = {
+    enable = true,
+  },
+  incremental_selection = {
+    enable = true,
+  },
+  textobjects = {
+    enable = true,
+  },
+}
+
 -- 1: relative, 2: absolute.
 local filename_path = 2
 require('lualine').setup{
@@ -353,6 +365,3 @@ require('lualine').setup{
   },
 }
 END
-
-nmap <F7> :cprev<CR>
-nmap <F8> :cnext<CR>
