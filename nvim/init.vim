@@ -107,7 +107,6 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Fuzzy finder
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'nvim-telescope/telescope.nvim'
 
 " Tags
 Plug 'preservim/tagbar'
@@ -169,6 +168,16 @@ colorscheme tokyonight
 " fzf-vim
 " --------------------------------------------------
 let g:fzf_preview_window = ['right:45%', 'ctrl-/']
+
+nnoremap <silent> <leader>ff :Files<CR>
+nnoremap <silent> <leader>ft :Tags<CR>
+nnoremap <silent> <leader>fr :Rg<CR>
+nnoremap <silent> <leader>fb :Buffers<CR>
+
+nnoremap <silent> <leader>fF :Files!<CR>
+nnoremap <silent> <leader>fT :Tags!<CR>
+nnoremap <silent> <leader>fR :Rg!<CR>
+nnoremap <silent> <leader>fB :Buffers!<CR>
 
 " --------------------------------------------------
 " NerdTree
@@ -290,16 +299,6 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " --------------------------------------------------
-" Telescope
-" --------------------------------------------------
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fr <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers({sort_mru = true, sort_lastused = true})<cr>
-nnoremap <leader>ft <cmd>lua require('telescope.builtin').tags()<cr>
-nnoremap <leader>fq <cmd>lua require('telescope.builtin').quickfix()<cr>
-nnoremap <leader>fl <cmd>lua require('telescope.builtin').loclist()<cr>
-
-" --------------------------------------------------
 " ETC
 " --------------------------------------------------
 let g:webdevicons_enable_startify = 0
@@ -320,8 +319,8 @@ EOF
 " --------------------------------------------------
 lua require("plugins.lsp")
 lua require("plugins.gitsigns")
-lua require("plugins.telescope")
 lua require("plugins.treesitter")
+lua require("plugins.neorg")
 
 lua << END
 -- 1: relative, 2: absolute.
