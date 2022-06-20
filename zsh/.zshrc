@@ -154,3 +154,9 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="/usr/local/opt/node@14/bin:$PATH"
+
+
+# --------------------------------------------------------------------------------
+# neovim
+# --------------------------------------------------------------------------------
+export MANPAGER='nvim +Man!'
