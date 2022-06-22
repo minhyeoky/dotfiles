@@ -88,6 +88,9 @@ endfunction
 
 call SourceIfExistsInVimDir(".vimwiki.vim")
 
+" Utilities
+Plug 'nvim-lua/plenary.nvim'
+
 " lsp
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'neovim/nvim-lspconfig'
@@ -149,9 +152,6 @@ Plug 'tpope/vim-surround'
 
 " Markdown Preview
 Plug 'ellisonleao/glow.nvim', { 'branch': 'main' }
-
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-neorg/neorg'
 
 call plug#end()
 
@@ -320,7 +320,6 @@ EOF
 lua require("plugins.lsp")
 lua require("plugins.gitsigns")
 lua require("plugins.treesitter")
-lua require("plugins.neorg")
 
 lua << END
 -- 1: relative, 2: absolute.
