@@ -179,6 +179,13 @@ nnoremap <silent> <leader>fT :Tags!<CR>
 nnoremap <silent> <leader>fR :Rg!<CR>
 nnoremap <silent> <leader>fB :Buffers!<CR>
 
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --iglob !.git --iglob !pylint-ignore.md --iglob !elasticsearch-HQ
+  \   --hidden --column --line-number --no-heading --color=always --smart-case
+  \ -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
 " --------------------------------------------------
 " NerdTree
 " --------------------------------------------------
