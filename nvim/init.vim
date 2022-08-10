@@ -174,15 +174,10 @@ colorscheme tokyonight
 " --------------------------------------------------
 let g:fzf_preview_window = ['right:45%', 'ctrl-/']
 
-nnoremap <silent> <leader>ff :Files<CR>
-nnoremap <silent> <leader>ft :Tags<CR>
-nnoremap <silent> <leader>fr :Rg<CR>
-nnoremap <silent> <leader>fb :Buffers<CR>
-
-nnoremap <silent> <leader>fF :Files!<CR>
-nnoremap <silent> <leader>fT :Tags!<CR>
-nnoremap <silent> <leader>fR :Rg!<CR>
-nnoremap <silent> <leader>fB :Buffers!<CR>
+nnoremap <silent> <leader>ff :Files!<CR>
+nnoremap <silent> <leader>ft :Tags!<CR>
+nnoremap <silent> <leader>fr :Rg!<CR>
+nnoremap <silent> <leader>fb :Buffers!<CR>
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
