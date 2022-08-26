@@ -265,7 +265,8 @@ let g:tagbar_type_vimwiki.ctagstype = 'vimwiki'
 noremap <leader>gs :tab Git<cr>
 
 " Set foldmethod for git
-autocmd FileType gitcommit set foldmethod=syntax
+autocmd FileType gitcommit,git set foldmethod=syntax
+autocmd FileType gitcommit,git set foldlevel=0
 
 " --------------------------------------------------
 " ALE
