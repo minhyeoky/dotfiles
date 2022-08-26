@@ -9,97 +9,106 @@ source ./utils.sh
 
 guard_os "Mac"
 
+function create_symlink() {
+	ln -s -f -v "$1" "$2"
+}
+
 function install_bash() {
-  backup ~/.bashrc
-  ln -s -f -v "$PWD"/bash/.bashrc ~/.bashrc
+	backup ~/.bashrc
+	ln -s -f -v "$PWD"/bash/.bashrc ~/.bashrc
 
-  backup ~/.bash_aliases
-  ln -s -f -v "$PWD"/bash/.bash_aliases ~/.bash_aliases
+	backup ~/.bash_aliases
+	ln -s -f -v "$PWD"/bash/.bash_aliases ~/.bash_aliases
 
-  backup ~/.bash_functions
-  ln -s -f -v "$PWD"/bash/.bash_functions ~/.bash_functions
+	backup ~/.bash_functions
+	ln -s -f -v "$PWD"/bash/.bash_functions ~/.bash_functions
 
-  backup ~/.bash_macosx
-  ln -s -f -v "$PWD"/bash/.bash_macosx ~/.bash_macosx
+	backup ~/.bash_macosx
+	ln -s -f -v "$PWD"/bash/.bash_macosx ~/.bash_macosx
 }
 
 function install_zsh() {
-  backup ~/.zshrc
-  ln -s -f -v "$PWD"/zsh/.zshrc ~/.zshrc
+	backup ~/.zshrc
+	ln -s -f -v "$PWD"/zsh/.zshrc ~/.zshrc
 
-  backup ~/.p10k.zsh
-  ln -s -f -v "$PWD"/zsh/.p10k.zsh ~/.p10k.zsh
+	backup ~/.p10k.zsh
+	ln -s -f -v "$PWD"/zsh/.p10k.zsh ~/.p10k.zsh
 
-  if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
-    echo "Clone zsh-syntax-highlighting done"
-  fi
+	if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
+		git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+		echo "Clone zsh-syntax-highlighting done"
+	fi
 
-  if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
-    echo "Clone zsh-autosuggestions done"
-  fi
+	if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]]; then
+		git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+		echo "Clone zsh-autosuggestions done"
+	fi
 
-  if [[ ! -d ~/powerlevel10k ]]; then
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-    echo "Clone powerline theme done"
-  fi
+	if [[ ! -d ~/powerlevel10k ]]; then
+		git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+		echo "Clone powerline theme done"
+	fi
 
-  if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-z ]]; then
-    git clone https://github.com/agkozak/zsh-z "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-z"
-    echo "Clone zsh-z done"
-  fi
+	if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-z ]]; then
+		git clone https://github.com/agkozak/zsh-z "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-z"
+		echo "Clone zsh-z done"
+	fi
 }
 
 function install_vim() {
-  # Install neovim.
-  brew update
-  brew unlink neovim
-  brew install neovim --HEAD
+	# Install neovim.
+	brew update
+	brew unlink neovim
+	brew install neovim --HEAD
 
-  # Link .vim files. (Plugins)
-  mkdir -p -v ~/.vim
-  backup ~/.vim/.vimwiki.vim
-  ln -s -f -v "$PWD"/vim/.vimwiki.vim ~/.vim/.vimwiki.vim
+	# Link .vim files. (Plugins)
+	mkdir -p -v ~/.vim
+	backup ~/.vim/.vimwiki.vim
+	ln -s -f -v "$PWD"/vim/.vimwiki.vim ~/.vim/.vimwiki.vim
 
-  # Link init.vim (neovim)
-  mkdir -p -v ~/.config
-  backup ~/.config/nvim
-  ln -s -f -v "${PWD}/nvim" ~/.config
+	# Link init.vim (neovim)
+	mkdir -p -v ~/.config
+	backup ~/.config/nvim
+	ln -s -f -v "${PWD}/nvim" ~/.config
 
-  # Install vim-plug.
-  curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	# Install vim-plug.
+	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
-  # Install ripgrep, fd.
-  brew install ripgrep
-  brew install fd
+	# Install ripgrep, fd.
+	brew install ripgrep
+	brew install fd
 }
 
 function install_git() {
-  backup ~/.gitconfig
-  ln -s -f -v "$PWD"/git/.gitconfig ~/.gitconfig
+	backup ~/.gitconfig
+	ln -s -f -v "$PWD"/git/.gitconfig ~/.gitconfig
 
-  backup ~/.gitignore
-  ln -s -f -v "$PWD"/git/.gitignore ~/.gitignore
+	backup ~/.gitignore
+	ln -s -f -v "$PWD"/git/.gitignore ~/.gitignore
 }
 
 read -r -p "---- Install bash? [Y/n]: " input
 if [[ ${input} != "n" ]]; then
-  install_bash
+	install_bash
 fi
 
 read -r -p "---- Install zsh? [Y/n]: " input
 if [[ ${input} != "n" ]]; then
-  install_zsh
+	install_zsh
 fi
 
 read -r -p "---- Install vim? [Y/n]: " input
 if [[ ${input} != "n" ]]; then
-  install_vim
+	install_vim
 fi
 
 read -r -p "---- Install git? [Y/n]: " input
 if [[ ${input} != "n" ]]; then
-  install_git
+	install_git
+fi
+
+read -r -p "---- Copy ipython configuration file? [Y/n]: " input
+if [[ ${input} != "n" ]]; then
+	create_symlink "$PWD/.ipython/ipython_config.py" "$HOME/.ipython/profile_default/ipython_config.py"
 fi
