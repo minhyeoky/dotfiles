@@ -268,7 +268,7 @@ c.InteractiveShellApp.extensions = ["autoreload"]
 
 ## lines of code to run at IPython startup.
 #  See also: InteractiveShellApp.exec_lines
-# c.TerminalIPythonApp.exec_lines = []
+c.TerminalIPythonApp.exec_lines = ["print('Hello!')"]
 
 ## A list of dotted module names of IPython extensions to load.
 #  See also: InteractiveShellApp.extensions
