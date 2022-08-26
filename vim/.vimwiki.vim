@@ -9,7 +9,7 @@ Plug 'ferrine/md-img-paste.vim'
 
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 let g:vimwiki_autowriteall = 1
-let g:vimwiki_folding = 'syntax'
+let g:vimwiki_folding = 'list'
 let g:vimwiki_conceallevel = 2
 let g:vimwiki_global_ext = 0
 
