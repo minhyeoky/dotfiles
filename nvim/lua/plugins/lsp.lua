@@ -5,11 +5,6 @@ local cmp = require("cmp")
 
 local SERVERS = { "pyright", "bashls", "jsonls", "sumneko_lua", "flutter-tools", "html", "jdtls", "tsserver", "dockerls", "cssls" }
 
-require("nvim-lsp-installer").setup({
-    ensure_installed = SERVERS, -- ensure these servers are always installed
-    automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
-})
-
 -------------------------------------------------------------------------------
 -- Setup nvim-cmp.
 -------------------------------------------------------------------------------
