@@ -92,7 +92,8 @@ call SourceIfExistsInVimDir(".vimwiki.vim")
 Plug 'nvim-lua/plenary.nvim'
 
 " lsp
-Plug 'williamboman/nvim-lsp-installer'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -127,7 +128,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mhinz/vim-startify'
 
 " Linter
-Plug 'dense-analysis/ale'
+Plug 'mfussenegger/nvim-lint'
+Plug 'mhartington/formatter.nvim'
 
 " Status bar
 Plug 'nvim-lualine/lualine.nvim'
@@ -269,38 +271,6 @@ autocmd FileType gitcommit,git set foldmethod=syntax
 autocmd FileType gitcommit,git set foldlevel=0
 
 " --------------------------------------------------
-" ALE
-" --------------------------------------------------
-let g:ale_fix_on_save = 1
-"let g:ale_completion_enabled = 1
-"highlight ALEWarning ctermbg=DarkMagenta
-"highlight ALEError ctermbg=DarkBlue
-let g:ale_disable_lsp = 1
-let g:ale_linters = {
-      \ 'python': ['pyright', 'pylint'],
-      \ }
-let g:ale_linters_ignore = {
-      \ '*': ['cspell'],
-      \ 'java': ['javac'],
-      \ }
-
-" brew install shfmt, jq
-" pip install black, isort
-" npm i -g prettier
-let g:ale_fixers = {
-      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \ 'sh': ['shfmt'],
-      \ 'javascript': ['eslint', 'prettier'],
-      \ 'typescript': ['eslint', 'prettier'],
-      \ 'html': ['prettier'],
-      \ 'xml': ['xmllint'],
-      \ 'json': ['jq'],
-      \ 'python': ['black', 'isort'],
-      \ 'dart': ['dart-format'],
-      \ }
-
-let g:ale_xml_xmllint_indentsize = 4
-" --------------------------------------------------
 " ultisnips
 " --------------------------------------------------
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -325,6 +295,7 @@ EOF
 " --------------------------------------------------
 " Lua
 " --------------------------------------------------
+lua require("init")
 lua require("plugins.lsp")
 lua require("plugins.gitsigns")
 lua require("plugins.treesitter")
