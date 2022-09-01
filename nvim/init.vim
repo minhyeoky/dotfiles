@@ -10,6 +10,12 @@ filetype plugin indent on
 syntax on
 let g:mapleader=','
 
+autocmd FileType markdown set foldexpr=nvim_treesitter#foldexpr()
+autocmd FileType markdown set foldmethod=expr
+autocmd FileType markdown set foldlevel=2
+autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
+autocmd TextChanged,TextChangedI *.md silent write
+
 " ------------------------------------------------
 " Options
 " ------------------------------------------------
@@ -86,10 +92,14 @@ function SourceIfExistsInVimDir(name)
   endif
 endfunction
 
-call SourceIfExistsInVimDir(".vimwiki.vim")
+" Session & Startup
+Plug 'mhinz/vim-startify'
+Plug 'ferrine/md-img-paste.vim'
+let g:mdip_imgdir = 'img'
 
 " Utilities
 Plug 'nvim-lua/plenary.nvim'
+Plug 'djoshea/vim-autoread'
 
 " lsp
 Plug 'williamboman/mason.nvim'
@@ -102,8 +112,8 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
 " snippet
-Plug 'SirVer/ultisnips'
-Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+" Plug 'SirVer/ultisnips'
+" Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -154,9 +164,14 @@ Plug 'tpope/vim-surround'
 
 " Markdown Preview
 Plug 'ellisonleao/glow.nvim', { 'branch': 'main' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+let g:mkdp_auto_close = 0
 
 " Debug
 " Plug 'mfussenegger/nvim-dap'
+
+" Note
+Plug 'mickael-menu/zk-nvim'
 
 Plug 'folke/trouble.nvim'
 
@@ -187,6 +202,32 @@ command! -bang -nargs=* Rg
   \   --hidden --column --line-number --no-heading --color=always --smart-case
   \ -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
+
+command! -bang DotFiles
+  \ call fzf#vim#files(
+  \ $DOTFILES_PATH,
+  \ <bang>0
+  \)
+
+command! -bang -nargs=* DotSearch
+  \ call fzf#vim#grep(
+  \ 'rg --column --line-number --no-heading --color=always --smart-case -- '. shellescape(<q-args>),
+  \ 1,
+  \ fzf#vim#with_preview({'dir': $DOTFILES_PATH}),
+  \ <bang>0
+  \)
+
+command! -bang -nargs=* ZkGrep
+  \ call fzf#vim#grep(
+  \ 'rg --column --line-number --no-heading --color=always --smart-case -- '. shellescape(<q-args>),
+  \ 1,
+  \ fzf#vim#with_preview({'dir': $ZK_NOTEBOOK_DIR}),
+  \ <bang>0
+  \)
+
+nmap <Leader>dr :DotSearch!<CR>
+nmap <Leader>df :DotFiles!<CR>
+nmap <Leader>zr :ZkGrep!<CR>
 
 " --------------------------------------------------
 " NerdTree
@@ -254,9 +295,6 @@ let g:tagbar_type_markdown = {
     \ },
     \ 'sort': 0,
 \ }
-
-let g:tagbar_type_vimwiki = g:tagbar_type_markdown
-let g:tagbar_type_vimwiki.ctagstype = 'vimwiki'
 
 " --------------------------------------------------
 " Vim-fugitive

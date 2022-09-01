@@ -3,7 +3,7 @@ local flutter_tools = require("flutter-tools")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local cmp = require("cmp")
 
-local SERVERS = { "pyright", "bashls", "jsonls", "sumneko_lua", "flutter-tools", "html", "jdtls", "tsserver", "dockerls", "cssls" }
+local SERVERS = { "pyright", "bashls", "jsonls", "sumneko_lua", "flutter-tools", "html", "jdtls", "tsserver", "dockerls", "cssls", "marksman", "zk" }
 
 -------------------------------------------------------------------------------
 -- Setup nvim-cmp.
