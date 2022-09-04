@@ -16,42 +16,35 @@ require("mason-lspconfig").setup({
 	automatic_installation = true,
 })
 
-require("lint").linters_by_ft = {
-	markdown = { "vale" },
-	python = { "pylint" },
-}
+require("null-ls").setup({
+	sources = {
+		require("null-ls").builtins.diagnostics.actionlint,
+		require("null-ls").builtins.diagnostics.alex,
+		require("null-ls").builtins.diagnostics.codespell,
+		require("null-ls").builtins.diagnostics.pylint,
+		require("null-ls").builtins.diagnostics.shellcheck,
+		require("null-ls").builtins.diagnostics.eslint,
+		require("null-ls").builtins.diagnostics.gitlint,
+		require("null-ls").builtins.diagnostics.hadolint,
+		require("null-ls").builtins.diagnostics.jsonlint,
+		require("null-ls").builtins.diagnostics.misspell,
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	callback = function()
-		require("lint").try_lint()
-	end,
-})
+		require("null-ls").builtins.formatting.stylua,
+		require("null-ls").builtins.formatting.black,
+		require("null-ls").builtins.formatting.isort,
+		require("null-ls").builtins.formatting.jq,
+		require("null-ls").builtins.formatting.shfmt,
+		require("null-ls").builtins.formatting.yamlfmt,
+		require("null-ls").builtins.formatting.prettier,
+		require("null-ls").builtins.formatting.cbfmt,
+		require("null-ls").builtins.formatting.trim_newlines,
+		require("null-ls").builtins.formatting.trim_whitespace,
 
--- By filetypes: https://github.com/mhartington/formatter.nvim/tree/master/lua/formatter/filetypes
-require("formatter").setup({
-	logging = true,
-	log_level = vim.log.levels.WARN,
-	filetype = {
-		lua = {
-			require("formatter.filetypes.lua").stylua,
-		},
-    python = {
-			require("formatter.filetypes.python").black,
-			require("formatter.filetypes.python").isort,
-			require("formatter.filetypes.python").docformatter,
-    },
-    sh = {
-			require("formatter.filetypes.sh").shfmt,
-    },
-    json = {
-			require("formatter.filetypes.json").jq,
-    },
-		["*"] = {
-			-- https://github.com/mhartington/formatter.nvim/issues/159#issuecomment-1173490890
-			function()
-				return { exe = "sed", args = { "-i", "''", "'s/[	 ]*$//'" } }
-			end,
-		},
+		require("null-ls").builtins.code_actions.gitsigns,
+		require("null-ls").builtins.code_actions.shellcheck,
+		require("null-ls").builtins.code_actions.proselint,
+		require("null-ls").builtins.code_actions.refactoring,
+		require("null-ls").builtins.completion.tags,
 	},
 })
 
