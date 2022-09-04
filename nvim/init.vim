@@ -138,8 +138,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mhinz/vim-startify'
 
 " Linter
-Plug 'mfussenegger/nvim-lint'
-Plug 'mhartington/formatter.nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'ThePrimeagen/refactoring.nvim'
 
 " Status bar
 Plug 'nvim-lualine/lualine.nvim'
