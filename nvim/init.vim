@@ -13,6 +13,9 @@ let g:mapleader=','
 autocmd FileType markdown set foldexpr=nvim_treesitter#foldexpr()
 autocmd FileType markdown set foldmethod=expr
 autocmd FileType markdown set foldlevel=2
+autocmd FileType python set foldexpr=nvim_treesitter#foldexpr()
+autocmd FileType python set foldmethod=expr
+autocmd FileType python set foldlevel=2
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 autocmd TextChanged,TextChangedI *.md silent write
 
