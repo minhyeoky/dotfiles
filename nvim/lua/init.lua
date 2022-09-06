@@ -1,3 +1,14 @@
+require("tokyonight").setup({
+	style = "night",
+	transparent = true,
+	dim_inactive = true,
+	lualine_bold = true,
+})
+vim.api.nvim_cmd({
+	cmd = "colorscheme",
+	args = { "tokyonight" },
+}, {})
+
 require("mason").setup()
 
 require("mason-lspconfig").setup({

@@ -178,15 +178,6 @@ Plug 'folke/trouble.nvim'
 call plug#end()
 
 " --------------------------------------------------
-" colorscheme
-" --------------------------------------------------
-let g:tokyonight_transparent = 1
-let g:tokyonight_style = "night"
-let g:tokyonight_lualine_bold = "true"
-colorscheme tokyonight
-
-
-" --------------------------------------------------
 " fzf-vim
 " --------------------------------------------------
 let g:fzf_preview_window = ['right:45%', 'ctrl-/']
