@@ -5,17 +5,11 @@
 " ------------------------------------------------
 " General
 " ------------------------------------------------
-lang en_US.UTF-8
+lang C.UTF-8
 filetype plugin indent on
 syntax on
 let g:mapleader=','
 
-autocmd FileType markdown set foldexpr=nvim_treesitter#foldexpr()
-autocmd FileType markdown set foldmethod=expr
-autocmd FileType markdown set foldlevel=2
-autocmd FileType python set foldexpr=nvim_treesitter#foldexpr()
-autocmd FileType python set foldmethod=expr
-autocmd FileType python set foldlevel=2
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 autocmd TextChanged,TextChangedI *.md silent write
 
@@ -37,8 +31,9 @@ set smartindent
 "set termguicolors
 
 " Fold Options
-set foldlevel=99
-set foldmethod=indent
+set foldlevel=2
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 
 " ETC
 set nobackup
