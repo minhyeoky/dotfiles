@@ -27,18 +27,19 @@ require("mason-lspconfig").setup({
   automatic_installation = true,
 })
 
+-- Install
+-- nvim --headless -c "MasonInstall codespell actionlint shellcheck hadolint stylua jq shfmt cbfmt" -c "qall"
 require("null-ls").setup({
   sources = {
     require("null-ls").builtins.diagnostics.actionlint,
-    require("null-ls").builtins.diagnostics.alex,
     require("null-ls").builtins.diagnostics.codespell,
     -- require("null-ls").builtins.diagnostics.pylint,
     require("null-ls").builtins.diagnostics.shellcheck,
     require("null-ls").builtins.diagnostics.eslint,
     require("null-ls").builtins.diagnostics.gitlint,
     require("null-ls").builtins.diagnostics.hadolint,
-    require("null-ls").builtins.diagnostics.jsonlint,
-    require("null-ls").builtins.diagnostics.misspell,
+    -- require("null-ls").builtins.diagnostics.jsonlint,
+    -- require("null-ls").builtins.diagnostics.misspell,
 
     require("null-ls").builtins.formatting.stylua,
     require("null-ls").builtins.formatting.black,
