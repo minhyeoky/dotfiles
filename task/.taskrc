@@ -1,0 +1,43 @@
+# [Created by task 2.6.2 7/13/2022 14:38:05]
+# Taskwarrior program configuration file.
+# For more documentation, see https://taskwarrior.org or try 'man task', 'man task-color',
+# 'man task-sync' or 'man taskrc'
+
+# Here is an example of entries that use the default, override and blank values
+#   variable=foo   -- By specifying a value, this overrides the default
+#   variable=      -- By specifying no value, this means no default
+#   #variable=foo  -- By commenting out the line, or deleting it, this uses the default
+
+# Use the command 'task show' to see all defaults and overrides
+
+# Files
+data.location=$HOME/.task
+hooks.location=$DOTFILES_PATH/task/hooks
+
+#debug=1
+#debug.hooks=2
+
+# Color theme (uncomment one to use)
+#include light-16.theme
+#include light-256.theme
+#include dark-16.theme
+#include dark-256.theme
+#include dark-red-256.theme
+#include dark-green-256.theme
+#include dark-blue-256.theme
+#include dark-violets-256.theme
+#include dark-yellow-green.theme
+#include dark-gray-256.theme
+#include dark-gray-blue-256.theme
+#include solarized-dark-256.theme
+#include solarized-light-256.theme
+#include no-color.theme
+
+taskd.server=freecinc.com:53589
+taskd.key=$HOME/Dropbox\/box\/ssh_keys\/freecinc_60598d66.key.pem
+taskd.certificate=$HOME/Dropbox\/box\/ssh_keys\/freecinc_60598d66.cert.pem
+taskd.ca=$HOME/Dropbox\/box\/ssh_keys\/freecinc_60598d66.ca.pem
+taskd.credentials=FreeCinc\/freecinc_60598d66\/e2a1f83e-592d-4a82-8f1b-4231af142b39
+context.work.read=project:all
+context.work.write=project:all
+context=work
