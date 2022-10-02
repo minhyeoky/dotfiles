@@ -13,6 +13,10 @@ let g:mapleader=','
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 autocmd TextChanged,TextChangedI *.md silent write
 
+" jq formatter compatible
+autocmd FileType json set foldmethod=indent
+autocmd FileType json set shiftwidth=2
+
 " ------------------------------------------------
 " Options
 " ------------------------------------------------
