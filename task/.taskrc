@@ -33,11 +33,10 @@ hooks.location=$DOTFILES_PATH/task/hooks
 #include solarized-light-256.theme
 #include no-color.theme
 
-taskd.server=freecinc.com:53589
-taskd.key=$HOME/Dropbox\/box\/ssh_keys\/freecinc_60598d66.key.pem
-taskd.certificate=$HOME/Dropbox\/box\/ssh_keys\/freecinc_60598d66.cert.pem
-taskd.ca=$HOME/Dropbox\/box\/ssh_keys\/freecinc_60598d66.ca.pem
-taskd.credentials=FreeCinc\/freecinc_60598d66\/e2a1f83e-592d-4a82-8f1b-4231af142b39
+taskd.server=ec2-35-78-201-54.ap-northeast-1.compute.amazonaws.com:53589
+taskd.key=\/Users\/minhyeoky\/Dropbox\/box\/ssh_keys\/Minhyeok_Lee.key.pem
+taskd.certificate=\/Users\/minhyeoky\/Dropbox\/box\/ssh_keys\/Minhyeok_Lee.cert.pem
+taskd.ca=\/Users\/minhyeoky\/Dropbox\/box\/ssh_keys\/ca.cert.pem
+taskd.credentials=Public\/Minhyeok Lee\/7c5005e4-833c-4156-9b1a-d431e5d04df6
 context.work.read=project:all
 context.work.write=project:all
-context=work
