@@ -5,7 +5,6 @@
 " ------------------------------------------------
 " General
 " ------------------------------------------------
-lang C.UTF-8
 filetype plugin indent on
 syntax on
 let g:mapleader=','
@@ -112,6 +111,9 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+
+Plug 'github/copilot.vim'
+autocmd FileType * Copilot disable
 
 " snippet
 Plug 'SirVer/ultisnips'
@@ -329,6 +331,7 @@ lua require("init")
 lua require("plugins.lsp")
 lua require("plugins.gitsigns")
 lua require("plugins.treesitter")
+lua require("plugins.taskzk")
 
 lua << END
 -- 1: relative, 2: absolute.
