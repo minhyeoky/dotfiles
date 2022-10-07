@@ -69,6 +69,11 @@ require("null-ls").setup({
 
 require("zk").setup({
   picker = "fzf",
+  lsp = {
+    auto_attach = {
+      enabled = false,
+    },
+  },
 })
 local opts = { noremap = true, silent = false }
 
