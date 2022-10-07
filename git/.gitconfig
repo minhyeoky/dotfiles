@@ -29,8 +29,6 @@ process = git-lfs filter-process
 required = true
 [credential]
 username = minhyeoky
-[url "git@github.com:"]
-insteadOf = https://github.com/
 [author]
 name = Minhyeok Lee
 email = minhyeok.lee95@gmail.com

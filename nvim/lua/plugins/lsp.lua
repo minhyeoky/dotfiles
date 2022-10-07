@@ -14,8 +14,8 @@ local SERVERS = {
 	"tsserver",
 	"dockerls",
 	"cssls",
-	"marksman",
 	"zk",
+  "rust_analyzer",
 }
 
 -------------------------------------------------------------------------------
