@@ -309,6 +309,6 @@ set-option -g status-position top
 bind-key -r C-p next-window
 bind-key -r C-n previous-window
 
-bind-key -r ) run-shell -b "$HOME/scripts/adjust-alacritty-opacity.py --inc y"
-bind-key -r ( run-shell -b "$HOME/scripts/adjust-alacritty-opacity.py --inc n"
+bind-key -r ) run-shell -b "alacritty-opacity increase 0.1"
+bind-key -r ( run-shell -b "alacritty-opacity decrease 0.1"
 bind-key ! run-shell "tmux new-window $HOME/scripts/run-scripts.sh"
