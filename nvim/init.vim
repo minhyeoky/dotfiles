@@ -37,6 +37,8 @@ set smartindent
 set foldlevel=2
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
+" Force re-compute folds because i'm using nvim_treesitter#foldexpr as primary foldmethod.
+autocmd InsertLeave * normal zx
 
 " ETC
 set nobackup
