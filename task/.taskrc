@@ -33,10 +33,15 @@ hooks.location=$DOTFILES_PATH/task/hooks
 #include solarized-light-256.theme
 #include no-color.theme
 
-taskd.server=ec2-35-78-201-54.ap-northeast-1.compute.amazonaws.com:53589
-taskd.key=\/Users\/minhyeoky\/Dropbox\/box\/ssh_keys\/Minhyeok_Lee.key.pem
-taskd.certificate=\/Users\/minhyeoky\/Dropbox\/box\/ssh_keys\/Minhyeok_Lee.cert.pem
-taskd.ca=\/Users\/minhyeoky\/Dropbox\/box\/ssh_keys\/ca.cert.pem
-taskd.credentials=Public\/Minhyeok Lee\/7c5005e4-833c-4156-9b1a-d431e5d04df6
+taskd.server=app.wingtask.com:53589
+taskd.key=$DROPBOX_PATH\/secrets\/minhyeok.lee95@gmail.com.key.pem
+taskd.certificate=$DROPBOX_PATH\/secrets\/minhyeok.lee95@gmail.com.cert.pem
+taskd.ca=$DROPBOX_PATH\/secrets\/letsencrypt_root_cert.pem
+taskd.credentials=WingTask\/minhyeok.lee95@gmail.com\/82f066cc-4391-4943-9736-73cb49cf79c8
+
+# context
 context.work.read=project:all
 context.work.write=project:all
+context.me.read=project.not:all
+news.version=2.6.0
+context=me

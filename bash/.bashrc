@@ -8,10 +8,10 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 # --------------------------------------------------------------------------------
-# Constants
+# Secrets
 # --------------------------------------------------------------------------------
-if [ -f ~/.bash_constants ]; then
-    . ~/.bash_constants
+if [ -f ~/.env_secrets ]; then
+    . ~/.env_secrets
 fi
 
 # --------------------------------------------------------------------------------
@@ -66,3 +66,7 @@ export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode – cyan
 # ETC
 # --------------------------------------------------------------------------------
 . "$HOME/.cargo/env"
+export JDTLS_JVM_ARGS="-javaagent:$HOME/lombok.jar"
+export ANDROID_HOME="/Users/minhyeoky/Library/Android/sdk"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+export BAT_THEME="Enki-Tokyo-Night"

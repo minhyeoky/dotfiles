@@ -118,12 +118,6 @@ source $ZSH/oh-my-zsh.sh
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-export PATH=$PATH:~/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
@@ -143,22 +137,19 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 export DISABLE_AUTO_TITLE='true'
 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH="/opt/homebrew/opt/tcl-tk/bin:$PATH"
-
-# Set PATH for flutter.
-export PATH="$PATH:$HOME/flutter/bin"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-export PATH="/usr/local/opt/node@14/bin:$PATH"
-
 
 # --------------------------------------------------------------------------------
 # neovim
 # --------------------------------------------------------------------------------
 export MANPAGER='nvim +Man!'
 
+# --------------------------------------------------------------------------------
+# PATH
+# --------------------------------------------------------------------------------
+export PATH="/opt/homebrew/opt/tcl-tk/bin:$PATH"
+export PATH="$PATH:$HOME/flutter/bin"
 export PATH=$HOME/.local/bin:$PATH
+export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
