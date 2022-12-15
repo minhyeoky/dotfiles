@@ -8,7 +8,7 @@ date = iso
 [push]
 default = simple
 [core]
-editor = vim
+	editor = nvim
 autocrlf = input
 precomposeunicode = true
 quotepath = false

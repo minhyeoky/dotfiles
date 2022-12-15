@@ -14,7 +14,10 @@ autocmd TextChanged,TextChangedI *.md silent write
 
 " jq formatter compatible
 autocmd FileType json set foldmethod=indent
-autocmd FileType json set shiftwidth=2
+autocmd FileType mermaid set foldmethod=indent
+autocmd FileType dart set foldmethod=indent
+autocmd FileType markdown set foldmethod=indent
+autocmd FileType markdown set foldlevel=0
 
 " ------------------------------------------------
 " Options
@@ -37,8 +40,8 @@ set smartindent
 set foldlevel=2
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
-" Force re-compute folds because i'm using nvim_treesitter#foldexpr as primary foldmethod.
-autocmd InsertLeave * normal zx
+" Force re-compute folds because i'm using nvim_treesitter#foldexpr as primary foldmethod for markdown.
+"autocmd InsertLeave *.md normal zx
 
 " ETC
 set nobackup
@@ -71,6 +74,16 @@ set wildignore+=**/.venv/*
 " Tab
 noremap <leader>tn :tabnew<cr>
 noremap <leader>to :tabonly<cr>
+
+" Moving Lines: https://vimtricks.com/p/vimtrick-moving-lines/
+" Ctrl + J or K
+nnoremap <c-j> :m .+1<CR>==
+nnoremap <c-k> :m .-2<CR>==
+inoremap <c-j> <Esc>:m .+1<CR>==gi
+inoremap <c-k> <Esc>:m .-2<CR>==gi
+vnoremap <c-j> :m '>+1<CR>gv=gv
+vnoremap <c-k> :m '<-2<CR>gv=gv
+
 
 " Reload .vimrc
 map <silent> <leader>sc :lua unload_packages()<CR>
@@ -170,18 +183,39 @@ Plug 'tpope/vim-surround'
 
 " Markdown Preview
 Plug 'ellisonleao/glow.nvim', { 'branch': 'main' }
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
-let g:mkdp_auto_close = 0
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install ' }
+Plug 'AndrewRadev/inline_edit.vim'
 
-" Debug
-" Plug 'mfussenegger/nvim-dap'
+let g:markdown_fenced_languages = ['mermaid']
+let g:mkdp_theme = 'dark'
+let g:mkdp_auto_close = 0
+let g:mkdp_preview_options = {
+    \ 'maid': {'theme': 'base'},
+    \ 'disable_sync_scroll': 1,
+    \ }
 
 " Note
 Plug 'mickael-menu/zk-nvim'
 
 Plug 'folke/trouble.nvim'
+"
+"" Syntax
+Plug 'mracos/mermaid.vim'
+Plug 'aklt/plantuml-syntax'
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'junegunn/vim-emoji'
 
 call plug#end()
+set completefunc=emoji#complete
+
+fun! <SID>Sub_movend(lineno)
+	if (match(getline(a:lineno), ':\([^:]\+\):') != -1) " There is a match
+		exe a:lineno . 'su /:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g'
+		star!
+	endif
+endfun
+
+autocmd! CompleteDone * call <SID>Sub_movend(line('.'))
 
 " --------------------------------------------------
 " fzf-vim
@@ -280,7 +314,7 @@ let g:tagbar_type_json = {
 
 let g:tagbar_type_markdown = {
     \ 'ctagstype': 'markdown',
-    \ 'ctagsbin' : '$HOME/scripts/markdown-to-ctags.py',
+    \ 'ctagsbin' : '$DOTFILES_PATH/scripts/markdown-to-ctags.py',
     \ 'ctagsargs' : '-f - --sort=yes --sro=»',
     \ 'kinds' : [
         \ 's:sections',

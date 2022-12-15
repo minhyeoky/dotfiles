@@ -35,8 +35,26 @@ local function link()
   })
 end
 
+local function references()
+  if not _is_note() then
+    return
+  end
+
+  local job = Job:new({ command = "task", args = { "description.contains:" .. _get_note(), "export" } })
+  job:sync()
+  local entries = {}
+  for _, value in ipairs(vim.json.decode(vim.fn.join(job:result()))) do
+    table.insert(entries, "[" .. value.status .. "]" .. " " .. value.description)
+  end
+  vim.fn["fzf#run"]({
+    source = entries,
+    -- TODO: How to reference UUID at `sink` function?
+  })
+end
+
 M = {
   link = link,
+  references = references,
 }
 
 return M

@@ -10,10 +10,16 @@ yabai -m config window_gap     10
 
 # Window modifications
 yabai -m config window_topmost on
-yabai -m config window_shadow float
-yabai -m config window_opacity on
+yabai -m config window_opacity off
 yabai -m config active_window_opacity 1.0
-yabai -m config normal_window_opacity 0.9
+yabai -m config normal_window_opacity 1.0
+
+yabai -m config window_border_blur off
+yabai -m config window_border on
+yabai -m config window_border_width 1
+yabai -m config active_window_border_color 0x7F01A7F3
+yabai -m config normal_window_border_color 0x002E3440
+yabai -m config insert_feedback_color 0xFFA3BE8C
 
 # Rules
 yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
@@ -28,3 +34,10 @@ yabai -m rule --add label="Dictionary" app="^Dictionary$" manage=off
 yabai -m rule --add label="mpv" app="^mpv$" manage=off
 yabai -m rule --add label="Software Update" title="Software Update" manage=off
 yabai -m rule --add label="About This Mac" app="System Information" title="About This Mac" manage=off
+yabai -m rule --add label="FaceTime" app="FaceTime" manage=off
+yabai -m rule --add label="KakaoTalk" app="KakaoTalk" manage=off
+yabai -m rule --add label="Telegram" app="^Telegram*" manage=off
+yabai -m rule --add label="Archive Utility" app="^Archive*" manage=off
+
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
