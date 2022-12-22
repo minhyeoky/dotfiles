@@ -92,6 +92,7 @@ docker
 docker-compose
 fasd
 zsh-z
+taskwarrior
 )
 
 
