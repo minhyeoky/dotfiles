@@ -18,6 +18,7 @@ autocmd FileType mermaid set foldmethod=indent
 autocmd FileType dart set foldmethod=indent
 autocmd FileType markdown set foldmethod=indent
 autocmd FileType markdown set foldlevel=0
+autocmd FileType markdown set shiftwidth=2
 
 " ------------------------------------------------
 " Options
@@ -84,6 +85,8 @@ inoremap <c-k> <Esc>:m .-2<CR>==gi
 vnoremap <c-j> :m '>+1<CR>gv=gv
 vnoremap <c-k> :m '<-2<CR>gv=gv
 
+noremap <leader>mt :r!echo "\#\# \c" && date "+\%Y-\%m-\%d (\%a)"<CR>
+
 
 " Reload .vimrc
 map <silent> <leader>sc :lua unload_packages()<CR>
@@ -126,9 +129,10 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'onsails/lspkind-nvim'
 
 Plug 'github/copilot.vim'
-autocmd FileType * Copilot disable
+let g:copilot_enabled = 1
 
 " snippet
 Plug 'SirVer/ultisnips'
@@ -187,7 +191,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install ' }
 Plug 'AndrewRadev/inline_edit.vim'
 
 let g:markdown_fenced_languages = ['mermaid']
-let g:mkdp_theme = 'dark'
+let g:mkdp_theme = 'light'
 let g:mkdp_auto_close = 0
 let g:mkdp_preview_options = {
     \ 'maid': {'theme': 'base'},
@@ -359,6 +363,38 @@ function _G.unload_packages()
 end
 EOF
 
+
+" --------------------------------------------------
+" [Vim Tip: Paste Markdown Link with Automatic Title Fetching | Ben Congdon](https://benjamincongdon.me/blog/2020/06/27/Vim-Tip-Paste-Markdown-Link-with-Automatic-Title-Fetching/)
+" --------------------------------------------------
+function GetURLTitle(url)
+    " Bail early if the url obviously isn't a URL.
+    if a:url !~ '^https\?://'
+        return ""
+    endif
+
+    " Use Python/BeautifulSoup to get link's page title.
+    let title = system("python3 -c \"import bs4, requests; print(bs4.BeautifulSoup(requests.get('" . a:url . "').content, 'lxml').title.text.strip())\"")
+
+    " Echo the error if getting title failed.
+    if v:shell_error != 0
+        echom title
+        return ""
+    endif
+
+    " Strip trailing newline
+    return substitute(title, '\n', '', 'g')
+endfunction
+
+function PasteMDLink()
+    let url = getreg("*")  " Get the URL from the clipboard.
+    let title = GetURLTitle(url)
+    let mdLink = printf("[%s](%s)", title, url)
+    execute "normal! a" . mdLink . "\<Esc>"
+endfunction
+
+" Make a keybinding (mnemonic: "mark down paste")
+nmap <Leader>mdp :call PasteMDLink()<cr>
 
 " --------------------------------------------------
 " Lua
