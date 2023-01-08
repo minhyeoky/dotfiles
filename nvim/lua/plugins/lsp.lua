@@ -15,7 +15,6 @@ local SERVERS = {
   "dockerls",
   "cssls",
   "rust_analyzer",
-  "marksman",
   "clangd",
   "zk",
   "grammarly",
@@ -45,6 +44,19 @@ cmp.setup({
   }, {
     { name = "buffer" },
   }),
+  formatting = {
+    format = require('lspkind').cmp_format({
+      mode = 'symbol_text',
+      before = function (entry, vim_item)
+        vim_item.menu = ({
+          nvim_lsp = "[LSP]",
+          buffer = "[BUF]",
+          ultisnips = "[US]",
+        })[entry.source.name]
+        return vim_item
+      end,
+    })
+  },
 })
 
 -- Set configuration for specific filetype.
