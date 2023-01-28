@@ -42,7 +42,6 @@ alt - f         : yabai -m window --toggle zoom-fullscreen
 shift + alt - f : yabai -m window --toggle native-fullscreen
 
 # Open Alacritty
-cmd - return: open /Applications/Alacritty.app
 
 # Rotate windows clockwise and anticlockwise
 alt - r         : yabai -m space --rotate 270
