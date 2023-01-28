@@ -8,6 +8,7 @@
 filetype plugin indent on
 syntax on
 let g:mapleader=','
+let g:python3_host_prog = '/usr/bin/python3'
 
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 autocmd TextChanged,TextChangedI *.md silent write
@@ -16,8 +17,7 @@ autocmd TextChanged,TextChangedI *.md silent write
 autocmd FileType json set foldmethod=indent
 autocmd FileType mermaid set foldmethod=indent
 autocmd FileType dart set foldmethod=indent
-autocmd FileType markdown set foldmethod=indent
-autocmd FileType markdown set foldlevel=0
+autocmd FileType markdown set foldlevel=2
 autocmd FileType markdown set shiftwidth=2
 
 " ------------------------------------------------
@@ -28,6 +28,7 @@ set encoding=utf-8
 set fileencoding=utf-8
 set number
 set relativenumber
+set concealcursor=nc
 
 " Tab Options
 set expandtab " escape: CTRL+V<Tab>
@@ -152,8 +153,8 @@ Plug 'ludovicchabant/vim-gutentags'
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'lewis6991/gitsigns.nvim'
-
 " File explorer
+
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
@@ -186,9 +187,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
 " Markdown Preview
-Plug 'ellisonleao/glow.nvim', { 'branch': 'main' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install ' }
-Plug 'AndrewRadev/inline_edit.vim'
 
 let g:markdown_fenced_languages = ['mermaid']
 let g:mkdp_theme = 'light'
@@ -200,14 +199,17 @@ let g:mkdp_preview_options = {
 
 " Note
 Plug 'mickael-menu/zk-nvim'
-
-Plug 'folke/trouble.nvim'
-"
-"" Syntax
+Plug 'AndrewRadev/inline_edit.vim'
+Plug 'jkramer/vim-checkbox'
 Plug 'mracos/mermaid.vim'
 Plug 'aklt/plantuml-syntax'
-Plug 'dhruvasagar/vim-table-mode'
 Plug 'junegunn/vim-emoji'
+Plug 'lukas-reineke/headlines.nvim'
+" Plug 'dhruvasagar/vim-table-mode'
+nnoremap <silent> <space> :call checkbox#ToggleCB()<cr>
+
+" Quickfix & Loclist
+Plug 'folke/trouble.nvim'
 
 call plug#end()
 set completefunc=emoji#complete
@@ -263,6 +265,16 @@ command! -bang -nargs=* ZkGrep
 nmap <Leader>dr :DotSearch!<CR>
 nmap <Leader>df :DotFiles!<CR>
 nmap <Leader>zr :ZkGrep!<CR>
+
+command! -bang Todo
+  \ call fzf#vim#grep(
+  \ 'rg --column --line-number --no-heading --color=always --smart-case -e ' . shellescape('[ ]*\- \[ \]'),
+  \ 1,
+  \ fzf#vim#with_preview({'dir': $ZK_NOTEBOOK_DIR}),
+  \ <bang>0
+  \)
+nmap <leader>td :Todo<cr>
+nmap <leader>tD :Todo!<cr>
 
 " --------------------------------------------------
 " NerdTree
@@ -336,7 +348,8 @@ let g:tagbar_type_markdown = {
 " --------------------------------------------------
 
 " Run Git command in the new tab.
-noremap <leader>gs :tab Git<cr>
+noremap <leader>gs :Git<cr>
+noremap <leader>gS :tab Git<cr>
 
 " Set foldmethod for git
 autocmd FileType gitcommit,git set foldmethod=syntax
@@ -400,10 +413,6 @@ nmap <Leader>mdp :call PasteMDLink()<cr>
 " Lua
 " --------------------------------------------------
 lua require("init")
-lua require("plugins.lsp")
-lua require("plugins.gitsigns")
-lua require("plugins.treesitter")
-lua require("plugins.taskzk")
 
 lua << END
 -- 1: relative, 2: absolute.
