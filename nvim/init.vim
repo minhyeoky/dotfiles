@@ -115,13 +115,6 @@ call plug#begin('~/.vim/plugged')
 " ------------------------------------------------
 " Plugins
 " ------------------------------------------------
-function SourceIfExistsInVimDir(name)
-  let l:file_path = $HOME . "/.vim/" . a:name
-  if !empty(glob(l:file_path))
-    execute "source" l:file_path
-  endif
-endfunction
-
 " Session & Startup
 Plug 'mhinz/vim-startify'
 Plug 'ferrine/md-img-paste.vim'
