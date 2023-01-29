@@ -158,6 +158,22 @@ require("nvim-treesitter.configs").setup {
   },
 }
 
+--------------------------------------------------------------------------------
+-- headlines.nvim
+--------------------------------------------------------------------------------
+vim.cmd [[highlight Orange guifg=#D19A66 gui=bold]]
+
+require("headlines").setup({
+  markdown = {
+    dash_highlight = "Orange",
+    dash_string = "—",
+    quote_highlight = "Orange",
+    quote_string = "┃",
+    fat_headlines = false,
+    -- fat_headline_upper_string = "▃",
+    -- fat_headline_lower_string = "▀",
+  },
+})
 
 --------------------------------------------------------------------------------
 -- nvim-lspconfig
