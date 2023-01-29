@@ -4,21 +4,21 @@
 --------------------------------------------------------------------------------
 -- gitsigns
 --------------------------------------------------------------------------------
-require("gitsigns").setup {
+require("gitsigns").setup({
   signs = {
-    add          = {hl = "GitSignsAdd"   , text = "│", numhl="GitSignsAddNr"   , linehl="GitSignsAddLn"},
-    change       = {hl = "GitSignsChange", text = "│", numhl="GitSignsChangeNr", linehl="GitSignsChangeLn"},
-    delete       = {hl = "GitSignsDelete", text = "_", numhl="GitSignsDeleteNr", linehl="GitSignsDeleteLn"},
-    topdelete    = {hl = "GitSignsDelete", text = "‾", numhl="GitSignsDeleteNr", linehl="GitSignsDeleteLn"},
-    changedelete = {hl = "GitSignsChange", text = "~", numhl="GitSignsChangeNr", linehl="GitSignsChangeLn"},
+    add = { hl = "GitSignsAdd", text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+    change = { hl = "GitSignsChange", text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+    delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+    topdelete = { hl = "GitSignsDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+    changedelete = { hl = "GitSignsChange", text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
   },
-  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
-  numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
-  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
-  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
+  numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
   watch_gitdir = {
     interval = 1000,
-    follow_files = true
+    follow_files = true,
   },
   attach_to_untracked = true,
   current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
@@ -39,12 +39,12 @@ require("gitsigns").setup {
     style = "minimal",
     relative = "cursor",
     row = 0,
-    col = 1
+    col = 1,
   },
   yadm = {
-    enable = false
+    enable = false,
   },
-}
+})
 
 --------------------------------------------------------------------------------
 -- tokyonight
@@ -127,7 +127,12 @@ local opts = { noremap = true, silent = false }
 
 vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", opts)
 vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", opts)
-vim.api.nvim_set_keymap("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { 'private' } }<CR>", opts)
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>zf",
+  "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { 'private' } }<CR>",
+  opts
+)
 vim.api.nvim_set_keymap("n", "<leader>zF", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", opts)
 vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", opts)
 vim.api.nvim_create_user_command("ZkFiles", ":call fzf#vim#files($ZK_NOTEBOOK_DIR,<bang>0)", { bang = true })
@@ -138,15 +143,15 @@ vim.api.nvim_create_user_command("ZkTodos", ":lua require('plugins.taskzk').find
 --------------------------------------------------------------------------------
 -- nvim-treesitter
 --------------------------------------------------------------------------------
-require("nvim-treesitter.configs").setup {
+require("nvim-treesitter.configs").setup({
   highlight = {
     enable = true,
     disable = function(_, buf)
-        local max_filesize = 1024 * 1024 -- 1MiB
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-        if ok and stats and stats.size > max_filesize then
-            return true
-        end
+      local max_filesize = 1024 * 1024 -- 1MiB
+      local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+      if ok and stats and stats.size > max_filesize then
+        return true
+      end
     end,
     additional_vim_regex_highlighting = {},
   },
@@ -156,12 +161,12 @@ require("nvim-treesitter.configs").setup {
   textobjects = {
     enable = true,
   },
-}
+})
 
 --------------------------------------------------------------------------------
 -- headlines.nvim
 --------------------------------------------------------------------------------
-vim.cmd [[highlight Orange guifg=#D19A66 gui=bold]]
+vim.cmd([[highlight Orange guifg=#D19A66 gui=bold]])
 
 require("headlines").setup({
   markdown = {
@@ -226,9 +231,9 @@ cmp.setup({
     { name = "orgmode" },
   }),
   formatting = {
-    format = require('lspkind').cmp_format({
-      mode = 'symbol_text',
-      before = function (entry, vim_item)
+    format = require("lspkind").cmp_format({
+      mode = "symbol_text",
+      before = function(entry, vim_item)
         vim_item.menu = ({
           nvim_lsp = "[LSP]",
           buffer = "[BUF]",
@@ -236,7 +241,7 @@ cmp.setup({
         })[entry.source.name]
         return vim_item
       end,
-    })
+    }),
   },
 })
 
@@ -359,8 +364,9 @@ for _, lsp in ipairs(SERVERS) do
   elseif lsp == "html" then
     config["capabilities"].textDocument.completion.completionItem.snippetSupport = true
   elseif lsp == "pyright" then
-    config["root_dir"] = require("lspconfig.util").root_pattern(unpack({ "requirements.txt", "pyproject.toml", "setup.py",
-      "setup.cfg" }))
+    config["root_dir"] = require("lspconfig.util").root_pattern(
+      unpack({ "requirements.txt", "pyproject.toml", "setup.py", "setup.cfg" })
+    )
   end
 
   -- Setup
