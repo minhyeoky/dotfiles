@@ -20,6 +20,16 @@ autocmd FileType dart set foldmethod=indent
 autocmd FileType markdown set foldlevel=2
 autocmd FileType markdown set shiftwidth=2
 
+function ZkAutoCommit()
+  let date = system("date")
+  let path = expand('%:p:h')
+  if path =~ "^" . $ZK_NOTEBOOK_DIR
+    call system("cd " . $ZK_NOTEBOOK_DIR . " && git add " . expand('%:p') . " && git commit -m " . shellescape(date))
+  endif
+endfunction
+
+autocmd BufWritePost *.md :call ZkAutoCommit()
+
 " ------------------------------------------------
 " Options
 " ------------------------------------------------
