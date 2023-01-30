@@ -96,7 +96,9 @@ inoremap <c-k> <Esc>:m .-2<CR>==gi
 vnoremap <c-j> :m '>+1<CR>gv=gv
 vnoremap <c-k> :m '<-2<CR>gv=gv
 
+" Use Snippets instead. (UltiSnips, etc)
 noremap <leader>mt :r!echo "\#\# \c" && date "+\%Y-\%m-\%d (\%a)"<CR>
+noremap <leader>mr :r!echo "\#\# References"<CR>
 
 
 " Reload .vimrc
