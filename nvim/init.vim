@@ -46,7 +46,6 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2  " when using `>`
 set smartindent
-"set termguicolors
 
 " Fold Options
 set foldlevel=2
@@ -158,10 +157,9 @@ Plug 'ludovicchabant/vim-gutentags'
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'lewis6991/gitsigns.nvim'
-" File explorer
 
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" File explorer
+Plug 'nvim-tree/nvim-tree.lua'
 
 " Session manager
 Plug 'mhinz/vim-startify'
@@ -280,17 +278,6 @@ command! -bang Todo
   \)
 nmap <leader>td :Todo<cr>
 nmap <leader>tD :Todo!<cr>
-
-" --------------------------------------------------
-" NerdTree
-" --------------------------------------------------
-map <C-n> :NERDTreeToggle<CR>
-
-let NERDTreeShowLineNumbers=1
-autocmd FileType nerdtree setlocal relativenumber
-
-" Close if the only window is a NERDTree
-let NERDTreeIgnore=['\.pyc$', '\~$', '__pycache__'] " ignore files in NERD Tree
 
 " --------------------------------------------------
 " tagbar
