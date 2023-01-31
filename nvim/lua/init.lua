@@ -1,32 +1,6 @@
 -- AUTHOR: Minhyeok Lee
 -- TODO: Migrate to Packer.
 
--------------------------------------------------------------------------------
--- nvim-tree.lua
--------------------------------------------------------------------------------
-
--- Disable netrw
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
--- Enable highlight groups
-vim.opt.termguicolors = true
-
-require("nvim-tree").setup({
-  view = {
-    relativenumber = true,
-  },
-  diagnostics = {
-    enable = true,
-    severity = {
-      min = vim.diagnostic.severity.ERROR,
-      max = vim.diagnostic.severity.ERROR,
-    },
-  },
-})
-
-vim.api.nvim_set_keymap("n", "<C-n>", "<Cmd>NvimTreeToggle<CR>", { noremap = true, silent = false })
-
 --------------------------------------------------------------------------------
 -- gitsigns
 --------------------------------------------------------------------------------
@@ -71,10 +45,6 @@ require("gitsigns").setup({
     enable = false,
   },
 })
-
--- vim.api.nvim_set_keymap("n", "<leader>ghs", "<Cmd>lua require('gitsigns').stage_hunk()<CR>", { noremap = true, silent = false })
--- vim.api.nvim_set_keymap("n", "<leader>ghu", "<Cmd>lua require('gitsigns').stage_hunk()<CR>", { noremap = true, silent = false })
-vim.api.nvim_set_keymap("n", "<leader>gb", "<Cmd>Git blame<CR>", { noremap = true, silent = false })
 
 --------------------------------------------------------------------------------
 -- tokyonight
