@@ -70,7 +70,7 @@ require("mason-lspconfig").setup({
     "pyright",
     "bashls",
     "jsonls",
-    "sumneko_lua",
+    "lua_ls",
     "html",
     "jdtls",
     "tsserver",
@@ -192,7 +192,7 @@ local SERVERS = {
   "pyright",
   "bashls",
   "jsonls",
-  "sumneko_lua",
+  "lua_ls",
   "flutter-tools",
   "html",
   "jdtls",
@@ -314,7 +314,7 @@ for _, lsp in ipairs(SERVERS) do
   }
 
   -- LSP specific settings ...
-  if lsp == "sumneko_lua" then
+  if lsp == "lua_ls" then
     config["settings"] = {
       Lua = {
         runtime = {
