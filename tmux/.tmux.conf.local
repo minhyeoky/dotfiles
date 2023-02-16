@@ -308,7 +308,6 @@ set-option -g status-position top
 
 bind-key -r C-p next-window
 bind-key -r C-n previous-window
-bind-key C-a last-pane
 
 bind-key -r ) run-shell -b "alacritty-opacity increase 0.1"
 bind-key -r ( run-shell -b "alacritty-opacity decrease 0.1"
