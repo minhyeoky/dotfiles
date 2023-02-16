@@ -10,6 +10,8 @@ syntax on
 let g:mapleader=','
 let g:python3_host_prog = '/usr/bin/python3'
 
+autocmd FileType help,man setlocal relativenumber
+
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 autocmd TextChanged,TextChangedI *.md silent write
 
@@ -17,7 +19,7 @@ autocmd TextChanged,TextChangedI *.md silent write
 autocmd FileType json set foldmethod=indent
 autocmd FileType mermaid set foldmethod=indent
 autocmd FileType dart set foldmethod=indent
-autocmd FileType markdown set foldlevel=2
+autocmd FileType markdown set foldlevel=1
 autocmd FileType markdown set shiftwidth=2
 
 function ZkAutoCommit()
@@ -46,7 +48,7 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2  " when using `>`
 set smartindent
-"set termguicolors
+set termguicolors
 
 " Fold Options
 set foldlevel=2
@@ -111,9 +113,10 @@ noremap <Leader>c :let &cole=(&cole == 2) ? 0 : 2 <bar> echo 'conceallevel ' . &
 " Move to current buffer directory
 noremap <leader>cd :tcd %:h<CR>
 
+vnoremap <C-C> "*y
+
 " command! Scratch lua require'tools'.makeScratch()
 call plug#begin('~/.vim/plugged')
-
 " ------------------------------------------------
 " Plugins
 " ------------------------------------------------
@@ -449,16 +452,3 @@ require('lualine').setup{
   },
 }
 END
-
-
-" --------------------------------------------------
-" Trouble
-" --------------------------------------------------
-lua require("trouble").setup{}
-
-nnoremap <leader>xx <cmd>TroubleToggle<cr>
-nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
-nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
-nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
-nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
-nnoremap gR <cmd>TroubleToggle lsp_references<cr>
