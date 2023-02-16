@@ -2,6 +2,33 @@
 -- TODO: Migrate to Packer.
 
 --------------------------------------------------------------------------------
+-- trouble
+--------------------------------------------------------------------------------
+require("trouble").setup({
+  mode = "document_diagnostics",
+  auto_preview = false,
+  auto_fold = true,
+})
+vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
+  {silent = true, noremap = true}
+)
+
+--------------------------------------------------------------------------------
 -- gitsigns
 --------------------------------------------------------------------------------
 require("gitsigns").setup({
@@ -88,7 +115,7 @@ require("null-ls").setup({
   sources = {
     -- require("null-ls").builtins.diagnostics.actionlint,
     -- require("null-ls").builtins.diagnostics.codespell,
-    -- require("null-ls").builtins.diagnostics.pylint,
+    require("null-ls").builtins.diagnostics.pylint,
     require("null-ls").builtins.diagnostics.shellcheck,
     -- require("null-ls").builtins.diagnostics.eslint,
     -- require("null-ls").builtins.diagnostics.gitlint,
@@ -97,7 +124,7 @@ require("null-ls").setup({
     -- require("null-ls").builtins.diagnostics.misspell,
 
     require("null-ls").builtins.formatting.stylua,
-    -- require("null-ls").builtins.formatting.black,
+    require("null-ls").builtins.formatting.black,
     -- require("null-ls").builtins.formatting.isort,
     require("null-ls").builtins.formatting.jq,
     -- require("null-ls").builtins.formatting.shfmt,
@@ -125,6 +152,7 @@ require("zk").setup({
 })
 local opts = { noremap = true, silent = false }
 
+vim.api.nvim_set_keymap("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", opts)
 vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", opts)
 vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", opts)
 vim.api.nvim_set_keymap(
@@ -202,7 +230,6 @@ local SERVERS = {
   "rust_analyzer",
   "clangd",
   "zk",
-  -- "grammarly",
 }
 
 -------------------------------------------------------------------------------
