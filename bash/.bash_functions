@@ -36,4 +36,10 @@ function cd {
     # shellcheck disable=SC2046
     export $(grep -v '^#' .auto_env | xargs) > /dev/null && echo "Exported .env_auto"
   fi
+
+  # Check if there is a .localrc file and source it.
+  if [[ -f .localrc ]]; then
+    # shellcheck disable=SC1091
+    source .localrc && echo "Sourced .localrc"
+  fi
 }
