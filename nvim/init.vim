@@ -32,6 +32,8 @@ endfunction
 
 autocmd BufWritePost *.md :call ZkAutoCommit()
 
+autocmd BufRead .localrc set filetype=bash
+
 " ------------------------------------------------
 " Options
 " ------------------------------------------------
