@@ -117,6 +117,9 @@ noremap <leader>cd :tcd %:h<CR>
 
 vnoremap <C-C> "*y
 
+" Terminal
+tnoremap <c-w> <c-\><c-n>
+
 " command! Scratch lua require'tools'.makeScratch()
 call plug#begin('~/.vim/plugged')
 " ------------------------------------------------
@@ -182,6 +185,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 " Colorscheme
 Plug 'ryanoasis/vim-devicons'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'chrisbra/Colorizer'
 
 " Language
 Plug 'dart-lang/dart-vim-plugin'
@@ -215,7 +219,6 @@ Plug 'mracos/mermaid.vim'
 Plug 'aklt/plantuml-syntax'
 Plug 'junegunn/vim-emoji'
 Plug 'lukas-reineke/headlines.nvim'
-" Plug 'dhruvasagar/vim-table-mode'
 nnoremap <silent> <space> :call checkbox#ToggleCB()<cr>
 
 " Quickfix & Loclist
