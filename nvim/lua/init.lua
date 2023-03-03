@@ -142,32 +142,6 @@ require("null-ls").setup({
   },
 })
 
-require("zk").setup({
-  picker = "fzf",
-  lsp = {
-    auto_attach = {
-      enabled = false,
-    },
-  },
-})
-local opts = { noremap = true, silent = false }
-
-vim.api.nvim_set_keymap("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", opts)
-vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", opts)
-vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", opts)
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>zf",
-  "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { 'private' } }<CR>",
-  opts
-)
-vim.api.nvim_set_keymap("n", "<leader>zF", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", opts)
-vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", opts)
-vim.api.nvim_create_user_command("ZkFiles", ":call fzf#vim#files($ZK_NOTEBOOK_DIR,<bang>0)", { bang = true })
-vim.api.nvim_create_user_command("ZkLink", ":lua require('plugins.taskzk').link()", {})
-vim.api.nvim_create_user_command("ZkReferences", ":lua require('plugins.taskzk').references()", {})
-vim.api.nvim_create_user_command("ZkTodos", ":lua require('plugins.taskzk').find_todos_by_tag()", {})
-
 --------------------------------------------------------------------------------
 -- nvim-treesitter
 --------------------------------------------------------------------------------
@@ -229,7 +203,6 @@ local SERVERS = {
   "cssls",
   "rust_analyzer",
   "clangd",
-  "zk",
 }
 
 -------------------------------------------------------------------------------
@@ -303,6 +276,7 @@ cmp.setup.cmdline(":", {
 -- Configurations: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 -------------------------------------------------------------------------------
 
+local lsp_map_opts = { noremap = true, silent = true }
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(_, bufnr)
@@ -311,27 +285,26 @@ local on_attach = function(_, bufnr)
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local opts = { noremap = true, silent = true }
-  vim.api.nvim_set_keymap("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-  vim.api.nvim_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-  vim.api.nvim_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-  vim.api.nvim_set_keymap("n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", '"', "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  vim.api.nvim_set_keymap("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", lsp_map_opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", lsp_map_opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", lsp_map_opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", lsp_map_opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", lsp_map_opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", lsp_map_opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", '"', "<cmd>lua vim.lsp.buf.signature_help()<CR>", lsp_map_opts)
   vim.api.nvim_buf_set_keymap(
     bufnr,
     "n",
     "<leader>wl",
     "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
-    opts
+    lsp_map_opts
   )
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.lsp.buf.format({ async = false })<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", lsp_map_opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", lsp_map_opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.lsp.buf.format({ async = false })<CR>", lsp_map_opts)
 end
 
 for _, lsp in ipairs(SERVERS) do
@@ -401,3 +374,34 @@ for _, lsp in ipairs(SERVERS) do
 
   ::continue::
 end
+
+-------------------------------------------------------------------------------
+-- zk
+-------------------------------------------------------------------------------
+require("zk").setup({
+  picker = "fzf",
+  lsp = {
+    auto_attach = {
+      enabled = true,
+    },
+    config = {
+      on_attach = on_attach,
+    },
+  },
+})
+
+vim.api.nvim_set_keymap("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", lsp_map_opts)
+vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", lsp_map_opts)
+vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", lsp_map_opts)
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>zf",
+  "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { 'private' } }<CR>",
+  lsp_map_opts
+)
+vim.api.nvim_set_keymap("n", "<leader>zF", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", lsp_map_opts)
+vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
+vim.api.nvim_create_user_command("ZkFiles", ":call fzf#vim#files($ZK_NOTEBOOK_DIR,<bang>0)", { bang = true })
+vim.api.nvim_create_user_command("ZkLink", ":lua require('plugins.taskzk').link()", {})
+vim.api.nvim_create_user_command("ZkReferences", ":lua require('plugins.taskzk').references()", {})
+vim.api.nvim_create_user_command("ZkTodos", ":lua require('plugins.taskzk').find_todos_by_tag()", {})
