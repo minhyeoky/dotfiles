@@ -84,7 +84,6 @@ DISABLE_MAGIC_FUNCTIONS=true
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-git
 zsh-syntax-highlighting
 zsh-autosuggestions
 tmux
