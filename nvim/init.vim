@@ -281,7 +281,7 @@ nmap <Leader>zr :ZkGrep!<CR>
 
 command! -bang Todo
   \ call fzf#vim#grep(
-  \ 'rg --column --line-number --no-heading --color=always --smart-case -e ' . shellescape('[ ]*\- \[ \]'),
+  \ 'rg --column --line-number --no-heading --color=always --smart-case -e ' . shellescape('^[ ]*\- \[ \]'),
   \ 1,
   \ fzf#vim#with_preview({'dir': $ZK_NOTEBOOK_DIR}),
   \ <bang>0
