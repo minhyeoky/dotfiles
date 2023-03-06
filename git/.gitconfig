@@ -38,13 +38,10 @@ email = minhyeok.lee95@gmail.com
 [rerere]
 enabled = true
 [diff]
-tool = vimdiff
-[merge]
-tool = vimdiff
+tool = nvimdiff
 [difftool]
-prompt = false
-[mergetool]
-prompt = false
-keepBackup = false
+prompt = true
+[difftool "nvimdiff"]
+cmd = "nvim -d -c \"wincmd l\" -c \"lua vim.diagnostic.disable(1)\" \"$LOCAL\" \"$REMOTE\""
 [pull]
 rebase = false

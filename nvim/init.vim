@@ -166,6 +166,7 @@ Plug 'ludovicchabant/vim-gutentags'
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'sindrets/diffview.nvim'
 " File explorer
 
 Plug 'preservim/nerdtree'
