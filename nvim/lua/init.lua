@@ -1,7 +1,6 @@
 -- AUTHOR: Minhyeok Lee
 -- TODO: Migrate to Packer.
 
-
 --------------------------------------------------------------------------------
 -- TODO: WIP
 --------------------------------------------------------------------------------
@@ -15,24 +14,12 @@ require("trouble").setup({
   auto_preview = false,
   auto_fold = true,
 })
-vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
-  {silent = true, noremap = true}
-)
-vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
-  {silent = true, noremap = true}
-)
-vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
-  {silent = true, noremap = true}
-)
-vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
-  {silent = true, noremap = true}
-)
-vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
-  {silent = true, noremap = true}
-)
-vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
-  {silent = true, noremap = true}
-)
+vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
 
 --------------------------------------------------------------------------------
 -- gitsigns
@@ -118,10 +105,13 @@ require("mason-lspconfig").setup({
 -- NOTE: nvim --headless -c "MasonInstall codespell actionlint shellcheck hadolint stylua jq shfmt cbfmt" -c "qall"
 --------------------------------------------------------------------------------
 require("null-ls").setup({
+  debug = true,
   sources = {
     -- require("null-ls").builtins.diagnostics.actionlint,
     -- require("null-ls").builtins.diagnostics.codespell,
-    require("null-ls").builtins.diagnostics.pylint,
+    require("null-ls").builtins.diagnostics.pylint.with({
+      args = { "--from-stdin", "$FILENAME", "-f", "json", "--rcfile", "$PYLINTRC" },
+    }),
     require("null-ls").builtins.diagnostics.shellcheck,
     -- require("null-ls").builtins.diagnostics.eslint,
     -- require("null-ls").builtins.diagnostics.gitlint,
@@ -230,22 +220,28 @@ cmp.setup({
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
   }),
   sources = cmp.config.sources({
+    {
+      name = "buffer",
+      option = {
+        get_bufnrs = function()
+          return vim.api.nvim_list_bufs()
+        end,
+      }
+    },
     { name = "nvim_lsp" },
-    { name = "ultisnips" },
+    --{ name = "ultisnips" },
+    { name = "nvim_lsp_signature_help" },
     { name = "jira" },
-  }, {
-    { name = "buffer" },
-    { name = "orgmode" },
-  }),
+  }, {}),
   formatting = {
     format = require("lspkind").cmp_format({
       mode = "symbol_text",
       before = function(entry, vim_item)
         vim_item.menu = ({
-          nvim_lsp = "[LSP]",
-          buffer = "[BUF]",
-          ultisnips = "[US]",
-        })[entry.source.name]
+              nvim_lsp = "[LSP]",
+              buffer = "[BUF]",
+              ultisnips = "[US]",
+            })[entry.source.name]
         return vim_item
       end,
     }),
@@ -311,7 +307,13 @@ local on_attach = function(_, bufnr)
   )
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", lsp_map_opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", lsp_map_opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.lsp.buf.format({ async = false })<CR>", lsp_map_opts)
+  vim.api.nvim_buf_set_keymap(
+    bufnr,
+    "n",
+    "<leader>f",
+    "<cmd>lua vim.lsp.buf.format({ async = false })<CR>",
+    lsp_map_opts
+  )
 end
 
 for _, lsp in ipairs(SERVERS) do
@@ -397,18 +399,17 @@ require("zk").setup({
   },
 })
 
+local zk_notebook_dir = vim.env.ZK_NOTEBOOK_DIR
+
 vim.api.nvim_set_keymap("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", lsp_map_opts)
 vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", lsp_map_opts)
 vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", lsp_map_opts)
+vim.api.nvim_set_keymap("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", lsp_map_opts)
+vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
+vim.api.nvim_set_keymap("n", "<leader>zw", "<CMD>ZkNew { dir = '" .. zk_notebook_dir .. "/diary' }<CR>", lsp_map_opts)
 vim.api.nvim_set_keymap(
   "n",
-  "<leader>zf",
-  "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { 'private' } }<CR>",
+  "<leader>zz",
+  "<CMD>ZkNotes { sort = { 'modified' }, tags = { 'Index' } }<CR>",
   lsp_map_opts
 )
-vim.api.nvim_set_keymap("n", "<leader>zF", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", lsp_map_opts)
-vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
-vim.api.nvim_create_user_command("ZkFiles", ":call fzf#vim#files($ZK_NOTEBOOK_DIR,<bang>0)", { bang = true })
-vim.api.nvim_create_user_command("ZkLink", ":lua require('plugins.taskzk').link()", {})
-vim.api.nvim_create_user_command("ZkReferences", ":lua require('plugins.taskzk').references()", {})
-vim.api.nvim_create_user_command("ZkTodos", ":lua require('plugins.taskzk').find_todos_by_tag()", {})
