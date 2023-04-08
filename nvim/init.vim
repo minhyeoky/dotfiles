@@ -8,9 +8,10 @@
 filetype plugin indent on
 syntax on
 let g:mapleader=','
-let g:python3_host_prog = '/usr/bin/python3'
+let g:python3_host_prog = '/opt/homebrew/bin/python3'
 
 autocmd FileType help,man setlocal relativenumber
+autocmd FileType help,man setlocal number
 
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
 autocmd TextChanged,TextChangedI *.md silent write
@@ -19,7 +20,7 @@ autocmd TextChanged,TextChangedI *.md silent write
 autocmd FileType json set foldmethod=indent
 autocmd FileType mermaid set foldmethod=indent
 autocmd FileType dart set foldmethod=indent
-autocmd FileType markdown set foldlevel=1
+autocmd FileType markdown set foldlevel=2
 autocmd FileType markdown set shiftwidth=2
 
 function ZkAutoCommit()
@@ -42,7 +43,7 @@ set encoding=utf-8
 set fileencoding=utf-8
 set number
 set relativenumber
-set concealcursor=nc
+set cmdheight=0
 
 " Tab Options
 set expandtab " escape: CTRL+V<Tab>
@@ -143,6 +144,7 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'onsails/lspkind-nvim'
 
 Plug 'github/copilot.vim'
@@ -221,6 +223,9 @@ Plug 'aklt/plantuml-syntax'
 Plug 'junegunn/vim-emoji'
 Plug 'lukas-reineke/headlines.nvim'
 nnoremap <silent> <space> :call checkbox#ToggleCB()<cr>
+
+" Log Syntax
+Plug 'dzeban/vim-log-syntax'
 
 " Quickfix & Loclist
 Plug 'folke/trouble.nvim'
@@ -372,8 +377,8 @@ autocmd FileType gitcommit,git set foldlevel=0
 " --------------------------------------------------
 " ultisnips
 " --------------------------------------------------
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+"let g:UltiSnipsJumpForwardTrigger="<tab>"
+"let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " --------------------------------------------------
 " ETC
@@ -413,15 +418,16 @@ function GetURLTitle(url)
     return substitute(title, '\n', '', 'g')
 endfunction
 
-function PasteMDLink()
+function PasteMDLink(placeholder)
     let url = getreg("*")  " Get the URL from the clipboard.
     let title = GetURLTitle(url)
-    let mdLink = printf("[%s](%s)", title, url)
+    let mdLink = printf(a:placeholder, title, url)
     execute "normal! a" . mdLink . "\<Esc>"
 endfunction
 
 " Make a keybinding (mnemonic: "mark down paste")
-nmap <Leader>mdp :call PasteMDLink()<cr>
+nmap <Leader>mdp :call PasteMDLink("[%s](%s)")<cr>
+nmap <Leader>mdP :call PasteMDLink("[%s]: %s")<cr>
 
 " --------------------------------------------------
 " Lua
