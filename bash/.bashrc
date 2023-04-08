@@ -69,4 +69,5 @@ export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode – cyan
 export JDTLS_JVM_ARGS="-javaagent:$HOME/lombok.jar"
 export ANDROID_HOME="/Users/minhyeoky/Library/Android/sdk"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
+export PATH="$PATH":"$DOTFILES_PATH/scripts"
 export BAT_THEME="Enki-Tokyo-Night"
