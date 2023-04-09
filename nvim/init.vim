@@ -45,7 +45,7 @@ set encoding=utf-8
 set fileencoding=utf-8
 set number
 set relativenumber
-set cmdheight=0
+"set cmdheight=0  " TODO: statusline is flashing when using this option
 
 " Tab Options
 set expandtab " escape: CTRL+V<Tab>
