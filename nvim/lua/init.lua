@@ -413,3 +413,13 @@ vim.api.nvim_set_keymap(
   "<CMD>ZkNotes { sort = { 'modified' }, tags = { 'Index' } }<CR>",
   lsp_map_opts
 )
+
+-------------------------------------------------------------------------------
+-- ChatGPT
+-------------------------------------------------------------------------------
+require("chatgpt").setup({
+  keymaps = {
+    submit = "<C-s>",
+  },
+  actions_paths = { os.getenv("DOTFILES_PATH") .. "/nvim/chatgpt/actions.json" },
+})
