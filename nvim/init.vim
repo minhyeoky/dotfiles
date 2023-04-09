@@ -23,6 +23,8 @@ autocmd FileType dart set foldmethod=indent
 autocmd FileType markdown set foldlevel=2
 autocmd FileType markdown set shiftwidth=2
 
+autocmd FileType chatgpt set foldlevel=999
+
 function ZkAutoCommit()
   let date = system("date")
   let path = expand('%:p:h')
@@ -161,6 +163,11 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+Plug 'nvim-telescope/telescope.nvim'
+
+" UI
+Plug 'MunifTanjim/nui.nvim'
+
 " Tags
 Plug 'preservim/tagbar'
 Plug 'ludovicchabant/vim-gutentags'
@@ -229,6 +236,9 @@ Plug 'dzeban/vim-log-syntax'
 
 " Quickfix & Loclist
 Plug 'folke/trouble.nvim'
+
+" GPT
+Plug 'jackMort/ChatGPT.nvim'
 
 call plug#end()
 set completefunc=emoji#complete
