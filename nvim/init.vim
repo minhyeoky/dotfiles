@@ -20,7 +20,7 @@ autocmd TextChanged,TextChangedI *.md silent write
 autocmd FileType json set foldmethod=indent
 autocmd FileType mermaid set foldmethod=indent
 autocmd FileType dart set foldmethod=indent
-autocmd FileType markdown set foldlevel=2
+autocmd FileType markdown set foldlevel=999
 autocmd FileType markdown set shiftwidth=2
 
 autocmd FileType chatgpt set foldlevel=999
@@ -37,6 +37,13 @@ autocmd BufWritePost *.md :call ZkAutoCommit()
 
 autocmd BufRead .localrc set filetype=bash
 
+" Map <Tab> and <S-Tab> to move to the next and previous markdown links without highlights, respectively
+augroup markdown_links
+  autocmd!
+  autocmd FileType markdown nnoremap <buffer><silent> <Tab> /\[[^]]*\](\S\+)<CR>:set nohlsearch<CR>
+  autocmd FileType markdown nnoremap <buffer><silent> <S-Tab> ?\[[^]]*\](\S\+)<CR>:set nohlsearch<CR>
+augroup END
+
 " ------------------------------------------------
 " Options
 " ------------------------------------------------
@@ -45,6 +52,7 @@ set encoding=utf-8
 set fileencoding=utf-8
 set number
 set relativenumber
+set conceallevel=2
 "set cmdheight=0  " TODO: statusline is flashing when using this option
 
 " Tab Options
@@ -56,7 +64,7 @@ set smartindent
 set termguicolors
 
 " Fold Options
-set foldlevel=2
+set foldlevel=999
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 " Force re-compute folds because i'm using nvim_treesitter#foldexpr as primary foldmethod for markdown.
