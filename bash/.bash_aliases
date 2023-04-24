@@ -45,13 +45,3 @@ alias gcp='git cherry-pick'
 alias gsrf='git secret reveal -f'
 alias gshm='git secret hide -m'
 alias clean_branches="git branch | grep -v "master" | xargs git branch -D"
-
-
-# --------------------------------------------------------------------------------
-# taskwarrior
-# --------------------------------------------------------------------------------
-alias t='task'
-alias tA='task +ACTIVE'
-alias tzk='taskzk'
-alias tls='task ls'
-alias tui='taskwarrior-tui'
