@@ -1,5 +1,6 @@
 -- AUTHOR: Minhyeok Lee
 -- TODO: Migrate to Packer.
+vim.api.nvim_set_keymap("n", "<leader>S", "<cmd>Startify<cr>", { silent = true, noremap = true })
 
 --------------------------------------------------------------------------------
 -- TODO: WIP
@@ -33,8 +34,8 @@ require("gitsigns").setup({
     changedelete = { hl = "GitSignsChange", text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
   },
   signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-  numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
-  linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+  numhl = false,    -- Toggle with `:Gitsigns toggle_numhl`
+  linehl = false,   -- Toggle with `:Gitsigns toggle_linehl`
   word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
   watch_gitdir = {
     interval = 1000,
@@ -226,7 +227,7 @@ cmp.setup({
         get_bufnrs = function()
           return vim.api.nvim_list_bufs()
         end,
-      }
+      },
     },
     { name = "nvim_lsp" },
     --{ name = "ultisnips" },
@@ -238,10 +239,10 @@ cmp.setup({
       mode = "symbol_text",
       before = function(entry, vim_item)
         vim_item.menu = ({
-              nvim_lsp = "[LSP]",
-              buffer = "[BUF]",
-              ultisnips = "[US]",
-            })[entry.source.name]
+          nvim_lsp = "[LSP]",
+          buffer = "[BUF]",
+          ultisnips = "[US]",
+        })[entry.source.name]
         return vim_item
       end,
     }),
@@ -418,8 +419,49 @@ vim.api.nvim_set_keymap(
 -- ChatGPT
 -------------------------------------------------------------------------------
 require("chatgpt").setup({
-  keymaps = {
+  popup_input = {
     submit = "<C-s>",
   },
   actions_paths = { os.getenv("DOTFILES_PATH") .. "/nvim/chatgpt/actions.json" },
 })
+
+vim.api.nvim_set_keymap("n", "<leader>cg", "<Cmd>ChatGPT<CR>", { silent = true })
+
+-------------------------------------------------------------------------------
+-- true-zen with twilight
+-------------------------------------------------------------------------------
+require("zen-mode").setup({
+  window = {
+    width = 120, -- colorcolumn & textwidth
+    options = {
+      signcolumn = "no",
+      cursorcolumn = false,
+      cursorline = false,
+    },
+  },
+  plugins = {
+    gitsigns = { enabled = true },
+    tmux = { enabled = true },
+    alacritty = { enabled = true },
+    options = {
+      enabled = true,
+      ruler = false,
+      showcmd = true,
+      showmode = false,
+    },
+    -- twilight = { enabled = false },
+  },
+})
+
+require("twilight").setup({
+  expand = {
+    "function",
+    "method",
+    "table",
+    "if_statement",
+    "import_statement",
+  },
+})
+
+vim.api.nvim_set_keymap("n", "<leader>Z", "<CMD>ZenMode<CR>", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>T", "<CMD>Twilight<CR>", { silent = true })
