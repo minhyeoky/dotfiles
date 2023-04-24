@@ -7,7 +7,7 @@
 " ------------------------------------------------
 filetype plugin indent on
 syntax on
-let g:mapleader=','
+let g:mapleader = ','
 let g:python3_host_prog = '/opt/homebrew/bin/python3'
 
 autocmd FileType help,man setlocal relativenumber
@@ -51,7 +51,7 @@ set completeopt=menu,menuone,noselect  " nvim-cmp
 set encoding=utf-8
 set fileencoding=utf-8
 set number
-set relativenumber
+set norelativenumber
 set conceallevel=2
 "set cmdheight=0  " TODO: statusline is flashing when using this option
 
@@ -70,11 +70,19 @@ set foldexpr=nvim_treesitter#foldexpr()
 " Force re-compute folds because i'm using nvim_treesitter#foldexpr as primary foldmethod for markdown.
 "autocmd InsertLeave *.md normal zx
 
+" inc-textwidth
+set nowrap
+set showbreak
+let &showbreak = &showbreak . '↳ '
+set textwidth=0
+set concealcursor=
+
 " ETC
 set nobackup
 set noswapfile
 set ignorecase smartcase
 set cursorline
+"set colorcolumn=80
 set colorcolumn=120
 set mouse=a
 set virtualedit=block
@@ -145,6 +153,11 @@ let g:mdip_imgdir = 'img'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'djoshea/vim-autoread'
 
+" writing
+Plug 'Pocco81/true-zen.nvim'
+Plug 'folke/zen-mode.nvim'
+Plug 'folke/twilight.nvim'
+
 " lsp
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
@@ -182,6 +195,7 @@ Plug 'ludovicchabant/vim-gutentags'
 
 " Git
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'sindrets/diffview.nvim'
 " File explorer
@@ -263,12 +277,31 @@ autocmd! CompleteDone * call <SID>Sub_movend(line('.'))
 " --------------------------------------------------
 " fzf-vim
 " --------------------------------------------------
-let g:fzf_preview_window = ['right:45%', 'ctrl-/']
+let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 
-nnoremap <silent> <leader>ff :Files!<CR>
-nnoremap <silent> <leader>ft :Tags!<CR>
-nnoremap <silent> <leader>fr :Rg!<CR>
-nnoremap <silent> <leader>fb :Buffers!<CR>
+nnoremap <silent> <leader>ff :Files<CR>
+nnoremap <silent> <leader>ft :Tags<CR>
+nnoremap <silent> <leader>fr :Rg<CR>
+nnoremap <silent> <leader>fb :Buffers<CR>
+nnoremap <silent> <leader>fc :Commits<CR>
+nnoremap <silent> <leader>fl :Lines<CR>
+nnoremap <silent> <leader>fh :History<CR>
+nnoremap <silent> <leader>fw :Windows<CR>
+
+nnoremap <silent> <leader>fF :Files!<CR>
+nnoremap <silent> <leader>fT :Tags!<CR>
+nnoremap <silent> <leader>fR :Rg!<CR>
+nnoremap <silent> <leader>fB :Buffers!<CR>
+nnoremap <silent> <leader>fC :Commits!<CR>
+nnoremap <silent> <leader>fL :Lines!<CR>
+
+nnoremap <silent> <leader>bl :BLines<CR>
+nnoremap <silent> <leader>bt :BTags<CR>
+nnoremap <silent> <leader>bc :BCommits<CR>
+
+nnoremap <silent> <leader>bL :BLines!<CR>
+nnoremap <silent> <leader>bT :BTags!<CR>
+nnoremap <silent> <leader>bC :BCommits!<CR>
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -299,9 +332,13 @@ command! -bang -nargs=* ZkGrep
   \ <bang>0
   \)
 
-nmap <Leader>dr :DotSearch!<CR>
-nmap <Leader>df :DotFiles!<CR>
-nmap <Leader>zr :ZkGrep!<CR>
+nmap <Leader>dr :DotSearch<CR>
+nmap <Leader>df :DotFiles<CR>
+nmap <Leader>zr :ZkGrep<CR>
+
+nmap <Leader>dR :DotSearch!<CR>
+nmap <Leader>dF :DotFiles!<CR>
+nmap <Leader>zR :ZkGrep!<CR>
 
 command! -bang Todo
   \ call fzf#vim#grep(
