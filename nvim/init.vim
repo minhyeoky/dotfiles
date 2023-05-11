@@ -82,8 +82,7 @@ set nobackup
 set noswapfile
 set ignorecase smartcase
 set cursorline
-"set colorcolumn=80
-set colorcolumn=120
+set colorcolumn=80
 set mouse=a
 set virtualedit=block
 set splitbelow
