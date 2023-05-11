@@ -157,3 +157,6 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
+
+# Enables vi mode in the shell
+set -o vi
