@@ -420,7 +420,7 @@ vim.api.nvim_set_keymap(
 -------------------------------------------------------------------------------
 require("chatgpt").setup({
   popup_input = {
-    submit = "<C-s>",
+    submit = "<C-S>",
   },
   actions_paths = { os.getenv("DOTFILES_PATH") .. "/nvim/chatgpt/actions.json" },
 })
