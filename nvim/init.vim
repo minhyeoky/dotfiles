@@ -276,7 +276,7 @@ autocmd! CompleteDone * call <SID>Sub_movend(line('.'))
 " --------------------------------------------------
 " fzf-vim
 " --------------------------------------------------
-let g:fzf_preview_window = ['right:50%', 'ctrl-/']
+let g:fzf_preview_window = ['right:50%', 'ctrl-_']
 
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>ft :Tags<CR>
