@@ -423,6 +423,8 @@ let g:tagbar_type_markdown = {
 " Run Git command in the new tab.
 noremap <leader>gs :Git<cr>
 noremap <leader>gS :tab Git<cr>
+noremap <leader>gb :BCommits<cr>
+noremap <leader>gB :BCommits!<cr>
 
 " Set foldmethod for git
 autocmd FileType gitcommit,git set foldmethod=syntax

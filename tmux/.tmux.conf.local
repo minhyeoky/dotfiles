@@ -123,8 +123,8 @@ tmux_conf_theme_window_status_format='#{?window_zoomed_flag,🔍,}#{?window_bell
 #     - #{hostname_ssh}
 #     - #{username}
 #     - #{username_ssh}
-tmux_conf_theme_window_status_current_fg='#c0caf5'      # black
-tmux_conf_theme_window_status_current_bg='#1a1b26'      # light blue
+tmux_conf_theme_window_status_current_fg='#1a1b26'
+tmux_conf_theme_window_status_current_bg='#7aa2f7'
 tmux_conf_theme_window_status_current_attr='bold,underscore'
 tmux_conf_theme_window_status_current_format='#{?window_zoomed_flag,🔍,}#{?window_bell_flag,🔔,}#W [#I]'
 #tmux_conf_theme_window_status_current_format='#{circled_window_index} #W'
@@ -136,12 +136,12 @@ tmux_conf_theme_window_status_activity_bg='default'
 tmux_conf_theme_window_status_activity_attr='blink'
 
 # window bell status style
-tmux_conf_theme_window_status_bell_fg='#ffff00'         # yellow
+tmux_conf_theme_window_status_bell_fg='#00afff'
 tmux_conf_theme_window_status_bell_bg='default'
 tmux_conf_theme_window_status_bell_attr='blink,bold'
 
 # window last status style
-tmux_conf_theme_window_status_last_fg='#7aa2f7'         # light blue
+tmux_conf_theme_window_status_last_fg='#7aa2f7'
 tmux_conf_theme_window_status_last_bg='default'
 tmux_conf_theme_window_status_last_attr='none'
 
@@ -180,18 +180,18 @@ tmux_conf_theme_right_separator_sub='|'
 #     - #{username}
 #     - #{username_ssh}
 #tmux_conf_theme_status_left=' ❐ #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
-tmux_conf_theme_status_left=' #S '
+tmux_conf_theme_status_left=' #S | #{pomodoro_status}'
 tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} , %R , %d %b | #{username}#{root} | #{hostname} '
 #tmux_conf_theme_status_right='| #{hostname} '
 
 
-tmux_conf_theme_status_left_fg='#15161E,#e4e4e4,#e4e4e4'  # black, white , white
-tmux_conf_theme_status_left_bg='#a9b1d6,#1a1b26,#1a1b26'  # yellow, pink, white blue
-tmux_conf_theme_status_left_attr='bold,none,none'
+tmux_conf_theme_status_left_fg='#15161E,#e4e4e4,#e4e4e4'
+tmux_conf_theme_status_left_bg='#a9b1d6,#1a1b26,#1a1b26'
+tmux_conf_theme_status_left_attr='none,bold,none'
 
 # status right style
-tmux_conf_theme_status_right_fg='#8a8a8a,#c0caf5,#1a1b26' # light gray, white, black
-tmux_conf_theme_status_right_bg='#1a1b26,#7aa2f7,#a9b1d6' # dark gray, red, white
+tmux_conf_theme_status_right_fg='#8a8a8a,#1a1b26,#1a1b26'
+tmux_conf_theme_status_right_bg='#1a1b26,#7aa2f7,#a9b1d6'
 tmux_conf_theme_status_right_attr='none,bold,bold'
 
 # pairing indicator
@@ -306,9 +306,17 @@ bind-key x kill-pane
 
 set-option -g status-position top
 
-bind-key -r C-p next-window
-bind-key -r C-n previous-window
 
 bind-key -r ) run-shell -b "alacritty-opacity increase 0.1"
 bind-key -r ( run-shell -b "alacritty-opacity decrease 0.1"
 bind-key ! run-shell "tmux new-window $DOTFILES_PATH/scripts/run-scripts.sh"
+
+# tmux-pomodoro-plus
+#set -g @plugin 'olimorris/tmux-pomodoro-plus'
+#set -g @pomodoro_notifications 'on'
+#set -g @pomodoro_granularity 'on'
+#set -g status-interval 1
+
+# TODO: Replace tmux-pomodoro-plus C-b C-p with next-window
+bind-key -r C-p next-window
+bind-key -r C-n previous-window
