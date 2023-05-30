@@ -261,6 +261,9 @@ Plug 'folke/trouble.nvim'
 " GPT
 Plug 'jackMort/ChatGPT.nvim'
 
+" winbar
+Plug 'Bekaboo/dropbar.nvim'
+
 call plug#end()
 set completefunc=emoji#complete
 
