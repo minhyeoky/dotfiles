@@ -399,38 +399,40 @@ end
 -------------------------------------------------------------------------------
 -- zk
 -------------------------------------------------------------------------------
-require("zk").setup({
-  picker = "fzf",
-  lsp = {
-    auto_attach = {
-      enabled = true,
-    },
-    config = {
-      on_attach = on_attach,
-    },
-  },
-})
-
 local zk_notebook_dir = vim.env.ZK_NOTEBOOK_DIR
 
-vim.api.nvim_set_keymap("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", lsp_map_opts)
-vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", lsp_map_opts)
-vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", lsp_map_opts)
-vim.api.nvim_set_keymap("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
-vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
-vim.api.nvim_set_keymap("n", "<leader>zw", "<CMD>ZkNew { dir = '" .. zk_notebook_dir .. "/diary' }<CR>", lsp_map_opts)
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>zz",
-  "<CMD>ZkNotes { sort = { 'modified' }, tags = { 'Index' } }<CR>",
-  lsp_map_opts
-)
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>zd",
-  "<CMD>ZkNotes { sort = { 'created' }, tags = { 'diary' } }<CR>",
-  lsp_map_opts
-)
+if zk_notebook_dir ~= nil then
+  require("zk").setup({
+    picker = "fzf",
+    lsp = {
+      auto_attach = {
+        enabled = true,
+      },
+      config = {
+        on_attach = on_attach,
+      },
+    },
+  })
+
+  vim.api.nvim_set_keymap("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>zw", "<CMD>ZkNew { dir = '" .. zk_notebook_dir .. "/diary' }<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap(
+    "n",
+    "<leader>zz",
+    "<CMD>ZkNotes { sort = { 'modified' }, tags = { 'Index' } }<CR>",
+    lsp_map_opts
+  )
+  vim.api.nvim_set_keymap(
+    "n",
+    "<leader>zd",
+    "<CMD>ZkNotes { sort = { 'created' }, tags = { 'diary' } }<CR>",
+    lsp_map_opts
+  )
+end
 
 -------------------------------------------------------------------------------
 -- ChatGPT
