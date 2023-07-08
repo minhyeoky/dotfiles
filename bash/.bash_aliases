@@ -8,19 +8,11 @@ alias g='git'
 alias ll='ls -alhF'
 alias tf='terraform'
 
-
 # --------------------------------------------------------------------------------
 # docker & docker-compose
 # --------------------------------------------------------------------------------
 alias rpm='dc exec web python manage.py'
 alias dc='docker-compose'
-alias dcp='docker-compose -f docker-compose-prod.yml'
-alias webtk='dc exec web pytest -k'
-
-# --------------------------------------------------------------------------------
-# tmux & tmuxinator
-# --------------------------------------------------------------------------------
-alias tx=tmux
 
 # --------------------------------------------------------------------------------
 # git
@@ -39,7 +31,7 @@ alias gst='git status'
 alias gcm='git checkout master'
 alias gca='git commit -v -a'
 alias gca!='git commit -v -a --amend'
-alias gco='git checkout --no-guess'
+alias gco='git checkout'
 alias gcb='git checkout -b'
 alias gcp='git cherry-pick'
 alias gsrf='git secret reveal -f'
