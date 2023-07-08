@@ -8,7 +8,7 @@
 filetype plugin indent on
 syntax on
 let g:mapleader = ','
-let g:python3_host_prog = '/opt/homebrew/bin/python3'
+let g:python3_host_prog = $NVIM_PYTHON3_HOST_PROG
 
 autocmd FileType help,man setlocal relativenumber
 autocmd FileType help,man setlocal number
@@ -51,7 +51,7 @@ set completeopt=menu,menuone,noselect  " nvim-cmp
 set encoding=utf-8
 set fileencoding=utf-8
 set number
-set norelativenumber
+set relativenumber
 set conceallevel=2
 "set cmdheight=0  " TODO: statusline is flashing when using this option
 
@@ -71,7 +71,7 @@ set foldexpr=nvim_treesitter#foldexpr()
 "autocmd InsertLeave *.md normal zx
 
 " inc-textwidth
-set nowrap
+set wrap
 set showbreak
 let &showbreak = &showbreak . '↳ '
 set textwidth=0
@@ -82,7 +82,7 @@ set nobackup
 set noswapfile
 set ignorecase smartcase
 set cursorline
-set colorcolumn=80
+set colorcolumn=120
 set mouse=a
 set virtualedit=block
 set splitbelow
@@ -207,7 +207,7 @@ Plug 'mhinz/vim-startify'
 
 " Linter
 Plug 'jose-elias-alvarez/null-ls.nvim'
-Plug 'ThePrimeagen/refactoring.nvim'
+"Plug 'ThePrimeagen/refactoring.nvim'
 
 " Status bar
 Plug 'nvim-lualine/lualine.nvim'
@@ -261,8 +261,7 @@ Plug 'folke/trouble.nvim'
 " GPT
 Plug 'jackMort/ChatGPT.nvim'
 
-" winbar
-Plug 'Bekaboo/dropbar.nvim'
+Plug 'ThePrimeagen/harpoon'
 
 call plug#end()
 set completefunc=emoji#complete

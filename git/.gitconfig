@@ -45,3 +45,10 @@ prompt = true
 cmd = "nvim -d -c \"wincmd l\" -c \"lua vim.diagnostic.disable(1)\" \"$LOCAL\" \"$REMOTE\""
 [pull]
 rebase = false
+[merge]
+tool = "nvim"
+[mergetool]
+keepBackup = false
+prompt = false
+[mergetool "nvim"]
+cmd = "nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
