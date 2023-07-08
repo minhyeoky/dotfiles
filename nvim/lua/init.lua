@@ -99,6 +99,7 @@ require("mason-lspconfig").setup({
     "tsserver",
     "dockerls",
     "cssls",
+    "marksman",
   },
   automatic_installation = true,
 })
@@ -145,6 +146,14 @@ require("nvim-treesitter.configs").setup({
   highlight = {
     enable = true,
     disable = function(_, buf)
+      --local filetype = vim.api.nvim_get_option_value("filetype", {buf = buf})
+      --local disable_filetypes = {"markdown"}
+      --for _, value in ipairs(disable_filetypes) do
+      --  if filetype == value then
+      --    return true
+      --  end
+      --end
+
       local max_filesize = 1024 * 1024 -- 1MiB
       local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
       if ok and stats and stats.size > max_filesize then
@@ -164,19 +173,19 @@ require("nvim-treesitter.configs").setup({
 --------------------------------------------------------------------------------
 -- headlines.nvim
 --------------------------------------------------------------------------------
-vim.cmd([[highlight Orange guifg=#D19A66 gui=bold]])
-
-require("headlines").setup({
-  markdown = {
-    dash_highlight = "Orange",
-    dash_string = "—",
-    quote_highlight = "Orange",
-    quote_string = "┃",
-    fat_headlines = false,
-    -- fat_headline_upper_string = "▃",
-    -- fat_headline_lower_string = "▀",
-  },
-})
+--vim.cmd([[highlight Orange guifg=#D19A66 gui=bold]])
+--
+--require("headlines").setup({
+--  markdown = {
+--    dash_highlight = "Orange",
+--    dash_string = "—",
+--    quote_highlight = "Orange",
+--    quote_string = "┃",
+--    fat_headlines = false,
+--    -- fat_headline_upper_string = "▃",
+--    -- fat_headline_lower_string = "▀",
+--  },
+--})
 
 --------------------------------------------------------------------------------
 -- nvim-lspconfig
@@ -201,6 +210,7 @@ local SERVERS = {
   "cssls",
   "rust_analyzer",
   "clangd",
+  -- "marksman",
 }
 
 -------------------------------------------------------------------------------
@@ -376,7 +386,7 @@ for _, lsp in ipairs(SERVERS) do
     config["capabilities"].textDocument.completion.completionItem.snippetSupport = true
   elseif lsp == "pyright" then
     config["root_dir"] = require("lspconfig.util").root_pattern(
-      unpack({ "requirements.txt", "pyproject.toml", "setup.py", "setup.cfg" })
+      unpack({ "pyproject.toml", "requirements.txt" })
     )
   end
 
@@ -385,21 +395,6 @@ for _, lsp in ipairs(SERVERS) do
 
   ::continue::
 end
-
-require("lsp-inlayhints").setup()
-vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = "LspAttach_inlayhints",
-  callback = function(args)
-    if not (args.data and args.data.client_id) then
-      return
-    end
-
-    local bufnr = args.buf
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    require("lsp-inlayhints").on_attach(client, bufnr)
-  end,
-})
 
 -------------------------------------------------------------------------------
 -- zk
@@ -421,7 +416,7 @@ local zk_notebook_dir = vim.env.ZK_NOTEBOOK_DIR
 vim.api.nvim_set_keymap("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", lsp_map_opts)
 vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", lsp_map_opts)
 vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", lsp_map_opts)
-vim.api.nvim_set_keymap("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", lsp_map_opts)
+vim.api.nvim_set_keymap("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
 vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
 vim.api.nvim_set_keymap("n", "<leader>zw", "<CMD>ZkNew { dir = '" .. zk_notebook_dir .. "/diary' }<CR>", lsp_map_opts)
 vim.api.nvim_set_keymap(
@@ -430,14 +425,20 @@ vim.api.nvim_set_keymap(
   "<CMD>ZkNotes { sort = { 'modified' }, tags = { 'Index' } }<CR>",
   lsp_map_opts
 )
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>zd",
+  "<CMD>ZkNotes { sort = { 'created' }, tags = { 'diary' } }<CR>",
+  lsp_map_opts
+)
 
 -------------------------------------------------------------------------------
 -- ChatGPT
 -------------------------------------------------------------------------------
 require("chatgpt").setup({
-  popup_input = {
-    submit = "<C-S>",
-  },
+  -- popup_input = {
+  --   submit = "<C-S>",
+  -- },
   actions_paths = { os.getenv("DOTFILES_PATH") .. "/nvim/chatgpt/actions.json" },
 })
 
@@ -465,7 +466,7 @@ require("zen-mode").setup({
       showcmd = true,
       showmode = false,
     },
-    -- twilight = { enabled = false },
+    twilight = { enabled = false },
   },
 })
 
@@ -481,3 +482,14 @@ require("twilight").setup({
 
 vim.api.nvim_set_keymap("n", "<leader>Z", "<CMD>ZenMode<CR>", { silent = true })
 vim.api.nvim_set_keymap("n", "<leader>T", "<CMD>Twilight<CR>", { silent = true })
+
+-------------------------------------------------------------------------------
+-- harpoon
+-------------------------------------------------------------------------------
+vim.keymap.set("n", "<leader>a", require("harpoon.mark").add_file)
+vim.keymap.set("n", "<leader>e", require("harpoon.ui").toggle_quick_menu)
+
+vim.keymap.set("n", "<leader>1", function() require("harpoon.ui").nav_file(1) end)
+vim.keymap.set("n", "<leader>2", function() require("harpoon.ui").nav_file(2) end)
+vim.keymap.set("n", "<leader>3", function() require("harpoon.ui").nav_file(3) end)
+vim.keymap.set("n", "<leader>4", function() require("harpoon.ui").nav_file(4) end)
