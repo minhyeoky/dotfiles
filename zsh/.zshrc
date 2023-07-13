@@ -150,7 +150,6 @@ export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
@@ -160,3 +159,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # Enables vi mode in the shell
 set -o vi
+
+source /Users/minhyeoky/.docker/init-zsh.sh || true # Added by Docker Desktop
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
