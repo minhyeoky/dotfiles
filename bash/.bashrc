@@ -65,6 +65,7 @@ export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode – cyan
 # --------------------------------------------------------------------------------
 # ETC
 # --------------------------------------------------------------------------------
+source /Users/minhyeoky/.docker/init-bash.sh || true # Added by Docker Desktop
 . "$HOME/.cargo/env"
 export JDTLS_JVM_ARGS="-javaagent:$HOME/lombok.jar"
 export ANDROID_HOME="/Users/minhyeoky/Library/Android/sdk"
