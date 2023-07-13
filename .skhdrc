@@ -42,7 +42,6 @@ alt - f         : yabai -m window --toggle zoom-fullscreen
 shift + alt - f : yabai -m window --toggle native-fullscreen
 
 # Open Alacritty
-
 # Rotate windows clockwise and anticlockwise
 alt - r         : yabai -m space --rotate 270
 shift + alt - r : yabai -m space --rotate 90
@@ -52,8 +51,6 @@ shift + alt - space : \
     yabai -m window --toggle float; \
     yabai -m window --toggle border
 
-shift + lctrl + alt - space : clipboard-gdrive
-
 # Mission Control
 lctrl - 1 : yabai -m space --focus 1
 lctrl - 2 : yabai -m space --focus 2
@@ -61,5 +58,6 @@ lctrl - 3 : yabai -m space --focus 3
 lctrl - 4 : yabai -m space --focus 4
 lctrl - 5 : yabai -m space --focus 5
 lctrl - 6 : yabai -m space --focus 6
+alt - tab : yabai -m space --focus recent
 alt - n : yabai -m display --focus prev
 alt - p : yabai -m display --focus next
