@@ -145,17 +145,11 @@ require("null-ls").setup({
 -- nvim-treesitter
 --------------------------------------------------------------------------------
 require("nvim-treesitter.configs").setup({
+  ensure_installed = "all",
+  ignore_install = { "markdown", "markdown_inline" },
   highlight = {
     enable = true,
     disable = function(_, buf)
-      --local filetype = vim.api.nvim_get_option_value("filetype", {buf = buf})
-      --local disable_filetypes = {"markdown"}
-      --for _, value in ipairs(disable_filetypes) do
-      --  if filetype == value then
-      --    return true
-      --  end
-      --end
-
       local max_filesize = 1024 * 1024 -- 1MiB
       local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
       if ok and stats and stats.size > max_filesize then
@@ -237,6 +231,8 @@ cmp.setup({
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
   }),
   sources = cmp.config.sources({
+    { name = "nvim_lsp" },
+    { name = "nvim_lsp_signature_help" },
     {
       name = "buffer",
       option = {
@@ -245,10 +241,8 @@ cmp.setup({
         end,
       },
     },
-    { name = "nvim_lsp" },
     --{ name = "ultisnips" },
-    { name = "nvim_lsp_signature_help" },
-    { name = "jira" },
+    --{ name = "jira" },
   }, {}),
   formatting = {
     format = require("lspkind").cmp_format({
@@ -299,7 +293,10 @@ cmp.setup.cmdline(":", {
 local lsp_map_opts = { noremap = true, silent = true }
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
+  -- Disable LSP's highlighting and use treesitter's instead.
+  client.server_capabilities.semanticTokensProvider = nil
+
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
