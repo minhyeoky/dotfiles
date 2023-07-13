@@ -100,6 +100,8 @@ require("mason-lspconfig").setup({
     "dockerls",
     "cssls",
     "marksman",
+    "terraformls",
+    "tflint",
   },
   automatic_installation = true,
 })
@@ -200,16 +202,19 @@ local SERVERS = {
   -- "pylyzer",
   "ruff_lsp",
   "bashls",
-  "jsonls",
+  -- "jsonls",
   "lua_ls",
-  "flutter-tools",
+  -- "flutter-tools",
   "html",
-  "jdtls",
+  -- "jdtls",
   "tsserver",
   "dockerls",
   "cssls",
   "rust_analyzer",
   "clangd",
+
+  "terraformls",
+  "tflint",
   -- "marksman",
 }
 

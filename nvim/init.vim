@@ -36,6 +36,7 @@ endfunction
 autocmd BufWritePost *.md :call ZkAutoCommit()
 
 autocmd BufRead .localrc set filetype=bash
+autocmd BufRead *.tf set filetype=terraform
 
 " Map <Tab> and <S-Tab> to move to the next and previous markdown links without highlights, respectively
 augroup markdown_links
