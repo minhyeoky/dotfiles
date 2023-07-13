@@ -111,7 +111,7 @@ require("mason-lspconfig").setup({
 -- NOTE: nvim --headless -c "MasonInstall codespell actionlint shellcheck hadolint stylua jq shfmt cbfmt" -c "qall"
 --------------------------------------------------------------------------------
 require("null-ls").setup({
-  debug = true,
+  debug = false,
   sources = {
     -- require("null-ls").builtins.diagnostics.actionlint,
     -- require("null-ls").builtins.diagnostics.codespell,
@@ -128,12 +128,12 @@ require("null-ls").setup({
     require("null-ls").builtins.formatting.jq,
     -- require("null-ls").builtins.formatting.shfmt,
     -- require("null-ls").builtins.formatting.yamlfmt,
-    require("null-ls").builtins.formatting.prettier,
+    -- require("null-ls").builtins.formatting.prettier,
     -- require("null-ls").builtins.formatting.cbfmt,
     require("null-ls").builtins.formatting.trim_newlines,
     require("null-ls").builtins.formatting.trim_whitespace,
 
-    require("null-ls").builtins.code_actions.gitsigns,
+    -- require("null-ls").builtins.code_actions.gitsigns,
     -- require("null-ls").builtins.code_actions.shellcheck,
     -- require("null-ls").builtins.code_actions.proselint,
     -- require("null-ls").builtins.code_actions.refactoring,
@@ -175,19 +175,19 @@ require("nvim-treesitter.configs").setup({
 --------------------------------------------------------------------------------
 -- headlines.nvim
 --------------------------------------------------------------------------------
---vim.cmd([[highlight Orange guifg=#D19A66 gui=bold]])
---
---require("headlines").setup({
---  markdown = {
---    dash_highlight = "Orange",
---    dash_string = "—",
---    quote_highlight = "Orange",
---    quote_string = "┃",
---    fat_headlines = false,
---    -- fat_headline_upper_string = "▃",
---    -- fat_headline_lower_string = "▀",
---  },
---})
+vim.cmd([[highlight Orange guifg=#D19A66 gui=bold]])
+
+require("headlines").setup({
+  markdown = {
+    dash_highlight = "Orange",
+    dash_string = "—",
+    quote_highlight = "Orange",
+    quote_string = "┃",
+    fat_headlines = false,
+    -- fat_headline_upper_string = "▃",
+    -- fat_headline_lower_string = "▀",
+  },
+})
 
 --------------------------------------------------------------------------------
 -- nvim-lspconfig
