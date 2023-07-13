@@ -20,8 +20,9 @@ autocmd TextChanged,TextChangedI *.md silent write
 autocmd FileType json set foldmethod=indent
 autocmd FileType mermaid set foldmethod=indent
 autocmd FileType dart set foldmethod=indent
-autocmd FileType markdown set foldlevel=999
 autocmd FileType markdown set shiftwidth=2
+autocmd FileType markdown set foldlevel=999
+autocmd FileType markdown set foldmethod=indent
 
 autocmd FileType chatgpt set foldlevel=999
 
