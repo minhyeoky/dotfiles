@@ -162,6 +162,8 @@ Plug 'folke/twilight.nvim'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
+
+" cmp
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -219,18 +221,18 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'chrisbra/Colorizer'
 
-" Language
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 
 " Flutter
 Plug 'akinsho/flutter-tools.nvim'
 
+" Tpope
 Plug 'tpope/vim-commentary'
-Plug 'ap/vim-css-color'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-markdown'
 
 " Markdown Preview
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install ' }
@@ -263,6 +265,8 @@ Plug 'folke/trouble.nvim'
 Plug 'jackMort/ChatGPT.nvim'
 
 Plug 'ThePrimeagen/harpoon'
+Plug 'Yggdroot/indentLine'
+Plug 'ap/vim-css-color'
 
 call plug#end()
 set completefunc=emoji#complete
