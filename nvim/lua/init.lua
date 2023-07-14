@@ -3,11 +3,6 @@
 vim.api.nvim_set_keymap("n", "<leader>S", "<cmd>Startify<cr>", { silent = true, noremap = true })
 
 --------------------------------------------------------------------------------
--- TODO: WIP
---------------------------------------------------------------------------------
-require("jira")
-
---------------------------------------------------------------------------------
 -- trouble
 --------------------------------------------------------------------------------
 require("trouble").setup({
@@ -497,3 +492,12 @@ vim.keymap.set("n", "<leader>1", function() require("harpoon.ui").nav_file(1) en
 vim.keymap.set("n", "<leader>2", function() require("harpoon.ui").nav_file(2) end)
 vim.keymap.set("n", "<leader>3", function() require("harpoon.ui").nav_file(3) end)
 vim.keymap.set("n", "<leader>4", function() require("harpoon.ui").nav_file(4) end)
+
+-------------------------------------------------------------------------------
+-- indent-blankline
+-------------------------------------------------------------------------------
+require("indent_blankline").setup({
+  -- ['|', '¦', '┆', '┊']
+  char = "¦",
+  show_current_context = true,
+})

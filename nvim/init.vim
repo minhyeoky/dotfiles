@@ -21,7 +21,7 @@ autocmd FileType json set foldmethod=indent
 autocmd FileType mermaid set foldmethod=indent
 autocmd FileType dart set foldmethod=indent
 autocmd FileType markdown set shiftwidth=2
-autocmd FileType markdown set foldlevel=999
+autocmd FileType markdown set foldlevel=0
 autocmd FileType markdown set foldmethod=indent
 
 autocmd FileType chatgpt set foldlevel=999
@@ -223,7 +223,6 @@ Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'chrisbra/Colorizer'
 
 Plug 'dart-lang/dart-vim-plugin'
-Plug 'martinda/Jenkinsfile-vim-syntax'
 
 " Flutter
 Plug 'akinsho/flutter-tools.nvim'
@@ -233,7 +232,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-markdown'
 
 " Markdown Preview
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install ' }
@@ -246,18 +244,23 @@ let g:mkdp_preview_options = {
     \ 'disable_sync_scroll': 1,
     \ }
 
+Plug 'preservim/vim-markdown'
+let g:vim_markdown_folding_disabled = 1 
+let g:vim_markdown_conceal_code_blocks = 1
+let g:vim_markdown_fensed_languages = ["python", "json", "hcl", "yaml", "yml"]
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_new_list_item_indent = 2
+let g:vim_markdown_no_extensions_in_markdown = 1
+
 " Note
 Plug 'mickael-menu/zk-nvim'
 Plug 'AndrewRadev/inline_edit.vim'
 Plug 'jkramer/vim-checkbox'
 Plug 'mracos/mermaid.vim'
-Plug 'aklt/plantuml-syntax'
 Plug 'junegunn/vim-emoji'
 Plug 'lukas-reineke/headlines.nvim'
 nnoremap <silent> <space> :call checkbox#ToggleCB()<cr>
-
-" Log Syntax
-Plug 'dzeban/vim-log-syntax'
 
 " Quickfix & Loclist
 Plug 'folke/trouble.nvim'
@@ -266,8 +269,15 @@ Plug 'folke/trouble.nvim'
 Plug 'jackMort/ChatGPT.nvim'
 
 Plug 'ThePrimeagen/harpoon'
-Plug 'Yggdroot/indentLine'
+
+" Syntax Highlighting
+Plug 'dzeban/vim-log-syntax'
+Plug 'aklt/plantuml-syntax'
+Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'ap/vim-css-color'
+
+" Virtual Text
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 call plug#end()
 set completefunc=emoji#complete
@@ -427,12 +437,7 @@ let g:tagbar_type_markdown = {
 " --------------------------------------------------
 " Vim-fugitive
 " --------------------------------------------------
-
-" Run Git command in the new tab.
-noremap <leader>gs :Git<cr>
-noremap <leader>gS :tab Git<cr>
-noremap <leader>gb :BCommits<cr>
-noremap <leader>gB :BCommits!<cr>
+noremap <leader>gg :tab Git<cr>
 
 " Set foldmethod for git
 autocmd FileType gitcommit,git set foldmethod=syntax
