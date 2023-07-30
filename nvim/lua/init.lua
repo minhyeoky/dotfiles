@@ -193,9 +193,9 @@ local SERVERS = {
   "bashls",
   -- "jsonls",
   "lua_ls",
-  -- "flutter-tools",
+  "flutter-tools",
   "html",
-  -- "jdtls",
+  "jdtls",
   "tsserver",
   "dockerls",
   "cssls",
@@ -411,21 +411,22 @@ if zk_notebook_dir ~= nil then
     },
   })
 
-  vim.api.nvim_set_keymap("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", lsp_map_opts)
-  vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", lsp_map_opts)
-  vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", lsp_map_opts)
-  vim.api.nvim_set_keymap("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
-  vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
-  vim.api.nvim_set_keymap("n", "<leader>zw", "<CMD>ZkNew { dir = '" .. zk_notebook_dir .. "/diary' }<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>jb", "<Cmd>ZkBacklinks<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>jn", "<Cmd>ZkNew<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>jt", "<Cmd>ZkTags<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>jf",
+    "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("v", "<leader>jf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>jw", "<CMD>ZkNew { dir = '" .. zk_notebook_dir .. "/diary' }<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap(
     "n",
-    "<leader>zz",
+    "<leader>jj",
     "<CMD>ZkNotes { sort = { 'modified' }, tags = { 'Index' } }<CR>",
     lsp_map_opts
   )
   vim.api.nvim_set_keymap(
     "n",
-    "<leader>zd",
+    "<leader>jd",
     "<CMD>ZkNotes { sort = { 'created' }, tags = { 'diary' } }<CR>",
     lsp_map_opts
   )
@@ -435,9 +436,6 @@ end
 -- ChatGPT
 -------------------------------------------------------------------------------
 require("chatgpt").setup({
-  -- popup_input = {
-  --   submit = "<C-S>",
-  -- },
   actions_paths = { os.getenv("DOTFILES_PATH") .. "/nvim/chatgpt/actions.json" },
 })
 
