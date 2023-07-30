@@ -38,6 +38,7 @@ autocmd BufWritePost *.md :call ZkAutoCommit()
 
 autocmd BufRead .localrc set filetype=bash
 autocmd BufRead *.tf set filetype=terraform
+autocmd BufRead *.tfstate set filetype=json
 
 " Map <Tab> and <S-Tab> to move to the next and previous markdown links without highlights, respectively
 augroup markdown_links
@@ -66,14 +67,13 @@ set smartindent
 set termguicolors
 
 " Fold Options
-set foldlevel=999
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 " Force re-compute folds because i'm using nvim_treesitter#foldexpr as primary foldmethod for markdown.
 "autocmd InsertLeave *.md normal zx
 
 " inc-textwidth
-set wrap
+set nowrap
 set showbreak
 let &showbreak = &showbreak . '↳ '
 set textwidth=0
@@ -295,6 +295,7 @@ autocmd! CompleteDone * call <SID>Sub_movend(line('.'))
 " fzf-vim
 " --------------------------------------------------
 let g:fzf_preview_window = ['right:50%', 'ctrl-_']
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>ft :Tags<CR>
