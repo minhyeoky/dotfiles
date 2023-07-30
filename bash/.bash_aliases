@@ -7,6 +7,7 @@ alias vim='nvim'
 alias g='git'
 alias ll='ls -alhF'
 alias tf='terraform'
+alias qmkf='qmk flash --keyboard keebio/iris/rev7 --keymap minhyeoky'
 
 # --------------------------------------------------------------------------------
 # docker & docker-compose
