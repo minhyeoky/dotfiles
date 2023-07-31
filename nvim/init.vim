@@ -279,6 +279,8 @@ Plug 'ap/vim-css-color'
 " Virtual Text
 Plug 'lukas-reineke/indent-blankline.nvim'
 
+Plug 'luisiacc/gruvbox-baby', {'branch': 'main'}
+
 call plug#end()
 set completefunc=emoji#complete
 
@@ -509,7 +511,7 @@ lua << END
 local filename_path = 2
 require('lualine').setup{
   options = {
-    theme = "tokyonight",
+    theme = "gruvbox-baby",
     globalstatus = false,
     always_divide_middle = true,
     icons_enabled = true,
@@ -534,3 +536,6 @@ require('lualine').setup{
   },
 }
 END
+
+let g:gruvbox_baby_transparent_mode = 1
+colorscheme gruvbox-baby
