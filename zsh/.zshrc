@@ -147,8 +147,6 @@ export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
 # powerlevel 10k
 # Must be the last one.
 # --------------------------------------------------------------------------------
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
@@ -163,3 +161,6 @@ set -o vi
 source /Users/minhyeoky/.docker/init-zsh.sh || true # Added by Docker Desktop
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/Library/CloudStorage/Dropbox/box/dotfiles/zsh/.p10k.zsh.
+[[ ! -f ~/Library/CloudStorage/Dropbox/box/dotfiles/zsh/.p10k.zsh ]] || source ~/Library/CloudStorage/Dropbox/box/dotfiles/zsh/.p10k.zsh
