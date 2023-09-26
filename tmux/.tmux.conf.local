@@ -306,10 +306,9 @@ bind-key x kill-pane
 
 set-option -g status-position top
 
-
 bind-key -r ) run-shell -b "alacritty-opacity increase 0.1"
 bind-key -r ( run-shell -b "alacritty-opacity decrease 0.1"
-bind-key ! run-shell "tmux new-window $DOTFILES_PATH/scripts/run-scripts.sh"
+bind-key ! run-shell "tmux new-window $HOME/scripts/run-scripts.sh"
 
 # tmux-pomodoro-plus
 #set -g @plugin 'olimorris/tmux-pomodoro-plus'

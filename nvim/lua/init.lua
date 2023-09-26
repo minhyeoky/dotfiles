@@ -28,10 +28,10 @@ require("gitsigns").setup({
     topdelete = { hl = "GitSignsDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
     changedelete = { hl = "GitSignsChange", text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
   },
-  signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-  numhl = false,    -- Toggle with `:Gitsigns toggle_numhl`
-  linehl = false,   -- Toggle with `:Gitsigns toggle_linehl`
-  word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  signcolumn = false, -- Toggle with `:Gitsigns toggle_signs`
+  numhl = true,       -- Toggle with `:Gitsigns toggle_numhl`
+  linehl = false,     -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff = false,  -- Toggle with `:Gitsigns toggle_word_diff`
   watch_gitdir = {
     interval = 1000,
     follow_files = true,
@@ -60,6 +60,41 @@ require("gitsigns").setup({
   yadm = {
     enable = false,
   },
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    map('n', ']c', function()
+      if vim.wo.diff then return ']c' end
+      vim.schedule(function() gs.next_hunk() end)
+      return '<Ignore>'
+    end, { expr = true })
+
+    map('n', '[c', function()
+      if vim.wo.diff then return '[c' end
+      vim.schedule(function() gs.prev_hunk() end)
+      return '<Ignore>'
+    end, { expr = true })
+
+    -- Actions
+    map('n', '<leader>ds', gs.stage_hunk)
+    map('n', '<leader>dr', gs.reset_hunk)
+    map('v', '<leader>ds', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+    map('v', '<leader>dr', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+    map('n', '<leader>du', gs.undo_stage_hunk)
+    map('n', '<leader>dp', gs.preview_hunk)
+    map('n', '<leader>db', function() gs.blame_line { full = true } end)
+    map('n', '<leader>dd', gs.diffthis)
+
+    -- Text object
+    map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+  end
 })
 
 --------------------------------------------------------------------------------
@@ -70,7 +105,7 @@ require("mason").setup()
 require("mason-lspconfig").setup({
   ensure_installed = {
     "pyright",
-    -- "pylyzer",
+    -- "pylsp",
     "ruff_lsp",
     "bashls",
     "jsonls",
@@ -83,6 +118,7 @@ require("mason-lspconfig").setup({
     "marksman",
     "terraformls",
     "tflint",
+    -- "marksman",
   },
   automatic_installation = true,
 })
@@ -176,6 +212,7 @@ local SERVERS = {
   "pyright",
   -- "pylyzer",
   "ruff_lsp",
+  -- "pylsp",
   "bashls",
   -- "jsonls",
   "lua_ls",
@@ -274,6 +311,7 @@ cmp.setup.cmdline(":", {
 local lsp_map_opts = { noremap = true, silent = true }
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
+
 local on_attach = function(client, bufnr)
   -- Disable LSP's highlighting and use treesitter's instead.
   client.server_capabilities.semanticTokensProvider = nil
@@ -293,13 +331,12 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", lsp_map_opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", lsp_map_opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", '"', "<cmd>lua vim.lsp.buf.signature_help()<CR>", lsp_map_opts)
-  vim.api.nvim_buf_set_keymap(
-    bufnr,
-    "n",
-    "<leader>wl",
-    "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
-    lsp_map_opts
-  )
+
+  vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+  vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+  vim.keymap.set('n', '<leader>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", lsp_map_opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", lsp_map_opts)
   vim.api.nvim_buf_set_keymap(
@@ -349,7 +386,7 @@ for _, lsp in ipairs(SERVERS) do
       lsp = config,
       outline = {
         open_cmd = "30vnew", -- command to use to open the outline buffer
-        auto_open = true, -- if true this will open the outline automatically when it is first populated
+        auto_open = false,    -- if true this will open the outline automatically when it is first populated
       },
       dev_log = {
         enabled = true,
@@ -369,8 +406,17 @@ for _, lsp in ipairs(SERVERS) do
     config["capabilities"].textDocument.completion.completionItem.snippetSupport = true
   elseif lsp == "pyright" then
     config["root_dir"] = require("lspconfig.util").root_pattern(
-      unpack({ "pyproject.toml", "requirements.txt" })
+      unpack({ "requirements.txt" })
     )
+    config["settings"] = {
+      python = {
+        analysis = {
+          autoSearchPaths = true,
+          useLibraryCodeForTypes = true,
+          diagnosticMode = "workspace",
+        },
+      },
+    }
   end
 
   -- Setup
@@ -397,22 +443,22 @@ if zk_notebook_dir ~= nil then
     },
   })
 
-  vim.api.nvim_set_keymap("n", "<leader>jb", "<Cmd>ZkBacklinks<CR>", lsp_map_opts)
-  vim.api.nvim_set_keymap("n", "<leader>jn", "<Cmd>ZkNew<CR>", lsp_map_opts)
-  vim.api.nvim_set_keymap("n", "<leader>jt", "<Cmd>ZkTags<CR>", lsp_map_opts)
-  vim.api.nvim_set_keymap("n", "<leader>jf",
+  vim.api.nvim_set_keymap("n", "<leader>zb", "<Cmd>ZkBacklinks<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>zf",
     "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
-  vim.api.nvim_set_keymap("v", "<leader>jf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
-  vim.api.nvim_set_keymap("n", "<leader>jw", "<CMD>ZkNew { dir = '" .. zk_notebook_dir .. "/diary' }<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>zw", "<CMD>ZkNew { dir = '" .. zk_notebook_dir .. "/diary' }<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap(
     "n",
-    "<leader>jj",
+    "<leader>zz",
     "<CMD>ZkNotes { sort = { 'modified' }, tags = { 'Index' } }<CR>",
     lsp_map_opts
   )
   vim.api.nvim_set_keymap(
     "n",
-    "<leader>jd",
+    "<leader>zd",
     "<CMD>ZkNotes { sort = { 'created' }, tags = { 'diary' } }<CR>",
     lsp_map_opts
   )
@@ -478,10 +524,56 @@ vim.keymap.set("n", "<leader>3", function() require("harpoon.ui").nav_file(3) en
 vim.keymap.set("n", "<leader>4", function() require("harpoon.ui").nav_file(4) end)
 
 -------------------------------------------------------------------------------
--- indent-blankline
+-- indent-blankline & virt-column
 -------------------------------------------------------------------------------
 require("indent_blankline").setup({
   -- ['|', '¦', '┆', '┊']
   char = "¦",
   show_current_context = true,
 })
+-- require("virt-column").setup()
+
+-------------------------------------------------------------------------------
+-- rest.nvim
+-------------------------------------------------------------------------------
+require("rest-nvim").setup({
+  -- Open request results in a horizontal split
+  result_split_horizontal = false,
+  -- Keep the http file buffer above|left when split horizontal|vertical
+  result_split_in_place = false,
+  -- Skip SSL verification, useful for unknown certificates
+  skip_ssl_verification = false,
+  -- Encode URL before making request
+  encode_url = true,
+  -- Highlight request on run
+  highlight = {
+    enabled = true,
+    timeout = 150,
+  },
+  result = {
+    -- toggle showing URL, HTTP info, headers at top the of result window
+    show_url = true,
+    -- show the generated curl command in case you want to launch
+    -- the same request via the terminal (can be verbose)
+    show_curl_command = false,
+    show_http_info = true,
+    show_headers = true,
+    -- executables or functions for formatting response body [optional]
+    -- set them to false if you want to disable them
+    formatters = {
+      json = "jq",
+      html = function(body)
+        return vim.fn.system({"tidy", "-i", "-q", "-"}, body)
+      end
+    },
+  },
+  -- Jump to request line on run
+  jump_to_request = false,
+  env_file = '.env',
+  custom_dynamic_variables = {},
+  yank_dry_run = true,
+})
+
+vim.keymap.set("n", "<leader>rr", "<Plug>RestNvim<CR>", { silent = true })
+vim.keymap.set("n", "<leader>rp", "<Plug>RestNvimPreview<CR>", { silent = true })
+vim.keymap.set("n", "<leader>rl", "<Plug>RestNvimLast<CR>", { silent = true })
