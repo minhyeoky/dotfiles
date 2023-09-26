@@ -5,11 +5,11 @@ yabai -m config layout bsp
 yabai -m config mouse_follows_focus off
 
 # Padding and gaps
-yabai -m config top_padding    25
-yabai -m config bottom_padding 25
-yabai -m config left_padding   50
-yabai -m config right_padding  50
-yabai -m config window_gap     12.5
+yabai -m config top_padding    0
+yabai -m config bottom_padding 0
+yabai -m config left_padding   0
+yabai -m config right_padding  0
+yabai -m config window_gap     0
 
 # Window modifications
 yabai -m config window_topmost off
@@ -19,7 +19,7 @@ yabai -m config normal_window_opacity 0.9
 
 yabai -m config window_border_blur off
 yabai -m config window_border on
-yabai -m config window_border_width 5
+yabai -m config window_border_width 2
 yabai -m config active_window_border_color 0X7FE78A4E
 
 # Rules

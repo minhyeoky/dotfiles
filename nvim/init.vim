@@ -14,17 +14,12 @@ autocmd FileType help,man setlocal relativenumber
 autocmd FileType help,man setlocal number
 
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
-autocmd TextChanged,TextChangedI *.md silent write
 
 " jq formatter compatible
 autocmd FileType json set foldmethod=indent
 autocmd FileType mermaid set foldmethod=indent
 autocmd FileType dart set foldmethod=indent
 autocmd FileType markdown set shiftwidth=2
-autocmd FileType markdown set foldlevel=0
-autocmd FileType markdown set foldmethod=indent
-
-autocmd FileType chatgpt set foldlevel=999
 
 function ZkAutoCommit()
   let date = system("date")
@@ -68,12 +63,13 @@ set termguicolors
 
 " Fold Options
 set foldmethod=expr
+set foldlevel=999
 set foldexpr=nvim_treesitter#foldexpr()
 " Force re-compute folds because i'm using nvim_treesitter#foldexpr as primary foldmethod for markdown.
 "autocmd InsertLeave *.md normal zx
 
 " inc-textwidth
-set nowrap
+set wrap
 set showbreak
 let &showbreak = &showbreak . '↳ '
 set textwidth=0
@@ -84,7 +80,6 @@ set nobackup
 set noswapfile
 set ignorecase smartcase
 set cursorline
-set colorcolumn=120
 set mouse=a
 set virtualedit=block
 set splitbelow
@@ -244,15 +239,6 @@ let g:mkdp_preview_options = {
     \ 'disable_sync_scroll': 1,
     \ }
 
-Plug 'preservim/vim-markdown'
-let g:vim_markdown_folding_disabled = 1 
-let g:vim_markdown_conceal_code_blocks = 1
-let g:vim_markdown_fensed_languages = ["python", "json", "hcl", "yaml", "yml"]
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_strikethrough = 1
-let g:vim_markdown_new_list_item_indent = 2
-let g:vim_markdown_no_extensions_in_markdown = 1
-
 " Note
 Plug 'mickael-menu/zk-nvim'
 Plug 'AndrewRadev/inline_edit.vim'
@@ -278,8 +264,10 @@ Plug 'ap/vim-css-color'
 
 " Virtual Text
 Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'lukas-reineke/virt-column.nvim'
 
 Plug 'luisiacc/gruvbox-baby', {'branch': 'main'}
+Plug 'rest-nvim/rest.nvim'
 
 call plug#end()
 set completefunc=emoji#complete
@@ -297,7 +285,6 @@ autocmd! CompleteDone * call <SID>Sub_movend(line('.'))
 " fzf-vim
 " --------------------------------------------------
 let g:fzf_preview_window = ['right:50%', 'ctrl-_']
-let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>ft :Tags<CR>
@@ -352,11 +339,9 @@ command! -bang -nargs=* ZkGrep
   \ <bang>0
   \)
 
-nmap <Leader>dr :DotSearch<CR>
 nmap <Leader>df :DotFiles<CR>
 nmap <Leader>zr :ZkGrep<CR>
 
-nmap <Leader>dR :DotSearch!<CR>
 nmap <Leader>dF :DotFiles!<CR>
 nmap <Leader>zR :ZkGrep!<CR>
 
@@ -369,6 +354,32 @@ command! -bang Todo
   \)
 nmap <leader>td :Todo<cr>
 nmap <leader>tD :Todo!<cr>
+
+command! -bang Keymap
+  \ call fzf#vim#files(
+  \ $QMK_KEYBOARD_PATH,
+  \ <bang>0
+  \)
+nmap <leader>fk :Keymap<cr>
+
+" Delete buffers
+" https://github.com/junegunn/fzf.vim/pull/733#issuecomment-559720813
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! BD call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --bind ctrl-a:select-all+accept'
+\ }))
 
 " --------------------------------------------------
 " NerdTree
