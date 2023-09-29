@@ -345,15 +345,15 @@ nmap <Leader>zr :ZkGrep<CR>
 nmap <Leader>dF :DotFiles!<CR>
 nmap <Leader>zR :ZkGrep!<CR>
 
-command! -bang Todo
-  \ call fzf#vim#grep(
-  \ 'rg --column --line-number --no-heading --color=always --smart-case -e ' . shellescape('^[ ]*\- \[ \]'),
-  \ 1,
-  \ fzf#vim#with_preview({'dir': $ZK_NOTEBOOK_DIR}),
-  \ <bang>0
-  \)
-nmap <leader>td :Todo<cr>
-nmap <leader>tD :Todo!<cr>
+"command! -bang Todo
+"  \ call fzf#vim#grep(
+"  \ 'rg --column --line-number --no-heading --color=always --smart-case -e ' . shellescape('^[ ]*\- \[ \]'),
+"  \ 1,
+"  \ fzf#vim#with_preview({'dir': $ZK_NOTEBOOK_DIR}),
+"  \ <bang>0
+"  \)
+"nmap <leader>td :Todo<cr>
+"nmap <leader>tD :Todo!<cr>
 
 command! -bang Keymap
   \ call fzf#vim#files(
