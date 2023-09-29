@@ -447,13 +447,13 @@ if zk_notebook_dir ~= nil then
   vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap("n", "<leader>zf",
-    "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
+    "<Cmd>ZkNotes { sort = { 'created' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap("n", "<leader>zw", "<CMD>ZkNew { dir = '" .. zk_notebook_dir .. "/diary' }<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap(
     "n",
     "<leader>zz",
-    "<CMD>ZkNotes { sort = { 'modified' }, tags = { 'Index' } }<CR>",
+    "<CMD>ZkNotes { sort = { 'title' }, tags = { 'Index' } }<CR>",
     lsp_map_opts
   )
   vim.api.nvim_set_keymap(
