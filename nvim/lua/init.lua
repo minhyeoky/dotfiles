@@ -463,6 +463,7 @@ if zk_notebook_dir ~= nil then
     lsp_map_opts
   )
 end
+vim.api.nvim_set_keymap("n", "<leader>td", "<CMD>edit " .. zk_notebook_dir .. "/todo.md<CR>", lsp_map_opts)
 
 -------------------------------------------------------------------------------
 -- ChatGPT
