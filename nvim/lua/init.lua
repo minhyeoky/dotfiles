@@ -527,10 +527,9 @@ vim.keymap.set("n", "<leader>4", function() require("harpoon.ui").nav_file(4) en
 -------------------------------------------------------------------------------
 -- indent-blankline & virt-column
 -------------------------------------------------------------------------------
-require("indent_blankline").setup({
+require("ibl").setup({
   -- ['|', '¦', '┆', '┊']
-  char = "¦",
-  show_current_context = true,
+  indent = { char = "┊" },
 })
 -- require("virt-column").setup()
 
