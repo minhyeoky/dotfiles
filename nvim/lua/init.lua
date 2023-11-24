@@ -162,7 +162,7 @@ require("null-ls").setup({
 -- nvim-treesitter
 --------------------------------------------------------------------------------
 require("nvim-treesitter.configs").setup({
-  ensure_installed = "all",
+  ensure_installed = "maintained",
   ignore_install = { "markdown", "markdown_inline" },
   highlight = {
     enable = true,
