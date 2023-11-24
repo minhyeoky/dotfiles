@@ -7,13 +7,14 @@ alias vim='nvim'
 alias g='git'
 alias ll='ls -alhF'
 alias tf='terraform'
-alias qmkf='qmk flash --keyboard keebio/iris/rev7 --keymap minhyeoky'
+alias qmkf='qmk flash --keyboard crkbd --keymap minhyeoky'
 
 # --------------------------------------------------------------------------------
 # docker & docker-compose
 # --------------------------------------------------------------------------------
+alias dc='docker compose'
+alias dco='docker compose -f docker-compose.yml -f docker-compose.override.yml'
 alias rpm='dc exec web python manage.py'
-alias dc='docker-compose'
 
 # --------------------------------------------------------------------------------
 # git
@@ -37,4 +38,4 @@ alias gcb='git checkout -b'
 alias gcp='git cherry-pick'
 alias gsrf='git secret reveal -f'
 alias gshm='git secret hide -m'
-alias clean_branches="git branch | grep -v "master" | xargs git branch -D"
+#alias clean_branches="git branch | grep -v "master" | xargs git branch -D"
