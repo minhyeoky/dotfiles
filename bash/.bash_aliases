@@ -13,8 +13,6 @@ alias qmkf='qmk flash --keyboard crkbd --keymap minhyeoky'
 # docker & docker-compose
 # --------------------------------------------------------------------------------
 alias dc='docker compose'
-alias dco='docker compose -f docker-compose.yml -f docker-compose.override.yml'
-alias rpm='dc exec web python manage.py'
 
 # --------------------------------------------------------------------------------
 # git
