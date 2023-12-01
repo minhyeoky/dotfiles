@@ -105,19 +105,19 @@ require("mason").setup()
 require("mason-lspconfig").setup({
   ensure_installed = {
     "pyright",
+    -- "bashls",
+    -- "jsonls",
+    -- "ruff_lsp",
     -- "pylsp",
-    "ruff_lsp",
-    "bashls",
-    "jsonls",
-    "lua_ls",
-    "html",
-    "jdtls",
-    "tsserver",
-    "dockerls",
-    "cssls",
-    "marksman",
-    "terraformls",
-    "tflint",
+    -- "lua_ls",
+    -- "html",
+    -- "jdtls",
+    -- "tsserver",
+    -- "dockerls",
+    -- "cssls",
+    -- "marksman",
+    -- "terraformls",
+    -- "tflint",
     -- "marksman",
   },
   automatic_installation = true,
@@ -130,31 +130,11 @@ require("mason-lspconfig").setup({
 require("null-ls").setup({
   debug = false,
   sources = {
-    -- require("null-ls").builtins.diagnostics.actionlint,
-    -- require("null-ls").builtins.diagnostics.codespell,
     require("null-ls").builtins.diagnostics.shellcheck,
-    -- require("null-ls").builtins.diagnostics.eslint,
-    -- require("null-ls").builtins.diagnostics.gitlint,
-    -- require("null-ls").builtins.diagnostics.hadolint,
-    -- require("null-ls").builtins.diagnostics.jsonlint,
-    -- require("null-ls").builtins.diagnostics.misspell,
-
-    require("null-ls").builtins.formatting.stylua,
-    require("null-ls").builtins.formatting.black,
-    -- require("null-ls").builtins.formatting.isort,
     require("null-ls").builtins.formatting.jq,
-    -- require("null-ls").builtins.formatting.shfmt,
-    -- require("null-ls").builtins.formatting.yamlfmt,
-    -- require("null-ls").builtins.formatting.prettier,
-    -- require("null-ls").builtins.formatting.cbfmt,
+    require("null-ls").builtins.formatting.black,
     require("null-ls").builtins.formatting.trim_newlines,
     require("null-ls").builtins.formatting.trim_whitespace,
-
-    -- require("null-ls").builtins.code_actions.gitsigns,
-    -- require("null-ls").builtins.code_actions.shellcheck,
-    -- require("null-ls").builtins.code_actions.proselint,
-    -- require("null-ls").builtins.code_actions.refactoring,
-    -- require("null-ls").builtins.completion.tags,
   },
 })
 
@@ -162,7 +142,7 @@ require("null-ls").setup({
 -- nvim-treesitter
 --------------------------------------------------------------------------------
 require("nvim-treesitter.configs").setup({
-  ensure_installed = "maintained",
+  ensure_installed = "all",
   ignore_install = { "markdown", "markdown_inline" },
   highlight = {
     enable = true,
