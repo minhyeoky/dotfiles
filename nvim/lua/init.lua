@@ -577,3 +577,8 @@ require("rest-nvim").setup({
 vim.keymap.set("n", "<leader>rr", "<Plug>RestNvim<CR>", { silent = true })
 vim.keymap.set("n", "<leader>rp", "<Plug>RestNvimPreview<CR>", { silent = true })
 vim.keymap.set("n", "<leader>rl", "<Plug>RestNvimLast<CR>", { silent = true })
+
+-------------------------------------------------------------------------------
+-- rest.nvim
+-------------------------------------------------------------------------------
+require('gitlinker').setup()

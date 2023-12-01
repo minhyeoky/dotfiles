@@ -50,7 +50,7 @@ set encoding=utf-8
 set fileencoding=utf-8
 set number
 set relativenumber
-set conceallevel=2
+set conceallevel=0
 "set cmdheight=0  " TODO: statusline is flashing when using this option
 
 " Tab Options
@@ -84,7 +84,7 @@ set mouse=a
 set virtualedit=block
 set splitbelow
 set splitright
-set scrolloff=5
+set scrolloff=0
 set lazyredraw
 
 set wildmode=longest,list,full
@@ -268,6 +268,8 @@ Plug 'lukas-reineke/virt-column.nvim'
 
 Plug 'luisiacc/gruvbox-baby', {'branch': 'main'}
 Plug 'rest-nvim/rest.nvim'
+
+Plug 'linrongbin16/gitlinker.nvim'
 
 call plug#end()
 set completefunc=emoji#complete
