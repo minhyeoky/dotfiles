@@ -31,15 +31,15 @@ function cd {
     source "./.venv/bin/activate" && echo "Activated ${PWD}/.venv"
   fi
 
-  # Check if there is a .auto_env file and export it.
-  if [[ -f .auto_env ]]; then
+  # Check if there is a environment variable file and export it.
+  if [[ -f ._env ]]; then
     # shellcheck disable=SC2046
-    export $(grep -v '^#' .auto_env | xargs) > /dev/null && echo "Exported .env_auto"
+    export $(grep -v '^#' ._env | xargs) > /dev/null && echo "Exported ._env"
   fi
 
-  # Check if there is a .localrc file and source it.
-  if [[ -f .localrc ]]; then
+  # Check if there is a shell file and source it.
+  if [[ -f ._bashrc ]]; then
     # shellcheck disable=SC1091
-    source .localrc && echo "Sourced .localrc"
+    source ._bashrc && echo "Using ._bashrc"
   fi
 }
