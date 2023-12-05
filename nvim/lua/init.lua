@@ -142,7 +142,7 @@ require("null-ls").setup({
 -- nvim-treesitter
 --------------------------------------------------------------------------------
 require("nvim-treesitter.configs").setup({
-  ensure_installed = "all",
+  ensure_installed = "maintained",
   ignore_install = { "markdown", "markdown_inline" },
   highlight = {
     enable = true,
@@ -294,7 +294,7 @@ local lsp_map_opts = { noremap = true, silent = true }
 
 local on_attach = function(client, bufnr)
   -- Disable LSP's highlighting and use treesitter's instead.
-  client.server_capabilities.semanticTokensProvider = nil
+  -- client.server_capabilities.semanticTokensProvider = nil
 
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -428,6 +428,8 @@ if zk_notebook_dir ~= nil then
   vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap("n", "<leader>zf",
     "<Cmd>ZkNotes { sort = { 'created' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap("n", "<leader>zF",
+    "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap("n", "<leader>zw", "<CMD>ZkNew { dir = '" .. zk_notebook_dir .. "/diary' }<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap(
