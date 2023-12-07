@@ -142,24 +142,21 @@ require("null-ls").setup({
 -- nvim-treesitter
 --------------------------------------------------------------------------------
 require("nvim-treesitter.configs").setup({
-  ensure_installed = "maintained",
-  ignore_install = { "markdown", "markdown_inline" },
+  ensure_installed = {
+    "python",
+  },
+  sync_install = false,
+  auto_install = true,
   highlight = {
     enable = true,
     disable = function(_, buf)
-      local max_filesize = 1024 * 1024 -- 1MiB
+      local max_filesize = 1024 * 100 -- 100 KiB
       local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
       if ok and stats and stats.size > max_filesize then
         return true
       end
     end,
-    additional_vim_regex_highlighting = {},
-  },
-  incremental_selection = {
-    enable = true,
-  },
-  textobjects = {
-    enable = true,
+    additional_vim_regex_highlighting = false,
   },
 })
 
