@@ -387,6 +387,7 @@ command! BD call fzf#run(fzf#wrap({
 " NerdTree
 " --------------------------------------------------
 map <C-n> :NERDTreeToggle<CR>
+map <C-m> :NERDTreeFind<CR>
 
 let NERDTreeShowLineNumbers=1
 autocmd FileType nerdtree setlocal relativenumber
