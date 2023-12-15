@@ -142,15 +142,12 @@ require("null-ls").setup({
 -- nvim-treesitter
 --------------------------------------------------------------------------------
 require("nvim-treesitter.configs").setup({
-  ensure_installed = {
-    "python",
-  },
   sync_install = false,
   auto_install = true,
   highlight = {
     enable = true,
     disable = function(_, buf)
-      local max_filesize = 1024 * 100 -- 100 KiB
+      local max_filesize = 1024 * 1024 -- 1MiB
       local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
       if ok and stats and stats.size > max_filesize then
         return true
@@ -441,8 +438,8 @@ if zk_notebook_dir ~= nil then
     "<CMD>ZkNotes { sort = { 'created' }, tags = { 'diary' } }<CR>",
     lsp_map_opts
   )
+  vim.api.nvim_set_keymap("n", "<leader>td", "<CMD>edit " .. zk_notebook_dir .. "/todo.md<CR>", lsp_map_opts)
 end
-vim.api.nvim_set_keymap("n", "<leader>td", "<CMD>edit " .. zk_notebook_dir .. "/todo.md<CR>", lsp_map_opts)
 
 -------------------------------------------------------------------------------
 -- ChatGPT
@@ -467,7 +464,7 @@ require("zen-mode").setup({
   },
   plugins = {
     gitsigns = { enabled = true },
-    tmux = { enabled = true },
+    tmux = { enabled = false },
     alacritty = { enabled = true },
     options = {
       enabled = true,
