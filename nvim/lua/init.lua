@@ -104,23 +104,9 @@ require("mason").setup()
 
 require("mason-lspconfig").setup({
   ensure_installed = {
-    "pyright",
-    -- "bashls",
-    -- "jsonls",
-    -- "ruff_lsp",
-    -- "pylsp",
-    -- "lua_ls",
-    -- "html",
-    -- "jdtls",
-    -- "tsserver",
-    -- "dockerls",
-    -- "cssls",
-    -- "marksman",
-    -- "terraformls",
-    -- "tflint",
-    -- "marksman",
+    "pyright@1.1.339",
   },
-  automatic_installation = true,
+  automatic_installation = false,
 })
 
 --------------------------------------------------------------------------------
