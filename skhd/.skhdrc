@@ -33,6 +33,7 @@ lctrl + alt - l : yabai -m window --resize right:50:0; \
 
 # Make window native fullscreen
 alt - f         : yabai -m window --toggle zoom-fullscreen
+shift + alt - f : yabai -m window --toggle native-fullscreen
 
 # Open Alacritty
 # Rotate windows clockwise and anticlockwise
