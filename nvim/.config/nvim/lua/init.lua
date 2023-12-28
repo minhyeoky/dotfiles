@@ -443,22 +443,10 @@ require("zen-mode").setup({
   window = {
     width = 120, -- colorcolumn & textwidth
     options = {
-      signcolumn = "no",
-      cursorcolumn = false,
-      cursorline = false,
+      cursorline = true,
+      cursorcolumn = true,
+      signcolumn = "yes",
     },
-  },
-  plugins = {
-    gitsigns = { enabled = true },
-    tmux = { enabled = false },
-    alacritty = { enabled = true },
-    options = {
-      enabled = true,
-      ruler = false,
-      showcmd = true,
-      showmode = false,
-    },
-    twilight = { enabled = false },
   },
 })
 
