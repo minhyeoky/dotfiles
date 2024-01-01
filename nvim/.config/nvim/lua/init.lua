@@ -104,7 +104,7 @@ require("mason").setup()
 
 require("mason-lspconfig").setup({
   ensure_installed = {
-    "pyright@1.1.339",
+    "pyright@1.1.344",
   },
   automatic_installation = false,
 })
