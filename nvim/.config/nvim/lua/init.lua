@@ -117,6 +117,8 @@ require("null-ls").setup({
   debug = false,
   sources = {
     require("null-ls").builtins.diagnostics.shellcheck,
+    require("null-ls").builtins.diagnostics.mypy,
+
     require("null-ls").builtins.formatting.jq,
     require("null-ls").builtins.formatting.black,
     require("null-ls").builtins.formatting.trim_newlines,
@@ -366,7 +368,7 @@ for _, lsp in ipairs(SERVERS) do
     config["capabilities"].textDocument.completion.completionItem.snippetSupport = true
   elseif lsp == "pyright" then
     config["root_dir"] = require("lspconfig.util").root_pattern(
-      unpack({ "requirements.txt" })
+      unpack({ "requirements.txt", "pyproject.toml" })
     )
     config["settings"] = {
       python = {
