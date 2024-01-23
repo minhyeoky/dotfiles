@@ -200,6 +200,7 @@ Plug 'sindrets/diffview.nvim'
 
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'stevearc/oil.nvim'
 
 " Session manager
 Plug 'mhinz/vim-startify'

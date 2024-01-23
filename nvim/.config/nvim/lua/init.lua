@@ -534,3 +534,6 @@ vim.keymap.set("n", "<leader>rl", "<Plug>RestNvimLast<CR>", { silent = true })
 -- rest.nvim
 -------------------------------------------------------------------------------
 require('gitlinker').setup()
+
+require('oil').setup()
+vim.keymap.set("n", "<leader>fo", "<CMD>lua require('oil').open_float()<CR>", { silent = true, noremap = true })
