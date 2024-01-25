@@ -271,6 +271,10 @@ Plug 'luisiacc/gruvbox-baby', {'branch': 'main'}
 Plug 'rest-nvim/rest.nvim'
 
 Plug 'linrongbin16/gitlinker.nvim'
+Plug 'tpope/vim-eunuch'
+
+" Clipboard OSC52
+Plug 'ojroques/nvim-osc52'
 
 call plug#end()
 set completefunc=emoji#complete
@@ -348,15 +352,16 @@ nmap <Leader>zr :ZkGrep<CR>
 nmap <Leader>dF :DotFiles!<CR>
 nmap <Leader>zR :ZkGrep!<CR>
 
-"command! -bang Todo
-"  \ call fzf#vim#grep(
-"  \ 'rg --column --line-number --no-heading --color=always --smart-case -e ' . shellescape('^[ ]*\- \[ \]'),
-"  \ 1,
-"  \ fzf#vim#with_preview({'dir': $ZK_NOTEBOOK_DIR}),
-"  \ <bang>0
-"  \)
-"nmap <leader>td :Todo<cr>
-"nmap <leader>tD :Todo!<cr>
+" As a separate plugin
+command! -bang Todo
+  \ call fzf#vim#grep(
+  \ 'rg --column --line-number --no-heading --color=always --smart-case -e ' . shellescape('^\- \[ \]'),
+  \ 1,
+  \ fzf#vim#with_preview({'dir': $ZK_NOTEBOOK_DIR}),
+  \ <bang>0
+  \)
+nmap <leader>td :Todo<cr>
+nmap <leader>tD :Todo!<cr>
 
 command! -bang Keymap
   \ call fzf#vim#files(
