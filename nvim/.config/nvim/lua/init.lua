@@ -117,7 +117,7 @@ require("null-ls").setup({
   debug = false,
   sources = {
     require("null-ls").builtins.diagnostics.shellcheck,
-    require("null-ls").builtins.diagnostics.mypy,
+    -- require("null-ls").builtins.diagnostics.mypy,
 
     require("null-ls").builtins.formatting.jq,
     require("null-ls").builtins.formatting.black,
