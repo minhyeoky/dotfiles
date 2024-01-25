@@ -195,6 +195,19 @@ local SERVERS = {
 -------------------------------------------------------------------------------
 -- nvim-cmp
 -------------------------------------------------------------------------------
+local cmp_visible_buffers = {
+  name = "buffer",
+  option = {
+    get_bufnrs = function()
+      local bufs = {}
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        bufs[vim.api.nvim_win_get_buf(win)] = true
+      end
+      return vim.tbl_keys(bufs)
+    end
+  },
+}
+
 cmp.setup({
   snippet = {
     -- REQUIRED - you must specify a snippet engine
@@ -213,16 +226,7 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
     { name = "nvim_lsp_signature_help" },
-    {
-      name = "buffer",
-      option = {
-        get_bufnrs = function()
-          return vim.api.nvim_list_bufs()
-        end,
-      },
-    },
-    --{ name = "ultisnips" },
-    --{ name = "jira" },
+    cmp_visible_buffers,
   }, {}),
   formatting = {
     format = require("lspkind").cmp_format({
@@ -242,7 +246,7 @@ cmp.setup({
 -- Set configuration for specific filetype.
 cmp.setup.filetype("gitcommit", {
   sources = cmp.config.sources({
-    { name = "buffer" },
+    cmp_visible_buffers,
   }),
   mapping = cmp.mapping.preset.cmdline({}),
 })
