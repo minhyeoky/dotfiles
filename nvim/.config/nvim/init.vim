@@ -246,7 +246,6 @@ Plug 'AndrewRadev/inline_edit.vim'
 Plug 'jkramer/vim-checkbox'
 Plug 'mracos/mermaid.vim'
 Plug 'junegunn/vim-emoji'
-Plug 'lukas-reineke/headlines.nvim'
 nnoremap <silent> <space> :call checkbox#ToggleCB()<cr>
 
 " Quickfix & Loclist
