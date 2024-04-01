@@ -1,4 +1,3 @@
--- AUTHOR: Minhyeok Lee
 -- TODO: Migrate to Packer.
 vim.api.nvim_set_keymap("n", "<leader>S", "<cmd>Startify<cr>", { silent = true, noremap = true })
 
@@ -132,6 +131,10 @@ require("null-ls").setup({
 require("nvim-treesitter.configs").setup({
   sync_install = false,
   auto_install = true,
+  -- ignore_install = {
+  --   "markdown",
+  --   "markdown_inline",
+  -- },
   highlight = {
     enable = true,
     disable = function(_, buf)
@@ -156,7 +159,7 @@ local cmp = require("cmp")
 local SERVERS = {
   "pyright",
   -- "pylyzer",
-  "ruff_lsp",
+  -- "ruff_lsp",
   -- "pylsp",
   "bashls",
   -- "jsonls",
@@ -172,7 +175,7 @@ local SERVERS = {
 
   "terraformls",
   "tflint",
-  -- "marksman",
+  "marksman",
 }
 
 -------------------------------------------------------------------------------
@@ -335,7 +338,7 @@ for _, lsp in ipairs(SERVERS) do
       lsp = config,
       outline = {
         open_cmd = "30vnew", -- command to use to open the outline buffer
-        auto_open = false,    -- if true this will open the outline automatically when it is first populated
+        auto_open = false,   -- if true this will open the outline automatically when it is first populated
       },
       dev_log = {
         enabled = true,
@@ -413,7 +416,18 @@ if zk_notebook_dir ~= nil then
     "<CMD>ZkNotes { sort = { 'created' }, tags = { 'diary' } }<CR>",
     lsp_map_opts
   )
-  vim.api.nvim_set_keymap("n", "<leader>td", "<CMD>edit " .. zk_notebook_dir .. "/todo.md<CR>", lsp_map_opts)
+  vim.api.nvim_set_keymap(
+    "n",
+    "<leader>tl",
+    "<CMD>ZkNotes { sort = { 'modified' }, tags = { 'Todo' } }<CR>",
+    lsp_map_opts
+  )
+  vim.api.nvim_set_keymap(
+    "n",
+    "<leader>zt",
+    "<CMD>ZkNotes { sort = { 'modified' }, tags = { 'Todo' } }<CR>",
+    lsp_map_opts
+  )
 end
 
 -------------------------------------------------------------------------------
@@ -475,59 +489,21 @@ require("ibl").setup({
 -------------------------------------------------------------------------------
 -- rest.nvim
 -------------------------------------------------------------------------------
-require("rest-nvim").setup({
-  -- Open request results in a horizontal split
-  result_split_horizontal = false,
-  -- Keep the http file buffer above|left when split horizontal|vertical
-  result_split_in_place = false,
-  -- Skip SSL verification, useful for unknown certificates
-  skip_ssl_verification = false,
-  -- Encode URL before making request
-  encode_url = true,
-  -- Highlight request on run
-  highlight = {
-    enabled = true,
-    timeout = 150,
-  },
-  result = {
-    -- toggle showing URL, HTTP info, headers at top the of result window
-    show_url = true,
-    -- show the generated curl command in case you want to launch
-    -- the same request via the terminal (can be verbose)
-    show_curl_command = false,
-    show_http_info = true,
-    show_headers = true,
-    -- executables or functions for formatting response body [optional]
-    -- set them to false if you want to disable them
-    formatters = {
-      json = "jq",
-      html = function(body)
-        return vim.fn.system({"tidy", "-i", "-q", "-"}, body)
-      end
-    },
-  },
-  -- Jump to request line on run
-  jump_to_request = false,
-  env_file = '.env',
-  custom_dynamic_variables = {},
-  yank_dry_run = true,
-})
-
-vim.keymap.set("n", "<leader>rr", "<Plug>RestNvim<CR>", { silent = true })
-vim.keymap.set("n", "<leader>rp", "<Plug>RestNvimPreview<CR>", { silent = true })
-vim.keymap.set("n", "<leader>rl", "<Plug>RestNvimLast<CR>", { silent = true })
-
--------------------------------------------------------------------------------
--- rest.nvim
--------------------------------------------------------------------------------
 require('gitlinker').setup()
 
-require('oil').setup()
+require('oil').setup({
+  default_file_explorer = false,  -- `false` to fix netrw `GBrowse`
+})
 vim.keymap.set("n", "<leader>fo", "<CMD>lua require('oil').open_float()<CR>", { silent = true, noremap = true })
 
 -------------------------------------------------------------------------------
 -- nvim-osc52
 -------------------------------------------------------------------------------
-vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
-vim.keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
-vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)
+-- vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
+-- vim.keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
+-- vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)
+
+-------------------------------------------------------------------------------
+-- alpha.nvim
+-------------------------------------------------------------------------------
+require("alpha").setup(require("alpha.themes.startify").config)
