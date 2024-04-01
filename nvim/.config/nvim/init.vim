@@ -84,7 +84,6 @@ set mouse=a
 set virtualedit=block
 set splitbelow
 set splitright
-set scrolloff=0
 set lazyredraw
 
 set wildmode=longest,list,full
@@ -141,13 +140,14 @@ call plug#begin('~/.vim/plugged')
 " Plugins
 " ------------------------------------------------
 " Session & Startup
-Plug 'mhinz/vim-startify'
+Plug 'goolord/alpha-nvim'
+
 Plug 'ferrine/md-img-paste.vim'
 let g:mdip_imgdir = 'img'
 
 " Utilities
 Plug 'nvim-lua/plenary.nvim'
-Plug 'djoshea/vim-autoread'
+"Plug 'djoshea/vim-autoread'
 
 " writing
 Plug 'Pocco81/true-zen.nvim'
@@ -170,6 +170,9 @@ Plug 'onsails/lspkind-nvim'
 
 Plug 'github/copilot.vim'
 let g:copilot_enabled = 1
+let g:copilot_filetypes = {
+  \ 'markdown': v:false,
+  \ }
 
 " snippet
 Plug 'SirVer/ultisnips'
@@ -202,9 +205,6 @@ Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'stevearc/oil.nvim'
 
-" Session manager
-Plug 'mhinz/vim-startify'
-
 " Linter
 Plug 'jose-elias-alvarez/null-ls.nvim'
 "Plug 'ThePrimeagen/refactoring.nvim'
@@ -228,6 +228,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-sensible'
 
 " Markdown Preview
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install ' }
@@ -243,10 +244,8 @@ let g:mkdp_preview_options = {
 " Note
 Plug 'mickael-menu/zk-nvim'
 Plug 'AndrewRadev/inline_edit.vim'
-Plug 'jkramer/vim-checkbox'
 Plug 'mracos/mermaid.vim'
 Plug 'junegunn/vim-emoji'
-nnoremap <silent> <space> :call checkbox#ToggleCB()<cr>
 
 " Quickfix & Loclist
 Plug 'folke/trouble.nvim'
@@ -267,7 +266,6 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'lukas-reineke/virt-column.nvim'
 
 Plug 'luisiacc/gruvbox-baby', {'branch': 'main'}
-Plug 'rest-nvim/rest.nvim'
 
 Plug 'linrongbin16/gitlinker.nvim'
 Plug 'tpope/vim-eunuch'
