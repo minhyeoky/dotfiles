@@ -1,9 +1,10 @@
 [window]
-opacity = 0.7
-padding = { x = 100, y = 25 }
+opacity = 0.6
+padding = { x = 25, y = 25 }
+#padding = { x = 750, y = 25 }
 dynamic_padding = true
 decorations = "Buttonless"
-blur = true
+blur = false
 
 [font]
 normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
