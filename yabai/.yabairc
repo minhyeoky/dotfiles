@@ -41,6 +41,7 @@ yabai -m rule --add label="System Settings" app="^System Settings" manage=off
 yabai -m rule --add label="League of Legends" app="^League.*" manage=off
 yabai -m rule --add label="Spark" app="^Spark*" manage=off
 yabai -m rule --add label="Preview" app="^Preview*" manage=off
+yabai -m rule --add label="Calendar" app="^Calendar*" manage=off
 
 # FIXME
 #yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
