@@ -47,7 +47,21 @@ export EDITOR=nvim
 # fzf & fzf-vim
 [ -z "$ZSH_NAME" ] && [ -f ~/.fzf.bash ] && source ~/.fzf.bash 
 export FZF_COMPLETION_OPTS='--border --info=inline'
-export FZF_DEFAULT_COMMAND='fd -E node_modules -E .git -E .venv --hidden --follow --type f'
+export FZF_DEFAULT_COMMAND='fd \
+  -E node_modules \
+  -E .git \
+  -E .venv \
+  -E __pycache__ \
+  -E .ipynb_checkpoints \
+  -E .cache \
+  -E .vscode \
+  -E .idea \
+  -E .mypy_cache \
+  -E .pytest_cache \
+  --hidden \
+  --follow \
+  --no-ignore-vcs \
+  --type f'
 # --------------------------------------------------------------------------------
 # Colorize man-page
 # --------------------------------------------------------------------------------

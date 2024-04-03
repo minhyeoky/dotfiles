@@ -9,6 +9,7 @@ alias ll='ls -alhF'
 alias tf='terraform'
 alias qmkf='qmk flash --keyboard crkbd --keymap minhyeoky'
 alias po=poetry
+alias mp='multipass'
 alias mk=microk8s
 alias k='microk8s kubectl'
 

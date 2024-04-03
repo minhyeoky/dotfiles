@@ -59,7 +59,6 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2  " when using `>`
 set smartindent
-set termguicolors
 
 " Fold Options
 set foldmethod=expr
