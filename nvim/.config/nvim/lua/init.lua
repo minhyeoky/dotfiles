@@ -164,7 +164,7 @@ local SERVERS = {
   "bashls",
   -- "jsonls",
   "lua_ls",
-  "flutter-tools",
+  -- "flutter-tools",
   "html",
   "jdtls",
   "tsserver",
@@ -175,7 +175,7 @@ local SERVERS = {
 
   "terraformls",
   "tflint",
-  "marksman",
+  -- "marksman",
 }
 
 -------------------------------------------------------------------------------
@@ -399,7 +399,7 @@ if zk_notebook_dir ~= nil then
   vim.api.nvim_set_keymap("n", "<leader>zn", "<Cmd>ZkNew<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap("n", "<leader>zt", "<Cmd>ZkTags<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap("n", "<leader>zf",
-    "<Cmd>ZkNotes { sort = { 'created' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
+    "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap("n", "<leader>zF",
     "<Cmd>ZkNotes { sort = { 'modified' }, excludeHrefs = { '" .. zk_notebook_dir .. "/diary'} }<CR>", lsp_map_opts)
   vim.api.nvim_set_keymap("v", "<leader>zf", ":'<,'>ZkMatch<CR>", lsp_map_opts)

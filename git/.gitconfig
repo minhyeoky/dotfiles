@@ -1,56 +1,58 @@
 [color]
-ui = true
+	ui = true
 [user]
-name = minhyeoky
-email = minhyeok.lee95@gmail.com
+	name = Minhyeok Lee
+	email = mhlee@allganize.io
 [log]
-date = iso
+	date = iso
 [push]
-default = simple
+	default = simple
 [core]
 	editor = nvim
-autocrlf = input
-precomposeunicode = true
-quotepath = false
-excludesfile = ~/.gitignore
+	autocrlf = input
+	precomposeunicode = true
+	quotepath = false
+	excludesfile = ~/.gitignore
 [alias]
-co = checkout
-ci = commit
-st = status
-lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%n''          %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)'
-br = branch -vv
-rp = rev-parse HEAD
-bw = branch --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
-rw = for-each-ref refs/heads/ --count=30 --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+	co = checkout
+	ci = commit
+	st = status
+	lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%n''          %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)'
+	br = branch -vv
+	rp = rev-parse HEAD
+	bw = branch --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+	rw = for-each-ref refs/heads/ --count=30 --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
 [filter "lfs"]
-clean = git-lfs clean -- %f
-smudge = git-lfs smudge -- %f
-process = git-lfs filter-process
-required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 [credential]
-username = minhyeoky
+	username = minhyeoky
 [author]
-name = Minhyeok Lee
-email = minhyeok.lee95@gmail.com
+	name = Minhyeok Lee
+	email = minhyeok.lee95@gmail.com
 [committer]
-name = Minhyeok Lee
-email = minhyeok.lee95@gmail.com
+	name = Minhyeok Lee
+	email = minhyeok.lee95@gmail.com
 [rerere]
-enabled = true
+	enabled = true
 [diff]
-tool = nvimdiff
+	tool = nvimdiff
 [difftool]
-prompt = true
+	prompt = true
 [difftool "nvimdiff"]
-cmd = "nvim -d -c \"wincmd l\" -c \"lua vim.diagnostic.disable(1)\" \"$LOCAL\" \"$REMOTE\""
+	cmd = "nvim -d -c \"wincmd l\" -c \"lua vim.diagnostic.disable(1)\" \"$LOCAL\" \"$REMOTE\""
 [pull]
-rebase = false
+	rebase = false
 [merge]
-tool = "nvim"
+	tool = "nvim"
 [mergetool]
-keepBackup = false
-prompt = false
+	keepBackup = false
+	prompt = false
 [mergetool "nvim"]
-cmd = "nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
+	cmd = "nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
 [blame]
 	markIgnoredLines = true
+[safe]
+	directory = /Users/minhyeoky/allganize/mage-demo
