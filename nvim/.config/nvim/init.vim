@@ -78,7 +78,6 @@ set concealcursor=
 set nobackup
 set noswapfile
 set ignorecase smartcase
-set cursorline
 set mouse=a
 set virtualedit=block
 set splitbelow
