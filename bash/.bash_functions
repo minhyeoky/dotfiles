@@ -7,7 +7,7 @@ function watch() {
   while true; do
     clear
     "$*"
-    sleep 1
+    sleep 10
   done
 }
 
