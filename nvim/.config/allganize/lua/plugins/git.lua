@@ -11,6 +11,15 @@ return {
     },
   },
 
+  -- extension for fugitive; adds support for GitHub
+  {
+    "tpope/vim-rhubarb",
+    dependencies = {
+      { "tpope/vim-fugitive" },
+    },
+    lazy = false,
+  },
+
   {
     "lewis6991/gitsigns.nvim",
     event = "BufRead",

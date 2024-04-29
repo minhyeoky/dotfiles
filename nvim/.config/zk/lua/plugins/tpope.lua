@@ -1,10 +1,5 @@
 return {
   {
-    "tpope/vim-commentary",
-    lazy = false,
-  },
-
-  {
     "tpope/vim-surround",
     lazy = false,
   },

@@ -4,10 +4,9 @@ return {
     build = "./install --bin",
   },
 
-{
+  {
     "ibhagwan/fzf-lua",
-    dependencies = {
-      "junegunn/fzf",
+    dependencies = { "junegunn/fzf",
       "nvim-tree/nvim-web-devicons",
     },
     config = function()
@@ -60,9 +59,13 @@ return {
       local commands = require("zk.commands")
 
       commands.add("ZkOrphans", function(options)
-        options = vim.tbl_extend("force", { sort = { 'modified' }, orphan = true, tags = { 'NOT diary', 'NOT Index', 'NOT Post' } }, options or {})
+        options = vim.tbl_extend("force",
+          { sort = { 'modified' }, orphan = true, tags = { 'NOT diary', 'NOT Index', 'NOT Post' } }, options or {})
         zk.edit(options, { title = "Zk Orphans" })
       end)
+
+      -- move to the Zk directory
+      require("zk").cd()
     end,
     keys = {
       {
@@ -96,5 +99,25 @@ return {
         "<cmd>ZkTags<cr>",
       },
     },
+  },
+
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-path",
+    },
+    config = function()
+      local cmp = require("cmp")
+      cmp.setup({
+        sources = {
+          { name = "nvim_lsp" },
+          { name = "path" },
+        },
+        mapping = cmp.mapping.preset.insert({
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        }),
+      })
+    end,
   },
 }
