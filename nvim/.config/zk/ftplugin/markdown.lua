@@ -23,4 +23,11 @@ if require("zk.util").notebook_root(vim.fn.expand('%:p')) ~= nil then
   
   -- Preview a linked note.
   map("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+
+  -- See notes referencing.
+  map("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
+  
+  -- Navigation.
+  map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
+  map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
 end

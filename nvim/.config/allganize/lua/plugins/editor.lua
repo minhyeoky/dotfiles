@@ -84,4 +84,32 @@ return {
       },
     },
   },
+
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+    },
+    config = function()
+      require("cmp").setup({
+        mapping = {
+          ["<C-n>"] = require("cmp").mapping.select_next_item({
+            behavior = require("cmp").SelectBehavior.Insert,
+          }),
+          ["<C-p>"] = require("cmp").mapping.select_prev_item({
+            behavior = require("cmp").SelectBehavior.Insert,
+          }),
+          ["<C-d>"] = require("cmp").mapping.scroll_docs(-4),
+          ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
+          ["<CR>"] = require("cmp").mapping.confirm({
+            select = true,
+          }),
+        },
+        sources = {
+          { name = "nvim_lsp" },
+        },
+      })
+    end,
+  },
 }
