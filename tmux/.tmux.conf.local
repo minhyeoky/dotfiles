@@ -345,6 +345,12 @@ bind-key ! run-shell "tmux new-window $HOME/scripts/run-scripts.sh"
 bind-key -r C-p next-window
 bind-key -r C-n previous-window
 
-set -g display-panes-time 2000
+# Wait time for <prefix> + q (`display-panes` command)
+set -g display-panes-time 3000
+
+################################################################################
+# Append terminal features to the terminal-features option
+################################################################################
+set-option -sa terminal-features ',alacritty:RGB'
 
 # vim: nowrap:
