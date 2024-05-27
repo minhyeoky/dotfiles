@@ -32,7 +32,7 @@ return {
             .. "  - Formerly researched in database lab.\n"
             .. "\n"
             .. "- **Current Focus:**\n"
-            .. "  - Working on redesigning a document ingestion pipeline.\n"
+            .. "  - Working on redesigning a document ingestion pipeline, emphasizing flexibility and maintainability.\n"
             .. "\n"
             .. "- **Interpersonal Dynamics:**\n"
             .. "  - Collaborative, working closely with a colleague on the pipeline project.\n"
