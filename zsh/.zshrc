@@ -134,6 +134,8 @@ export DISABLE_AUTO_TITLE='true'
 # neovim
 # --------------------------------------------------------------------------------
 export MANPAGER='nvim +Man!'
+export NVIM_PYTHON3_HOST_PROG="$HOME/.pyenv/shims/python3.11"
+export NVIM_APPNAME="minhyeoky"
 
 # --------------------------------------------------------------------------------
 # PATH
@@ -164,3 +166,15 @@ source /Users/minhyeoky/.docker/init-zsh.sh || true # Added by Docker Desktop
 
 # To customize prompt, run `p10k configure` or edit ~/Library/CloudStorage/Dropbox/box/dotfiles/zsh/.p10k.zsh.
 [[ ! -f ~/Library/CloudStorage/Dropbox/box/dotfiles/zsh/.p10k.zsh ]] || source ~/Library/CloudStorage/Dropbox/box/dotfiles/zsh/.p10k.zsh
+
+# --------------------------------------------------------------------------------
+# pyenv
+# --------------------------------------------------------------------------------
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# --------------------------------------------------------------------------------
+# bob-nvim
+# --------------------------------------------------------------------------------
+export PATH="/Users/minhyeoky/.local/share/bob/nvim-bin:$PATH"

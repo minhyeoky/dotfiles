@@ -1,15 +1,5 @@
 return {
   {
-    "ludovicchabant/vim-gutentags",
-    lazy = false,
-  },
-
-  {
-    "github/copilot.vim",
-    lazy = false,
-  },
-
-  {
     "junegunn/fzf",
     build = "./install --bin",
   },
@@ -37,29 +27,45 @@ return {
           actions = {
             ["ctrl-r"] = require("fzf-lua").actions.toggle_ignore,
           },
+          rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
         },
       })
     end,
     keys = {
       {
         "<leader>fr",
-        '<cmd>:lua require("fzf-lua").grep({ search = "" })<cr>',
+        function()
+          require("fzf-lua").grep({ search = "" })
+        end,
         desc = "Grep",
       },
       {
         "<leader>ft",
-        '<cmd>lua require("fzf-lua").tags()<cr>',
+        function()
+          require("fzf-lua").tags()
+        end,
         desc = "Tags",
       },
       {
         "<leader>ff",
-        '<cmd>:lua require("fzf-lua").files()<cr>',
+        function()
+          require("fzf-lua").files()
+        end,
         desc = "Files",
       },
       {
         "<leader>fb",
-        '<cmd>:lua require("fzf-lua").buffers()<cr>',
+        function()
+          require("fzf-lua").buffers()
+        end,
         desc = "Buffers",
+      },
+      {
+        "<leader>df",
+        function()
+          require("fzf-lua").files({ cwd = vim.fn.stdpath("config") })
+        end,
+        desc = "Dot Files",
       },
     },
   },
@@ -83,33 +89,5 @@ return {
         end,
       },
     },
-  },
-
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-    },
-    config = function()
-      require("cmp").setup({
-        mapping = {
-          ["<C-n>"] = require("cmp").mapping.select_next_item({
-            behavior = require("cmp").SelectBehavior.Insert,
-          }),
-          ["<C-p>"] = require("cmp").mapping.select_prev_item({
-            behavior = require("cmp").SelectBehavior.Insert,
-          }),
-          ["<C-d>"] = require("cmp").mapping.scroll_docs(-4),
-          ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
-          ["<CR>"] = require("cmp").mapping.confirm({
-            select = true,
-          }),
-        },
-        sources = {
-          { name = "nvim_lsp" },
-        },
-      })
-    end,
   },
 }

@@ -6,15 +6,10 @@ return {
     opts = {
       ensure_installed = {
         "vimdoc",
-        "markdown",
-        "markdown_inline",
+        "vim",
       },
       highlight = {
         enable = true,
-
-        --disable = { "markdown" },
-
-        --additional_vim_regex_highlighting = { "markdown" },
       },
     },
     config = function(_, opts)
