@@ -11,7 +11,7 @@ normal = { family = "JetBrainsMono Nerd Font", style = "ExtraLight" }
 bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
 italic = { family = "JetBrainsMono Nerd Font", style = "Thin Italic" }
 offset = { x = -2, y = -2 }
-size = 16
+size = 14
 
 [colors.primary]
 foreground = "0xdfbf8e"

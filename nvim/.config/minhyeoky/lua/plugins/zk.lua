@@ -9,17 +9,6 @@ return {
     dependencies = { "junegunn/fzf",
       "nvim-tree/nvim-web-devicons",
     },
-    config = function()
-      require("fzf-lua").setup({
-        "fzf-vim",
-        defaults = {
-          actions = {
-            ["ctrl-s"] = require("fzf-lua").actions.file_sel_to_ll,
-            ["ctrl-q"] = require("fzf-lua").actions.file_sel_to_qf,
-          },
-        },
-      })
-    end,
     keys = {
       {
         "<leader>zr",
@@ -63,9 +52,6 @@ return {
           { sort = { 'modified' }, orphan = true, tags = { 'NOT diary', 'NOT Index', 'NOT Post' } }, options or {})
         zk.edit(options, { title = "Zk Orphans" })
       end)
-
-      -- move to the Zk directory
-      require("zk").cd()
     end,
     keys = {
       {
@@ -101,23 +87,23 @@ return {
     },
   },
 
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-path",
-    },
-    config = function()
-      local cmp = require("cmp")
-      cmp.setup({
-        sources = {
-          { name = "nvim_lsp" },
-          { name = "path" },
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        }),
-      })
-    end,
-  },
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   dependencies = {
+  --     "hrsh7th/cmp-nvim-lsp",
+  --     "hrsh7th/cmp-path",
+  --   },
+  --   config = function()
+  --     local cmp = require("cmp")
+  --     cmp.setup({
+  --       sources = {
+  --         { name = "nvim_lsp" },
+  --         { name = "path" },
+  --       },
+  --       mapping = cmp.mapping.preset.insert({
+  --         ["<CR>"] = cmp.mapping.confirm({ select = true }),
+  --       }),
+  --     })
+  --   end,
+  -- },
 }
