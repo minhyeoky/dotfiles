@@ -13,6 +13,7 @@ alias mp='multipass'
 alias mk=microk8s
 alias k='microk8s kubectl'
 alias j='jira'
+alias ldg='ledger'
 
 # --------------------------------------------------------------------------------
 # docker & docker-compose
