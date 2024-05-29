@@ -178,3 +178,5 @@ eval "$(pyenv init -)"
 # bob-nvim
 # --------------------------------------------------------------------------------
 export PATH="/Users/minhyeoky/.local/share/bob/nvim-bin:$PATH"
+
+export LEDGER_FILE="${DROPBOX_PATH}/pta/ledger/ledger.dat"
