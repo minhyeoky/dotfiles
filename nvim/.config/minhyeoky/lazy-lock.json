@@ -23,6 +23,7 @@
   "oil.nvim": { "branch": "master", "commit": "aa0c00c7fd51982ac476d165cd021f348cf5ea71" },
   "plenary.nvim": { "branch": "master", "commit": "08e301982b9a057110ede7a735dd1b5285eb341f" },
   "trouble.nvim": { "branch": "main", "commit": "915179759c9459b69faae90a38da6fc1ca6b90d7" },
+  "vim-bufkill": { "branch": "master", "commit": "3113181d0c1bfb8719f3ddcd2e2f35a8d763d1e5" },
   "vim-commentary": { "branch": "master", "commit": "c4b8f52cbb7142ec239494e5a2c4a512f92c4d07" },
   "vim-fugitive": { "branch": "master", "commit": "ce882460cf3db12e99f8bf579cbf99e331f6dd4f" },
   "vim-gutentags": { "branch": "master", "commit": "aa47c5e29c37c52176c44e61c780032dfacef3dd" },
