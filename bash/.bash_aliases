@@ -14,6 +14,7 @@ alias mk=microk8s
 alias k='microk8s kubectl'
 alias j='jira'
 alias ldg='ledger'
+alias vl='vim ${LEDGER_FILE}'
 
 # --------------------------------------------------------------------------------
 # docker & docker-compose
