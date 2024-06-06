@@ -1,6 +1,9 @@
 return {
   {
     "stevearc/oil.nvim",
+    opts = {
+      default_file_explorer = false,  -- `false` to fix netrw `GBrowse`
+    },
     config = true,
     keys = {
       {
