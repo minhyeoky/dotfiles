@@ -13,6 +13,12 @@ return {
     config = function()
       require("fzf-lua").setup({
         "fzf-vim",
+        winopts={
+          fullscreen = true,
+          preview = {
+            hidden = "nohidden",
+          },
+        },
         defaults = {
           -- to increase performance
           file_icons = false,
