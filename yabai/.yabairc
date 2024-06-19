@@ -46,3 +46,10 @@ yabai -m rule --add label="Calendar" app="^Calendar*" manage=off
 # FIXME
 #yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 #sudo yabai --load-sa
+
+# focus window after active space changes
+yabai -m signal --add event=space_changed action="yabai -m window --focus \$(yabai -m query --spaces | jq '.[] | select(.\"is-visible\" == true) | .\"first-window\"')"
+
+
+# focus window after active display changes
+yabai -m signal --add event=display_changed action="yabai -m window --focus \$(yabai -m query --spaces | jq '.[] | select(.\"is-visible\" == true) | .\"first-window\"')"
