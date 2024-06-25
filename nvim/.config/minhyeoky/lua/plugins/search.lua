@@ -17,6 +17,7 @@ return {
           fullscreen = true,
           preview = {
             hidden = "nohidden",
+            horizontal = "right:45%",
           },
         },
         defaults = {
