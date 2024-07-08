@@ -76,25 +76,4 @@ return {
       },
     },
   },
-
-  {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = true,
-    keys = {
-      {
-        "<leader>a",
-        function()
-          require("harpoon"):list():add()
-        end,
-      },
-      {
-        "<leader>e",
-        function()
-          require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
-        end,
-      },
-    },
-  },
 }
