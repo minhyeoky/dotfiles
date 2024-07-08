@@ -8,5 +8,10 @@ return {
         "<cmd>BD<cr>",
       },
     },
-  }
+  },
+
+  {
+    "djoshea/vim-autoread",
+    lazy = false,
+  },
 }
