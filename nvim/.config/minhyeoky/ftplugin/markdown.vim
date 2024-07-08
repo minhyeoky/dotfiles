@@ -34,3 +34,6 @@ nmap <Leader>mdp :call PasteMDLink("[%s](%s)")<cr>
 " Navigate between markdown links
 nmap <buffer><silent> <Tab> /\[[^]]*\](\S\+)<CR>:set nohlsearch<CR>
 nmap <buffer><silent> <S-Tab> ?\[[^]]*\](\S\+)<CR>:set nohlsearch<CR>
+
+set textwidth=80
+set colorcolumn=+1
