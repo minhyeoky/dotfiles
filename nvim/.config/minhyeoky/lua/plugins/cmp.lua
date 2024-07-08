@@ -22,6 +22,7 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
+      "kirasok/cmp-hledger",
     },
     opts = function()
       local cmp = require("cmp")
@@ -44,6 +45,7 @@ return {
           { name = "nvim_lsp" },
           { name = "buffer" },
           { name = "path" },
+          { name = "hledger" },
         }),
         completion = {
           completeopt = "menu,menuone,noselect",
