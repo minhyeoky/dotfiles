@@ -1,6 +1,8 @@
 vim.opt.fileencoding = "utf-8"
 vim.opt.number = true -- show line numbers
 vim.opt.relativenumber = true -- show relative line numbers
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 
 vim.opt.foldmethod = "indent"
 vim.opt.shiftwidth = 2     -- number of spaces to use for each step of (auto)indent
