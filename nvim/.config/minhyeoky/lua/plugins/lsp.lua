@@ -33,6 +33,7 @@ return {
           -- Buffer local mappings.
           -- See `:help vim.lsp.*` for documentation on any of the below functions
           local lsp_opts = { buffer = ev.buf }
+          vim.keymap.set('n', 'gr', vim.lsp.buf.references, lsp_opts)
           vim.keymap.set('n', 'gd', vim.lsp.buf.definition, lsp_opts)
           vim.keymap.set('n', 'K', vim.lsp.buf.hover, lsp_opts)
           vim.keymap.set('n', 'gD', vim.lsp.buf.implementation, lsp_opts)
@@ -40,6 +41,8 @@ return {
           vim.keymap.set('n', ']d', vim.diagnostic.goto_next, lsp_opts)
           vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, lsp_opts)
           vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, lsp_opts)
+          vim.keymap.set('n', '<leader>ci', vim.lsp.buf.incoming_calls, lsp_opts)
+          vim.keymap.set('n', '<leader>co', vim.lsp.buf.outgoing_calls, lsp_opts)
         end,
       })
     end
@@ -52,6 +55,7 @@ return {
         "lua-language-server",
         "pyright",
         "ruff_lsp",
+        "gopls",
       },
     },
     config = true,
