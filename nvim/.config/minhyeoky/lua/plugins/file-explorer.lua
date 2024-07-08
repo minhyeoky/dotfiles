@@ -36,6 +36,17 @@ return {
       },
       config = function()
         require("neo-tree").setup({
+          window = {
+            -- set "none" to remove existing mapping
+            -- `window.mappings` for global mappings and this can be overridden
+            mappings = {
+              ["z"] = "none",
+              ["za"] = "toggle_node",
+              ["zC"] = "close_all_subnodes",
+              ["zM"] = "close_all_nodes",
+              ["zR"] = "expand_all_nodes",
+            },
+          },
           sources = {
             -- defaults
             "filesystem",
@@ -47,6 +58,8 @@ return {
           },
 
           -- zk = {},
+
+
         })
       end,
       keys = {
