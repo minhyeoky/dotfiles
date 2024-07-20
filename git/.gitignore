@@ -21,7 +21,3 @@ __pycache__
 # Vim gutentags
 .gutctags
 .notags
-
-# env for project
-.auto_env
-.localrc
