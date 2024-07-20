@@ -16,6 +16,11 @@ alias j='jira'
 alias ldg='ledger'
 alias vl='vim ${LEDGER_FILE}'
 
+# GitHub Copilot CLI
+alias explain='gh copilot explain'
+alias suggest='gh copilot suggest'
+
+
 # --------------------------------------------------------------------------------
 # docker & docker-compose
 # --------------------------------------------------------------------------------
