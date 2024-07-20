@@ -10,6 +10,7 @@ return {
             "toml",
             "rst",
             "ninja",
+            "htmldjango",
           }
         )
       end
