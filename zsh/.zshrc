@@ -162,7 +162,9 @@ set -o vi
 
 source /Users/minhyeoky/.docker/init-zsh.sh || true # Added by Docker Desktop
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/Library/CloudStorage/Dropbox/box/dotfiles/zsh/.p10k.zsh.
 [[ ! -f ~/Library/CloudStorage/Dropbox/box/dotfiles/zsh/.p10k.zsh ]] || source ~/Library/CloudStorage/Dropbox/box/dotfiles/zsh/.p10k.zsh
