@@ -60,7 +60,7 @@ return {
 
       local cmp = require("cmp")
       cmp.setup(opts)
-      setup_autobrackets(cmp, opts)
+      -- setup_autobrackets(cmp, opts)
     end,
   },
 }
