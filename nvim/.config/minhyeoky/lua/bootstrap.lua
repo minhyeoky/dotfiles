@@ -10,5 +10,4 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 require("lazy").setup({
   { import = "plugins" },
   { import = "plugins.lang" },
-  { import = "plugins.ai" },
 })
