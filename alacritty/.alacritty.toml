@@ -5,6 +5,7 @@ padding = { x = 25, y = 25 }
 dynamic_padding = true
 decorations = "Buttonless"
 blur = false
+option_as_alt = "Both"
 
 [font]
 normal = { family = "JetBrainsMono Nerd Font", style = "ExtraLight" }
