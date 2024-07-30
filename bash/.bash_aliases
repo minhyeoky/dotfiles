@@ -15,6 +15,7 @@ alias k='microk8s kubectl'
 alias j='jira'
 alias ldg='ledger'
 alias vl='vim ${LEDGER_FILE}'
+alias e='emacs -nw'
 
 # GitHub Copilot CLI
 alias explain='gh copilot explain'
