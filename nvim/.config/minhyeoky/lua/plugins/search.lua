@@ -34,7 +34,7 @@ return {
           actions = {
             ["ctrl-r"] = require("fzf-lua").actions.toggle_ignore,
           },
-          rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
+          rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 --glob '!\\.git' -e",
         },
       })
     end,
