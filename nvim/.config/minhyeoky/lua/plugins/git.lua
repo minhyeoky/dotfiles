@@ -25,8 +25,17 @@ return {
     opts = {
       numhl = true,
       linehl = false,
-      signcolumn = false,
-      word_diff = false,
+      signcolumn = true,
+      word_diff = true,
+
+      current_line_blame = true,
+      current_line_blame_opts = {
+        virt_text = true,
+        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+        delay = 10,
+        ignore_whitespace = false,
+        virt_text_priority = 100,
+      },
     },
     config = true,
     keys = {
