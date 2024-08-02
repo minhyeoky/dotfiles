@@ -25,8 +25,8 @@ return {
     opts = {
       numhl = true,
       linehl = false,
-      signcolumn = true,
-      word_diff = true,
+      signcolumn = false,
+      word_diff = false,
 
       current_line_blame = true,
       current_line_blame_opts = {
