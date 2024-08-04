@@ -42,6 +42,9 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Dropbox/pkm/org/")
 
+;; org-roam
+(setq org-roam-directory (file-truename "~/Dropbox/pkm/org"))
+(org-roam-db-autosync-mode)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
