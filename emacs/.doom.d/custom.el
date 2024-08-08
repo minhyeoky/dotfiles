@@ -16,3 +16,6 @@
 (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
 (setq-default visual-fill-column-center-text t)
 (add-to-list 'term-file-aliases '("alacritty" . "xterm"))
+
+(require 'pbcopy)
+(turn-on-pbcopy)
