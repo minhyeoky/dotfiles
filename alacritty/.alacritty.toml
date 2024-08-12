@@ -1,6 +1,6 @@
 [window]
 opacity = 1
-padding = { x = 25, y = 25 }
+padding = { x = 0, y = 25 }
 #padding = { x = 750, y = 25 }
 dynamic_padding = true
 decorations = "Buttonless"
@@ -12,8 +12,11 @@ normal = { family = "JetBrainsMono Nerd Font", style = "ExtraLight" }
 bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
 italic = { family = "JetBrainsMono Nerd Font", style = "Thin Italic" }
 offset = { x = -2, y = -2 }
-size = 14
+size = 12
 
 [colors.primary]
 foreground = "0xdfbf8e"
 background = "0x282828"
+
+[env]
+term = "alacritty"
