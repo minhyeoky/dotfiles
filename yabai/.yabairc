@@ -4,6 +4,8 @@ sudo yabai --load-sa
 
 # Layout
 yabai -m config layout bsp
+yabai -m config --space 3 layout float
+yabai -m config --space 4 layout float
 
 # Mouse
 yabai -m config mouse_follows_focus off
@@ -46,14 +48,11 @@ yabai -m rule --add label="League of Legends" app="^League.*" manage=off
 yabai -m rule --add label="Spark" app="^Spark*" manage=off
 yabai -m rule --add label="Preview" app="^Preview*" manage=off
 yabai -m rule --add label="Calendar" app="^Calendar*" manage=off
+yabai -m rule --add label="ChatGPT" app="^ChatGPT*" manage=off
 
 # FIXME
 #yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 #sudo yabai --load-sa
 
 # focus window after active space changes
-yabai -m signal --add event=space_changed action="yabai -m window --focus \$(yabai -m query --spaces | jq '.[] | select(.\"is-visible\" == true) | .\"first-window\"')"
-
-
-# focus window after active display changes
-yabai -m signal --add event=display_changed action="yabai -m window --focus \$(yabai -m query --spaces | jq '.[] | select(.\"is-visible\" == true) | .\"first-window\"')"
+# yabai -m signal --add event=space_changed action="yabai -m window --focus \$(yabai -m query --spaces | jq '.[] | select(.\"is-visible\" == true) | .\"first-window\"')"
