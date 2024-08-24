@@ -67,7 +67,7 @@ return {
           "<C-n>",
           function()
             require("neo-tree.command").execute({
-              position = "float",
+              -- position = "float",
               reveal = true,
               toggle = true,
             })
