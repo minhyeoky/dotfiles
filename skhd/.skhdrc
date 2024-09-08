@@ -52,9 +52,9 @@ lctrl - 3 : yabai -m space --focus 3
 lctrl - 4 : yabai -m space --focus 4
 lctrl - 5 : yabai -m space --focus 5
 lctrl - 6 : yabai -m space --focus 6
-alt - tab : yabai -m space --focus recent
-alt + lctrl - p : yabai -m space --focus next
-alt + lctrl - n : yabai -m space --focus prev
 
-alt - p : yabai -m display --focus next
-alt - n : yabai -m display --focus prev
+alt - tab : yabai -m space --focus recent
+alt - p : yabai -m space --focus next
+alt - n : yabai -m space --focus prev
+alt + lctrl - p : yabai -m display --focus next
+alt + lctrl - n : yabai -m display --focus prev
