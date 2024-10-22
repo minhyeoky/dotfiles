@@ -344,6 +344,8 @@ bind-key ! run-shell "tmux new-window $HOME/scripts/run-scripts.sh"
 # TODO: Replace tmux-pomodoro-plus C-b C-p with next-window
 bind-key -r C-p next-window
 bind-key -r C-n previous-window
+bind-key -r C-u last-window
+bind-key -r C-o run-shell '$HOME/scripts/swap-tmux-pane.sh'
 
 # Wait time for <prefix> + q (`display-panes` command)
 set -g display-panes-time 3000
