@@ -1,44 +1,25 @@
 return {
-  -- add copilot
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   dependencies = {
-  --     {
-  --       "zbirenbaum/copilot-cmp",
-  --       dependencies = {
-  --         {
-  --           "zbirenbaum/copilot.lua",
-  --           event = "InsertEnter",
-  --           cmd = "Copilot",
-  --           opts = {
-  --             filetypes = {
-  --               ledger = false,
-  --             },
-  --           },
-  --           config = function(_, opts)
-  --             require("copilot").setup(opts)
-  --           end
-  --         },
-  --       },
-  --       opts = {},
-  --       config = function (_, opts)
-  --         require("copilot_cmp").setup(opts)
-  --       end
-  --     },
-  --   },
-  --   opts = function (_, opts)
-  --     table.insert(
-  --       opts.sources,
-  --       {
-  --         name = "copilot",
-  --         priority = 100,
-  --         group_index = 1,
-  --       }
-  --     )
-  --   end
-  -- },
   {
     "github/copilot.vim",
     lazy = false,
+  },
+  {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    lazy = false,
+    version = false, -- set this if you want to always pull the latest change
+    opts = {
+      provider = "copilot",
+      auto_suggestions_provider = "copilot",
+    },
+    build = "make",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      "zbirenbaum/copilot.lua", -- for providers='copilot'
+    },
   },
 }
