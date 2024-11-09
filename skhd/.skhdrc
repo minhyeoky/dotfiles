@@ -5,10 +5,10 @@ alt - k : yabai -m window --focus north
 alt - l : yabai -m window --focus east
 
 # Moving windows
-shift + alt - h : yabai -m window --warp west
-shift + alt - j : yabai -m window --warp south
-shift + alt - k : yabai -m window --warp north
-shift + alt - l : yabai -m window --warp east
+shift + alt - left : yabai -m window --warp west
+shift + alt - up : yabai -m window --warp south
+shift + alt - down : yabai -m window --warp north
+shift + alt - right : yabai -m window --warp east
 
 # Move focus container to workspace
 shift + alt - m : yabai -m window --space last; yabai -m space --focus last
@@ -22,13 +22,13 @@ shift + alt - 5 : yabai -m window --space 5; yabai -m space --focus 5
 shift + alt - 6 : yabai -m window --space 6; yabai -m space --focus 6
 
 # Resize windows
-lctrl + alt - h : yabai -m window --resize left:-50:0; \
+shift + alt - h : yabai -m window --resize left:-50:0; \
                   yabai -m window --resize right:-50:0
-lctrl + alt - j : yabai -m window --resize bottom:0:50; \
+shift + alt - j : yabai -m window --resize bottom:0:50; \
                   yabai -m window --resize top:0:50
-lctrl + alt - k : yabai -m window --resize top:0:-50; \
+shift + alt - k : yabai -m window --resize top:0:-50; \
                   yabai -m window --resize bottom:0:-50
-lctrl + alt - l : yabai -m window --resize right:50:0; \
+shift + alt - l : yabai -m window --resize right:50:0; \
                   yabai -m window --resize left:50:0
 
 # Make window native fullscreen
