@@ -4,6 +4,9 @@ alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
 alt - l : yabai -m window --focus east
 
+alt - p : yabai -m display --focus next
+alt - n : yabai -m display --focus prev
+
 # Moving windows
 shift + alt - left : yabai -m window --warp west
 shift + alt - up : yabai -m window --warp south
@@ -53,6 +56,3 @@ lctrl - 3 : yabai -m space --focus 3
 lctrl - 4 : yabai -m space --focus 4
 lctrl - 5 : yabai -m space --focus 5
 lctrl - 6 : yabai -m space --focus 6
-
-alt + lctrl - p : yabai -m display --focus next
-alt + lctrl - n : yabai -m display --focus prev
