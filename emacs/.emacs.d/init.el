@@ -192,6 +192,9 @@
 ;; make <RET> follow links
 (setq org-return-follows-link t)
 
+;; setup #+STARTUP globally
+(setq org-startup-folded 'content)
+
 ;; list markers
 (font-lock-add-keywords 'org-mode
 			'(("^ *\\([-]\\) "
@@ -211,21 +214,6 @@
       "DONE(d)"
       "KILL(k)")))
 
-;; capture templates
-;; expansion variables - https://orgmode.org/manual/Template-expansion.html
-(setq org-capture-templates
-      '(("w" "Work")
-	("wt" "Todo" entry
-	 (file+headline "agn.org" "Inbox")
-	 "* TODO %?\n%i\n%a")
-	("wm" "Meeting" entry
-	 (file+headline "agn.org" "Inbox")
-	 "* %^{?}\n%T\n\n%?")
-	("j" "Journal" entry
-	 (file+datetree "journal.org")
-	 "* %U %?\n")
-	))
-
 (use-package evil-org
   :ensure t
   :after org
@@ -240,6 +228,7 @@
   (package-install 'mixed-pitch))
 
 (add-hook 'org-mode-hook 'mixed-pitch-mode)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-roam
