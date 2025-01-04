@@ -258,6 +258,14 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; org-download
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ensure marginalia is installed
+(unless (package-installed-p 'org-download)
+  (package-install 'org-download))
+
+(require 'org-download)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; consult
@@ -475,3 +483,9 @@
 ;; lsp-ui
 ;(evil-leader/set-key "gk" 'lsp-ui-doc-glance)
 ;(evil-leader/set-key "gK" 'lsp-ui-doc-toggle)
+
+; remap :q, :wq for org-capture-mode
+(evil-define-key nil org-capture-mode-map
+  [remap evil-save-and-close] #'org-capture-finalize
+  [remap evil-save-modified-and-close] #'org-capture-finalize
+  [remap evil-quit] #'org-capture-finalize)
