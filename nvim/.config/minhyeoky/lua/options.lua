@@ -14,6 +14,7 @@ vim.opt.tabstop = 2        -- number of spaces that a <Tab> in the file counts f
 vim.opt.autowriteall = true  -- automatically write the file when switching buffers
 vim.opt.conceallevel = 0  -- show concealable text
 vim.opt.termguicolors = true  -- enable 24-bit RGB color in the TUI
+vim.opt.cursorline = true  -- highlight cursor line
 
 vim.g.markdown_recommended_style = 0 -- disable markdown recommended style; like shiftwidth
 vim.g.python3_host_prog = vim.env.NVIM_PYTHON3_HOST_PROG
