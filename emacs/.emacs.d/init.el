@@ -137,6 +137,9 @@
 (evil-mode 1)
 
 ;; enable evil-leader-mode
+
+(unless (package-installed-p 'evil-leader)
+  (package-install 'evil-leader))
 (require 'evil-leader)
 (global-evil-leader-mode)
 
@@ -178,14 +181,6 @@
 ;; close all the other windows when opening org-capture
 (add-hook 'org-capture-mode-hook 'delete-other-windows)
 
-;; hand-picked agenda files
-(setq org-agenda-files 
-  '(
-    "agn.org"
-    "todo.org"
-    )
-  )
-
 ;; show agenda in the current window
 (setq org-agenda-window-setup 'current-window)
 
@@ -199,20 +194,6 @@
 (font-lock-add-keywords 'org-mode
 			'(("^ *\\([-]\\) "
 			    (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
-;; my custom todo keywords
-(setq org-todo-keywords
-  '((sequence 
-      "TODO(t)"
-      "HOLD(h)"
-      "WAIT(w)"
-      "IDEA(i)"
-      "PROJ(p)"
-      "STRT(s)"
-      "LOOP(l)"
-      "|" 
-      "DONE(d)"
-      "KILL(k)")))
 
 (use-package evil-org
   :ensure t
@@ -228,6 +209,12 @@
   (package-install 'mixed-pitch))
 
 (add-hook 'org-mode-hook 'mixed-pitch-mode)
+
+;; insert when a item was marked as done
+(setq org-log-done 'time)
+
+;; enable log-mode on the agenda
+(setq org-agenda-start-with-log-mode)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -302,6 +289,8 @@
 ;; org-roam-ui
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(unless (package-installed-p 'org-roam-ui)
+  (package-install 'org-roam-ui))
 (use-package org-roam-ui
     :after org-roam ;; or :after org
     :config
