@@ -214,7 +214,7 @@
 (setq org-log-done 'time)
 
 ;; enable log-mode on the agenda
-(setq org-agenda-start-with-log-mode)
+(setq org-agenda-start-with-log-mode t)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
