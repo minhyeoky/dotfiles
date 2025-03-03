@@ -160,8 +160,6 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # Enables vi mode in the shell
 set -o vi
 
-source /Users/minhyeoky/.docker/init-zsh.sh || true # Added by Docker Desktop
-
 if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
 fi
