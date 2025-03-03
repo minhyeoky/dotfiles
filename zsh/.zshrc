@@ -84,13 +84,14 @@ DISABLE_MAGIC_FUNCTIONS=true
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-zsh-syntax-highlighting
-zsh-autosuggestions
-tmux
-docker
-docker-compose
-fasd
-zsh-z
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  tmux
+  docker
+  docker-compose
+  fasd
+  git
+  z
 )
 
 
