@@ -25,7 +25,6 @@ This repository contains my personal configuration files (dotfiles) for various 
 ├── emacs/            # Emacs configuration
 ├── git/              # Git configuration and aliases
 ├── hammerspoon/      # Hammerspoon configuration
-├── install.sh        # Installation script
 ├── karabiner/        # Karabiner-Elements configuration
 ├── nvim/             # Neovim configuration
 ├── scripts/          # Utility scripts
@@ -43,19 +42,6 @@ This repository contains my personal configuration files (dotfiles) for various 
 - Git
 - GNU Stow (will be installed automatically if not present)
 
-### Quick Install
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
-
-# Navigate to the dotfiles directory
-cd ~/dotfiles
-
-# Run the installation script
-./install.sh
-```
-
 ### Manual Installation
 
 If you prefer to install manually or want to install only specific configurations:
@@ -63,11 +49,9 @@ If you prefer to install manually or want to install only specific configuration
 ```bash
 # Install GNU Stow
 brew install stow  # macOS with Homebrew
-# or
-sudo apt-get install stow  # Ubuntu/Debian
 
 # Clone the repository
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+git clone https://github.com/minhyeoky/dotfiles.git ~/dotfiles
 
 # Navigate to the dotfiles directory
 cd ~/dotfiles
@@ -95,40 +79,9 @@ The following configurations are available:
 - `yabai`: Yabai window manager configuration
 - `zsh`: ZSH shell configuration
 
-## Updating
-
-To update your dotfiles:
-
-```bash
-cd ~/dotfiles
-./scripts/update-dotfiles.sh
-```
-
-## Customization
-
-### Local Customizations
-
-You can add local customizations that won't be tracked by Git:
-
-- ZSH: Create `~/.zshrc.local`
-- Bash: Create `~/.bashrc.local`
-- Git: Create `~/.gitconfig.local`
-
 ### Environment Secrets
 
 Sensitive information like API keys should be stored in `~/.env_secrets`, which is sourced by the shell but not tracked by Git.
-
-## Utility Scripts
-
-The `scripts/` directory contains various utility scripts:
-
-- `update-dotfiles.sh`: Updates dotfiles and installed tools
-- `smart-search.sh`: Enhanced search functionality
-- `decode-base64.sh`: Utility for decoding base64 strings
-- `open-json-from-clipboard.sh`: Opens JSON from clipboard in a viewer
-- `swap-tmux-pane.sh`: Utility for swapping tmux panes
-- `run-scripts.sh`: Helper for running scripts
-- `copy-commit-hash.sh`: Copies the current Git commit hash
 
 ## License
 
