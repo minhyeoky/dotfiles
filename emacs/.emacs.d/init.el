@@ -10,6 +10,7 @@
 ;; disable the menu bar
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; make emacs remember recently opened files
 ;; (recentf-open-files)
