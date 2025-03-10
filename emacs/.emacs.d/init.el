@@ -40,7 +40,7 @@
 (load custom-file 'noerror 'nomessage) ; Load the custom variable file
 
 ;; my secrets
-(load-file (locate-user-emacs-file "sean.el"))
+(load-file (locate-user-emacs-file "org.el"))
 
 ;; initialize package
 ;; refresh -> (package-refresh-contents)
