@@ -448,6 +448,9 @@
 ;; key bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; org-mode
+(evil-leader/set-key "t" 'org-toggle-narrow-to-subtree)
+
 ;; org-agenda
 (evil-leader/set-key "a" 'org-agenda)
 
