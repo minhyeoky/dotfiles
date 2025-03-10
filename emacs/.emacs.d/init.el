@@ -152,8 +152,9 @@
 (require 'evil-leader)
 (global-evil-leader-mode)
 
-;; use comma as a leader key
+;; key bindings - leader key
 (evil-leader/set-leader ",")
+(evil-set-leader 'normal "," t)
 
 ;; make <RET> follow org-mode links by disabling evil mode's binding (org-return-follow-link)
 ;; https://emacs.stackexchange.com/questions/46371/how-can-i-get-ret-to-follow-org-mode-links-when-using-evil-mode
@@ -446,8 +447,6 @@
 ;; key bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(evil-set-leader 'normal "," t)
-
 ;; org-agenda
 (evil-leader/set-key "a" 'org-agenda)
 
@@ -465,22 +464,12 @@
 (evil-leader/set-key "zr" 'consult-org-roam-search)
 (evil-leader/set-key "zb" 'consult-org-roam-backlinks)
 
-;; lsp-mode
-;(evil-define-key 'normal 'global (kbd "gd") 'lsp-find-definition)
-;(evil-define-key 'normal 'global (kbd "gr") 'lsp-find-references)
-;(evil-define-key 'normal 'global (kbd "gn") 'lsp-rename)
-;(evil-define-key 'normal 'global (kbd "<leader>gk") 'lsp-ui-doc-glance)
-
 ;; treemacs
 (evil-define-key 'normal 'global (kbd "gR") 'lsp-treemacs-find-references)
 (evil-define-key 'normal 'global (kbd "C-n") 'treemacs)
 
 ;; dictionary
 (evil-leader/set-key "dl" 'dictionary-lookup-definition)
-
-;; lsp-ui
-;(evil-leader/set-key "gk" 'lsp-ui-doc-glance)
-;(evil-leader/set-key "gK" 'lsp-ui-doc-toggle)
 
 ; remap :q, :wq for org-capture-mode
 (evil-define-key nil org-capture-mode-map
