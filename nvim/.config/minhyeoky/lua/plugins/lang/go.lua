@@ -23,4 +23,13 @@ return {
       end
     end,
   },
+
+  {
+    "williamboman/mason-lspconfig.nvim",
+    opts = {
+      ensure_installed = {
+        "gopls",
+      },
+    },
+  },
 }

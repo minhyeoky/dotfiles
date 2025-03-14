@@ -50,13 +50,17 @@ return {
 
   {
     "williamboman/mason.nvim",
+    config = true,
+  },
+
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",
+    },
     opts = {
-      ensure_installed = {
-        "lua-language-server",
-        "pyright",
-        "ruff_lsp",
-        "gopls",
-      },
+      ensure_installed = {},
     },
     config = true,
   },
