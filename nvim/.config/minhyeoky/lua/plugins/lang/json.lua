@@ -1,5 +1,5 @@
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities.textDocument.completion.completionItem.snippetSupport = true
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 return {
   {
@@ -19,19 +19,37 @@ return {
 
   {
     "neovim/nvim-lspconfig",
-    -- dependencies = {
-    --   "b0o/schemastore.nvim",
-    -- },
+    dependencies = {
+      "b0o/schemastore.nvim",
+    },
     opts = {
-      -- capabilities = capabilities,
+      capabilities = capabilities,
       servers = {
         jsonls = {
           -- https://www.npmjs.com/package/vscode-json-languageserver#settings
           settings = {
-            -- FIXME: adding json configuration makes the server stop working
-            -- json = {
-            --   schemas = {},
-            -- },
+            json = {
+              format = {
+                enable = true,
+              },
+              schemas = require("schemastore").json.schemas({
+                -- https://github.com/SchemaStore/schemastore/blob/master/src/api/json/catalog.json
+                select = {
+                  "package.json",
+                },
+                extra = {
+                  -- FIXME: this schema is not working
+                  {
+                    description = "Code Companion Workspace",
+                    fileMatch = { "codecompanion-workspace.json" },
+                    url = "https://raw.githubusercontent.com/olimorris/codecompanion.nvim/refs/heads/main/lua/codecompanion/workspace-schema.json",
+                    name = "codecompanion-workspace.json",
+                  },
+                }
+              }),
+              -- https://github.com/b0o/SchemaStore.nvim/issues/8
+              validate = { enable = true },
+            },
           },
         },
       },
