@@ -7,6 +7,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
+-- https://lazy.folke.io/usage/structuring#%EF%B8%8F-importing-specs-config--opts
+-- opts, dependencies, cmd, event, ft and keys are always merged with the parent spec.
 require("lazy").setup({
   { import = "plugins" },
   { import = "plugins.lang" },
