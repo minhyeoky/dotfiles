@@ -15,6 +15,7 @@ This repository contains my personal configuration files (dotfiles) for various 
 - **Git Configuration**: Optimized Git configuration with useful aliases and settings.
 - **macOS Tools**: Configuration for macOS-specific tools like Karabiner, Yabai, and SKHD.
 - **Utility Scripts**: Collection of useful scripts for development workflow.
+- **MCP Integration**: MCP Hub configuration for AI code assistant integrations.
 
 ## Directory Structure
 
@@ -26,6 +27,7 @@ This repository contains my personal configuration files (dotfiles) for various 
 ├── git/              # Git configuration and aliases
 ├── hammerspoon/      # Hammerspoon configuration
 ├── karabiner/        # Karabiner-Elements configuration
+├── mcp/              # MCP servers configuration
 ├── nvim/             # Neovim configuration
 ├── scripts/          # Utility scripts
 ├── skhd/             # Simple Hotkey Daemon configuration
@@ -72,6 +74,7 @@ The following configurations are available:
 - `git`: Git configuration and aliases
 - `hammerspoon`: Hammerspoon configuration for macOS automation
 - `karabiner`: Karabiner-Elements configuration for keyboard customization
+- `mcp`: MCP servers configuration for AI code assistants
 - `nvim`: Neovim configuration
 - `skhd`: Simple Hotkey Daemon configuration
 - `tf`: Terraform configuration
