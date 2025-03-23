@@ -161,6 +161,9 @@
 ;; https://emacs.stackexchange.com/questions/46371/how-can-i-get-ret-to-follow-org-mode-links-when-using-evil-mode
 (with-eval-after-load 'evil-maps
   ;(define-key evil-motion-state-map (kbd "SPC") nil)
+  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+  (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
+  (define-key evil-motion-state-map (kbd "C-u") 'evil-scroll-up)
   (define-key evil-motion-state-map (kbd "TAB") nil)
   (define-key evil-motion-state-map (kbd "RET") nil))
 
