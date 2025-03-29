@@ -4,3 +4,5 @@ node_modules
 bash/.bash_constants
 .ssh
 .emacs.d/
+
+!init.el

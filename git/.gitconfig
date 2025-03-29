@@ -1,8 +1,5 @@
 [color]
 	ui = true
-[user]
-	name = Minhyeok Lee
-	email = mhlee@allganize.io
 [log]
 	date = iso
 [push]
@@ -29,6 +26,9 @@
 	required = true
 [credential]
 	username = minhyeoky
+[user]
+	name = Minhyeok Lee
+	email = minhyeok.lee95@gmail.com
 [author]
 	name = Minhyeok Lee
 	email = minhyeok.lee95@gmail.com

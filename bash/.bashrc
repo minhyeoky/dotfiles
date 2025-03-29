@@ -75,11 +75,3 @@ export LESS_TERMCAP_so=$(printf '\e[01;33m') # enter standout mode – yellow
 export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
 export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode – cyan
 }
-
-# --------------------------------------------------------------------------------
-# ETC
-# --------------------------------------------------------------------------------
-export JDTLS_JVM_ARGS="-javaagent:$HOME/lombok.jar"
-export ANDROID_HOME="/Users/minhyeoky/Library/Android/sdk"
-export PATH="$PATH":"$HOME/.pub-cache/bin"
-export PATH="$PATH":"$DOTFILES_PATH/scripts"
