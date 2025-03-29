@@ -1,5 +1,5 @@
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 return {
   {
@@ -23,7 +23,7 @@ return {
       "b0o/schemastore.nvim",
     },
     opts = {
-      capabilities = capabilities,
+      -- capabilities = capabilities,
       servers = {
         jsonls = {
           -- https://www.npmjs.com/package/vscode-json-languageserver#settings
