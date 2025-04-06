@@ -2,6 +2,9 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      inlay_hints = {
+        enabled = true,
+      },
       servers = {
         lua_ls = {
           settings = {
@@ -23,13 +26,31 @@ return {
     config = function(_, opts)
       -- enable lspconfig for opts.servers
       for server, config in pairs(opts.servers) do
+        config["on_attach"] = function(client, _)
+          -- enable inlay hints if available
+          if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable()
+          end
+        end
         require("lspconfig")[server].setup(config)
       end
 
-      -- setup key mappingsd
+
+      -- setup key mappings
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
         callback = function(ev)
+
+          -- Helper to toggle inlay hints
+          local function toggle_inlay_hints()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+          end
+
+          -- Helper to toggle diagnostics
+          local function toggle_diagnostics()
+            vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+          end
+
           -- Buffer local mappings.
           -- See `:help vim.lsp.*` for documentation on any of the below functions
           local lsp_opts = { buffer = ev.buf }
@@ -43,6 +64,8 @@ return {
           vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, lsp_opts)
           vim.keymap.set('n', '<leader>ci', vim.lsp.buf.incoming_calls, lsp_opts)
           vim.keymap.set('n', '<leader>co', vim.lsp.buf.outgoing_calls, lsp_opts)
+          vim.keymap.set('n', '<leader>ti', toggle_inlay_hints, lsp_opts)
+          vim.keymap.set('n', '<leader>td', toggle_diagnostics, lsp_opts)
         end,
       })
     end

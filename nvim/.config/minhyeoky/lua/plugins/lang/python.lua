@@ -21,11 +21,17 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        pyright = {
+        basedpyright = {
           settings = {
-            python = {
+            basedpyright = {
               analysis = {
                 diagnosticMode = "workspace",
+              },
+              inlayHints = {
+                variableTypes = true,
+                callArgumentNames = true,
+                functionReturnTypes = true,
+                genericTypes = true,
               },
             },
           },
@@ -39,7 +45,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     opts = {
       ensure_installed = {
-        "pyright",
+        "basedpyright",
         "ruff",
       },
     },
