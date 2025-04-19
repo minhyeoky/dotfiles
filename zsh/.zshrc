@@ -38,6 +38,7 @@ plugins=(
   fasd
   git
   z
+  fzf-tab
 )
 
 
@@ -106,3 +107,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 eval "$(uv generate-shell-completion zsh)"
+
+# fzf-tab
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
