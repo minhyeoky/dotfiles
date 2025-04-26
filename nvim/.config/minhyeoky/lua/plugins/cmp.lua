@@ -1,18 +1,3 @@
-function setup_autobrackets(cmp, opts)
-  local Kind = cmp.lsp.CompletionItemKind
-  cmp.event:on("confirm_done", function(event)
-    -- if not vim.tbl_contains(opts.auto_brackets or {}, vim.bo.filetype) then
-    --   return
-    -- end
-    local entry = event.entry
-    local item = entry:get_completion_item()
-    if vim.tbl_contains({ Kind.Function, Kind.Method }, item.kind) then
-      local keys = vim.api.nvim_replace_termcodes("()<left>", false, false, true)
-      vim.api.nvim_feedkeys(keys, "i", true)
-    end
-  end)
-end
-
 return {
   {
     "hrsh7th/nvim-cmp",
@@ -43,6 +28,7 @@ return {
         },
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
+          { name = "copilot" },
           { name = "buffer" },
           { name = "path" },
           { name = "hledger" },
@@ -51,6 +37,10 @@ return {
           completeopt = "menu,menuone,noselect",
         },
         sorting = defaults.sotring,
+        performance = {
+          -- due to AI tools
+          fetching_timeout = 2000,
+        },
       }
     end,
     config = function(_, opts)
@@ -60,7 +50,11 @@ return {
 
       local cmp = require("cmp")
       cmp.setup(opts)
-      -- setup_autobrackets(cmp, opts)
     end,
   },
+
+  {
+    "zbirenbaum/copilot-cmp",
+    config = true,
+  }
 }
