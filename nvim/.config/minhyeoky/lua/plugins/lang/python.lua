@@ -21,17 +21,11 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        basedpyright = {
+        pyright = {
           settings = {
-            basedpyright = {
+            python = {
               analysis = {
                 diagnosticMode = "workspace",
-              },
-              inlayHints = {
-                variableTypes = true,
-                callArgumentNames = true,
-                functionReturnTypes = true,
-                genericTypes = true,
               },
             },
           },
