@@ -16,7 +16,7 @@ vim.opt.conceallevel = 0  -- show concealable text
 vim.opt.termguicolors = true  -- enable 24-bit RGB color in the TUI
 vim.opt.cursorline = true  -- highlight cursor line
 
-vim.opt.winborder = "double"  -- define the default border style of floating windows
+vim.opt.winborder = "single"  -- define the default border style of floating windows
 
 vim.g.markdown_recommended_style = 0 -- disable markdown recommended style; like shiftwidth
 vim.g.python3_host_prog = vim.env.NVIM_PYTHON3_HOST_PROG
