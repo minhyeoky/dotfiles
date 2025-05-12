@@ -35,24 +35,7 @@ return {
   },
 
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    opts = {
-      copilot_model = "gpt-4o-copilot",
-      filetypes = {
-        python = true,
-        markdown = true,
-        sh = function ()
-          if string.match(vim.fs.basename(vim.api.nvim_buf_get_name(0)), '^%.env.*') then
-            -- disable for .env files
-            return false
-          end
-          return true
-        end,
-        ["*"] = false,
-      },
-    },
-    config = true,
+    "github/copilot.vim",
+    lazy = false,
   },
 }
