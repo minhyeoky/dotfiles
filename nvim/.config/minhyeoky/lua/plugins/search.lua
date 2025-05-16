@@ -34,45 +34,16 @@ return {
           actions = {
             ["ctrl-r"] = require("fzf-lua").actions.toggle_ignore,
           },
-          rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 --glob '!\\.git' --glob '!\\.idea' --no-ignore -e",
         },
       })
     end,
     keys = {
-      {
-        "<leader>fr",
-        function()
-          require("fzf-lua").grep({ search = "" })
-        end,
-        desc = "Grep",
-      },
       {
         "<leader>ft",
         function()
           require("fzf-lua").tags()
         end,
         desc = "Tags",
-      },
-      {
-        "<leader>ff",
-        function()
-          require("fzf-lua").files()
-        end,
-        desc = "Files",
-      },
-      {
-        "<leader>fb",
-        function()
-          require("fzf-lua").buffers()
-        end,
-        desc = "Buffers",
-      },
-      {
-        "<leader>df",
-        function()
-          require("fzf-lua").files({ cwd = vim.fn.stdpath("config") })
-        end,
-        desc = "Dot Files",
       },
     },
   },
