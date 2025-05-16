@@ -5,7 +5,6 @@ return {
     keys = {
       {
         "<C-c>",
-        "<cmd>BD<cr>",
       },
     },
   },
