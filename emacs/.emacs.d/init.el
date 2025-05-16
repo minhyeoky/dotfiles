@@ -380,7 +380,6 @@
 ;; elfeed
 ;; RSS manager
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; ensure vertico is installed
 (unless (package-installed-p 'elfeed)
   (package-install 'elfeed))
@@ -401,51 +400,6 @@
 ;; (visual-fill-column-mode 1)
 ;; (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
 ;; (setq-default visual-fill-column-center-text t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; lsp-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; suppress warnings
-;; e.g. semgrep/rulesRefreshed
-;; https://emacs.stackexchange.com/questions/81247/with-lsp-mode-why-do-i-get-an-unknown-notification-about-refreshed-rules-from-s
-;(add-to-list 'warning-suppress-log-types '(lsp-mode))
-;(add-to-list 'warning-suppress-types '(lsp-mode))
-;
-;(unless (package-installed-p 'company)
-;  (package-install 'company))
-;
-;;; completion UI
-;(company-mode 1)
-;
-;;; adjust gc-cons-threshold
-;(setq gc-cons-threshold 100000000)
-;
-;;; increase the amount of data which emacs can read from the process
-;(setq read-process-output-max (* 1024 1024)) ;; 1mb
-;
-;;; performance - off logging
-;(setq lsp-log-io nil) ; if set to true can cause a performance hit
-;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; lsp-pyright
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;
-;(setq lsp-keymap-prefix "")
-;(require 'lsp-mode)
-;
-;(use-package lsp-pyright
-;  :ensure t
-;  :custom (lsp-pyright-langserver-command "pyright") ;; or basedpyright
-;  :hook (python-mode . (lambda ()
-;                          (require 'lsp-pyright)
-;                          (lsp))))  ; or lsp-deferred
-;
-;(add-hook 'python-mode-hook 'eglot-ensure)
-;(with-eval-after-load 'eglot
-;  (add-to-list 'eglot-server-programs
-;               '(python-mode . ("ruff" "server")))
-;  (add-hook 'after-save-hook 'eglot-format))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key bindings

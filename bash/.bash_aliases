@@ -2,13 +2,14 @@
 # GENERAL ALIASES
 # --------------------------------------------------------------------------------
 alias v='nvim'
+alias vim='nvim'
 alias ll='ls -alhF'
 
 # --------------------------------------------------------------------------------
 # DEVELOPMENT TOOLS
 # --------------------------------------------------------------------------------
 alias g='git'
-alias po=poetry
+alias po='poetry'
 alias k='kubectl'
 alias dc='docker compose'
 
