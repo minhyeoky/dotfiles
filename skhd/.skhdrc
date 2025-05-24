@@ -1,28 +1,26 @@
-# Navigation
+# ======================================================================================
+# Window
+# ======================================================================================
+
+# Focus windows
 alt - h : yabai -m window --focus west
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
 alt - l : yabai -m window --focus east
 
-alt - p : yabai -m display --focus next
-alt - n : yabai -m display --focus prev
 
-# Moving windows
+# Move windows
 shift + alt - left : yabai -m window --warp west
 shift + alt - up : yabai -m window --warp south
 shift + alt - down : yabai -m window --warp north
 shift + alt - right : yabai -m window --warp east
 
-# Move focus container to workspace
-shift + alt - m : yabai -m window --space last; yabai -m space --focus last
-shift + alt - p : yabai -m window --space prev; yabai -m space --focus prev
-shift + alt - n : yabai -m window --space next; yabai -m space --focus next
-shift + alt - 1 : yabai -m window --space 1; yabai -m space --focus 1
-shift + alt - 2 : yabai -m window --space 2; yabai -m space --focus 2
-shift + alt - 3 : yabai -m window --space 3; yabai -m space --focus 3
-shift + alt - 4 : yabai -m window --space 4; yabai -m space --focus 4
-shift + alt - 5 : yabai -m window --space 5; yabai -m space --focus 5
-shift + alt - 6 : yabai -m window --space 6; yabai -m space --focus 6
+# Move windows to different spaces
+shift + alt - q : yabai -m window --space 1; yabai -m space --focus 1
+shift + alt - w : yabai -m window --space 2; yabai -m space --focus 2
+shift + alt - e : yabai -m window --space 3; yabai -m space --focus 3
+shift + alt - r : yabai -m window --space 4; yabai -m space --focus 4
+shift + alt - t : yabai -m window --space 5; yabai -m space --focus 5
 shift + alt - tab : yabai -m space --focus recent
 
 # Resize windows
@@ -36,23 +34,31 @@ shift + alt - l : yabai -m window --resize right:50:0; \
                   yabai -m window --resize left:50:0
 shift + alt - 0 : yabai -m space --balance
 
-# Make window native fullscreen
-alt - f         : yabai -m window --toggle zoom-fullscreen
-shift + alt - f : yabai -m window --toggle native-fullscreen
-
 # Rotate windows clockwise and anticlockwise
 alt - r         : yabai -m space --rotate 270
 shift + alt - r : yabai -m space --rotate 90
 
-# Float / Unfloat window
-shift + alt - space : \
+# Toggle bsp and float mode
+alt - w : \
     yabai -m window --toggle float; \
     yabai -m window --toggle border
 
-# Mission Control
+# Toggle fullscreen and zoom
+alt - f         : yabai -m window --toggle zoom-fullscreen
+
+# ======================================================================================
+# Space
+# ======================================================================================
 lctrl - 1 : yabai -m space --focus 1
 lctrl - 2 : yabai -m space --focus 2
 lctrl - 3 : yabai -m space --focus 3
 lctrl - 4 : yabai -m space --focus 4
 lctrl - 5 : yabai -m space --focus 5
 lctrl - 6 : yabai -m space --focus 6
+
+
+# =======================================================================================
+# Display
+# =======================================================================================
+alt - n : yabai -m display --focus next
+alt - p : yabai -m display --focus prev
