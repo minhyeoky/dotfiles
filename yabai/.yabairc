@@ -1,56 +1,28 @@
 #!/usr/bin/env sh
-yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-sudo yabai --load-sa
-
+# ======================================================================================
 # Layout
-yabai -m config layout bsp
+# ======================================================================================
+yabai -m config layout                       bsp
+yabai -m config top_padding                  8
+yabai -m config bottom_padding               8
+yabai -m config left_padding                 8
+yabai -m config right_padding                8
+yabai -m config window_gap                   8
 
+# ======================================================================================
 # Mouse
-yabai -m config mouse_follows_focus off
+# ======================================================================================
+yabai -m config mouse_follows_focus          off
+yabai -m config focus_follows_mouse          off
 
-# Padding and gaps
-yabai -m config top_padding    0
-yabai -m config bottom_padding 0
-yabai -m config left_padding   0
-yabai -m config right_padding  0
-yabai -m config window_gap     0
-
-# Window modifications
-yabai -m config window_topmost off
-yabai -m config window_opacity off
-yabai -m config active_window_opacity 1.0
-yabai -m config normal_window_opacity 0.9
-
-yabai -m config window_border_blur off
-yabai -m config window_border on
-yabai -m config window_border_width 2
-yabai -m config active_window_border_color 0X7FE78A4E
-
+# ======================================================================================
 # Rules
-yabai -m rule --add label="Finder" app="^Finder$" manage=off
-yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
-yabai -m rule --add label="System Preferences" app="^System Preferences$" title=".*" manage=off
-yabai -m rule --add label="App Store" app="^App Store$" manage=off
-yabai -m rule --add label="Activity Monitor" app="^Activity Monitor$" manage=off
-yabai -m rule --add label="Calculator" app="^Calculator$" manage=off
-yabai -m rule --add label="Dictionary" app="^Dictionary$" manage=off
-yabai -m rule --add label="Software Update" title="Software Update" manage=off
-yabai -m rule --add label="About This Mac" app="System Information" title="About This Mac" manage=off
-yabai -m rule --add label="FaceTime" app="FaceTime" manage=off
-yabai -m rule --add label="KakaoTalk" app="KakaoTalk" manage=off
-yabai -m rule --add label="Telegram" app="^Telegram*" manage=off
-yabai -m rule --add label="Simulator" app="^Simulator*" manage=off
-yabai -m rule --add label="Archive Utility" app="^Archive*" manage=off
-yabai -m rule --add label="System Settings" app="^System Settings" manage=off
-yabai -m rule --add label="League of Legends" app="^League.*" manage=off
-yabai -m rule --add label="Spark" app="^Spark*" manage=off
-yabai -m rule --add label="Preview" app="^Preview*" manage=off
-yabai -m rule --add label="Calendar" app="^Calendar*" manage=off
-yabai -m rule --add label="ChatGPT" app="^ChatGPT*" manage=off
+# ======================================================================================
 
-# FIXME
-#yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-#sudo yabai --load-sa
+# Turn off window management for all apps by default
+yabai -m rule --add app=".*" manage=off
 
-# focus window after active space changes
-# yabai -m signal --add event=space_changed action="yabai -m window --focus \$(yabai -m query --spaces | jq '.[] | select(.\"is-visible\" == true) | .\"first-window\"')"
+# ======================================================================================
+# Others
+# ======================================================================================
+borders active_color=0x7fe78a4e inactive_color=0xff555555 width=5.0 &
