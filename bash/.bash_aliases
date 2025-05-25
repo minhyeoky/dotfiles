@@ -36,6 +36,7 @@ alias gcp='git cherry-pick'              # Cherry-pick commits
 alias gdt='git difftool'                 # Open diff tool
 alias grh='git reset'                    # Reset changes
 alias grhh='git reset --hard'            # Hard reset changes
+alias grhhm='git reset --hard origin/master' # Hard reset to master
 
 # Remote operations
 alias gfa='git fetch --all --prune'      # Fetch all and prune

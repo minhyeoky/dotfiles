@@ -43,3 +43,10 @@ function cd {
     source ._bashrc && echo "Using ._bashrc"
   fi
 }
+
+# --------------------------------------------------------------------------------
+# GitHub
+# --------------------------------------------------------------------------------
+function gcop() {
+  gh save-me-copilot $(gh repo view --json nameWithOwner -q .nameWithOwner) $(gh pr view --json number -q .number)
+}
