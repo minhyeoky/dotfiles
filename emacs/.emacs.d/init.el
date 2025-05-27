@@ -25,9 +25,6 @@
 ;; enable mouse
 (xterm-mouse-mode 1)
 
-;; disable auto-save-mode
-(auto-save-mode 0)
-
 ;; reload files when they change on disk
 (setq global-auto-revert-non-file-buffers t)
 (global-auto-revert-mode 1)
@@ -68,8 +65,12 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; load theme
-(load-theme 'gruvbox)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; theme
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package gruvbox-theme
+  :config
+  (load-theme 'gruvbox t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; dired mode
@@ -387,19 +388,6 @@
 ;; default filter
 ;; https://github.com/skeeto/elfeed?tab=readme-ov-file#filter-syntax
 (setq-default elfeed-search-filter "@1-week-ago ")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; visual-fill-column
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; ensure visual-fill-column is installed
-;; (unless (package-installed-p 'visual-fill-column)
-;;   (package-install 'visual-fill-column))
-
-;; (setq-default fill-column 120)
-;; (visual-fill-column-mode 1)
-;; (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
-;; (setq-default visual-fill-column-center-text t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key bindings
