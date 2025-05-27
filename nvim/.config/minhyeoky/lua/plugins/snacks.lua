@@ -18,7 +18,7 @@ return {
       { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
       { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
       -- { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },
-      { "<leader>fr", function() Snacks.picker.grep() end, desc = "Grep" },
+      { "<leader>fr", function() Snacks.picker.grep({ regex = false, hidden = true }) end, desc = "Grep" },
       -- git
       { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
       { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
@@ -70,12 +70,14 @@ return {
       { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
       { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
       { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
-      { "<leader>gG", function() Snacks.lazygit() end, desc = "Lazygit" },
+      { "<leader>G", function() Snacks.lazygit() end, desc = "Lazygit" },
       { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
       { "<c-/>",      function() Snacks.terminal() end, desc = "Toggle Terminal" },
       { "<c-_>",      function() Snacks.terminal() end, desc = "which_key_ignore" },
       { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
       { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
+      -- ZK
+      { "<leader>zr", function() Snacks.picker.grep({dirs = {vim.env.ZK_NOTEBOOK_DIR}}) end, desc = "Colorschemes" },
     },
     opts = {
       bigfile = {
@@ -95,6 +97,34 @@ return {
       },
       picker = {
         enabled = true,
+        current = false,
+        jump = {
+          reuse_win = false,  -- always open a buffer in current window!
+        },
+        win = {
+          input = {
+            keys = {
+              ["<leader>tr"] = { "toggle_regex", mode = { "i", "n" } },
+              ["<leader>th"] = { "toggle_hidden", mode = { "i", "n" } },
+              ["<leader>ti"] = { "toggle_ignored", mode = { "i", "n" } },
+              ["<leader>tf"] = { "toggle_follow", mode = { "i", "n" } },
+              ["<leader>tm"] = { "toggle_modified", mode = { "i", "n" } },
+              ["<leader>tp"] = { "toggle_preview", mode = { "i", "n" } },  -- Preview 토글
+              ["<leader>tl"] = { "toggle_live", mode = { "i", "n" } },     -- Live search 토글
+            },
+          },
+          list = {
+            keys = {
+              ["<leader>tr"] = { "toggle_regex", mode = { "i", "n" } },
+              ["<leader>th"] = { "toggle_hidden", mode = { "i", "n" } },
+              ["<leader>ti"] = { "toggle_ignored", mode = { "i", "n" } },
+              ["<leader>tf"] = { "toggle_follow", mode = { "i", "n" } },
+              ["<leader>tm"] = { "toggle_modified", mode = { "i", "n" } },
+              ["<leader>tp"] = { "toggle_preview", mode = { "i", "n" } },  -- Preview 토글
+              ["<leader>tl"] = { "toggle_live", mode = { "i", "n" } },     -- Live search 토글
+            },
+          },
+        },
       },
       explorer = {
         enabled = true,
