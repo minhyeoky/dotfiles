@@ -1,6 +1,9 @@
 return {
   {
     "olimorris/codecompanion.nvim",
+    keys = {
+      { "<leader>a", "<CMD>CodeCompanionActions<CR>", desc = "Code Companion Actions" },
+    },
     opts = {
       display = {
         chat = {
@@ -31,5 +34,15 @@ return {
         ["markdown"] = false,
       }
     end,
+  },
+
+  {
+    "greggh/claude-code.nvim",
+     dependencies = {
+     "nvim-lua/plenary.nvim",
+     },
+     config = function()
+       require("claude-code").setup()
+     end
   },
 }
