@@ -1,3 +1,6 @@
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -7,6 +10,7 @@ return {
           opts.ensure_installed,
           {
             "html",
+            "htmldjango",
           }
         )
       end
@@ -19,7 +23,6 @@ return {
       "b0o/schemastore.nvim",
     },
     opts = {
-      -- capabilities = capabilities,
       servers = {
         html = {
           hover = {

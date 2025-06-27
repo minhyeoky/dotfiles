@@ -1,25 +1,5 @@
 return {
   {
-    "junegunn/fzf",
-    build = "./install --bin",
-  },
-
-  {
-    "ibhagwan/fzf-lua",
-    dependencies = { "junegunn/fzf",
-      "nvim-tree/nvim-web-devicons",
-    },
-    keys = {
-      {
-        "<leader>zr",
-        function()
-          require("fzf-lua").grep({ search = "", cwd = vim.env.ZK_NOTEBOOK_DIR })
-        end,
-      },
-    },
-  },
-
-  {
     "zk-org/zk-nvim",
     dependencies = {
       { "junegunn/fzf" },
@@ -28,8 +8,6 @@ return {
     lazy = false,
     config = function()
       require("zk").setup({
-        picker = "fzf_lua",
-
         lsp = {
           config = {
             cmd = { "zk", "lsp" },

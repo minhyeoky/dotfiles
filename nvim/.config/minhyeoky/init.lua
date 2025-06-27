@@ -2,4 +2,5 @@ require("keymaps")
 require("bootstrap")
 require("options")
 
--- vim.lsp.enable({"ty", "pyrefly"})
+-- disable default Neovim LSP for Python
+vim.lsp.enable({"pyright"}, false)
