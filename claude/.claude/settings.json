@@ -9,5 +9,6 @@
     "DISABLE_TELEMETRY": "1",
     "DISABLE_ERROR_REPORTING": "1",
     "DISABLE_BUG_COMMAND": "1"
-  }
+  },
+  "apiKeyHelper": "~/anthropic_api_key.sh"
 }
