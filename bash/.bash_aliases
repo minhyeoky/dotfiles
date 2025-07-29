@@ -4,6 +4,7 @@
 alias v='nvim'
 alias vim='nvim'
 alias ll='ls -alhF'
+alias cc='claude'
 
 # --------------------------------------------------------------------------------
 # DEVELOPMENT TOOLS
