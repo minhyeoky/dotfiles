@@ -22,16 +22,4 @@ return {
       vim.g.mkdp_auto_close = 0  -- don't close the preview window when the source buffer is closed
     end,
   },
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    opts = {
-      heading = {
-        icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
-        position = "inline",
-      },
-    },
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons', 'echasnovski/mini.icons' },
-    ft = { "codecompanion" },
-  },
 }
-
