@@ -12,3 +12,11 @@ local function setEnglish()
 end
 
 escapeBind = hs.hotkey.new({}, 'escape', setEnglish):enable()
+
+--------------------------------------------------------------------------------
+--- Remapping
+--------------------------------------------------------------------------------
+local FRemap = require("foundation_remapping")
+local remapper = FRemap.new()
+remapper:remap("rcmd", "f18")
+remapper:register()
