@@ -1,3 +1,4 @@
+vim.opt.undofile = true
 vim.opt.fileencoding = "utf-8"
 vim.opt.number = true -- show line numbers
 vim.opt.relativenumber = true -- show relative line numbers
