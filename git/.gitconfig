@@ -54,5 +54,3 @@
 	cmd = "nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
 [blame]
 	markIgnoredLines = true
-[safe]
-	directory = /Users/minhyeoky/allganize/mage-demo
