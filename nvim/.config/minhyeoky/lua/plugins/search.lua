@@ -34,18 +34,25 @@ return {
           actions = {
             ["ctrl-r"] = require("fzf-lua").actions.toggle_ignore,
           },
-          rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 --glob '!\\.git' --glob '!\\.idea' --no-ignore -e",
+          rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=256 --glob '!\\.git' --glob '!\\.idea' --glob '!\\tags' --glob '!\\tags.temp' --glob='!{.git,.svn,node_modules,tealdeer,Trash,vendor}' --glob '!*.lock' --glob='!{package-lock.json}' --no-ignore -e",
         },
       })
     end,
     keys = {
-      -- {
-      --   "<leader>fr",
-      --   function()
-      --     require("fzf-lua").grep({ search = "" })
-      --   end,
-      --   desc = "Grep",
-      -- },
+      {
+        "<leader>fr",
+        function()
+          require("fzf-lua").live_grep({ search = "" })
+        end,
+        desc = "Live Grep",
+      },
+      {
+        "<leader>fR",
+        function()
+          require("fzf-lua").live_grep_resume()
+        end,
+        desc = "Live Grep Resume",
+      },
       {
         "<leader>ft",
         function()
