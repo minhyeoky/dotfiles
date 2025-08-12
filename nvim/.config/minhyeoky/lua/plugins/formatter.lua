@@ -8,6 +8,7 @@ return {
 				function()
 					require("conform").format()
 				end,
+				desc = "Format code with Conform",
 			},
 		},
 		opts = {

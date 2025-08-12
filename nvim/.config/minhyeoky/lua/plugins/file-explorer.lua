@@ -10,13 +10,15 @@ return {
         "<leader>fo",
         function()
           require("oil").open()
-        end
+        end,
+        desc = "Open oil file explorer",
       },
       {
         "<leader>fO",
         function()
           require("oil").open_float()
-        end
+        end,
+        desc = "Open oil file explorer (floating)",
       },
     },
   },

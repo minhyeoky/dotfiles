@@ -44,36 +44,42 @@ return {
         function()
           require("gitsigns").stage_hunk()
         end,
+        desc = "Stage hunk",
       },
       {
         "<leader>dp",
         function()
           require("gitsigns").preview_hunk()
         end,
+        desc = "Preview hunk",
       },
       {
         "<leader>dr",
         function()
           require("gitsigns").reset_hunk()
         end,
+        desc = "Reset hunk",
       },
       {
         "<leader>du",
         function()
           require("gitsigns").undo_stage_hunk()
         end,
+        desc = "Undo stage hunk",
       },
       {
         "[c",
         function()
           require("gitsigns").prev_hunk()
         end,
+        desc = "Previous hunk",
       },
       {
         "]c",
         function()
           require("gitsigns").next_hunk()
         end,
+        desc = "Next hunk",
       },
     },
   },
