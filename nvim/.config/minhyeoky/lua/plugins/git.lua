@@ -81,6 +81,20 @@ return {
         end,
         desc = "Next hunk",
       },
+      {
+        ",vw",
+        function()
+          require("gitsigns").toggle_word_diff()
+        end,
+        desc = "Toggle word diff highlighting",
+      },
+      {
+        ",vh",
+        function()
+          require("gitsigns").preview_hunk_inline()
+        end,
+        desc = "Preview hunk inline",
+      },
     },
   },
 
@@ -111,6 +125,82 @@ return {
         },
       })
     end,
+    keys = {
+      {
+        "<leader>gdd",
+        "<cmd>DiffviewOpen<cr>",
+        desc = "Open Diffview",
+      },
+      {
+        ",hh",
+        "<cmd>DiffviewFileHistory<cr>",
+        desc = "Trace repository history",
+      },
+      {
+        ",hf",
+        "<cmd>DiffviewFileHistory %<cr>",
+        desc = "Trace current file history",
+      },
+      {
+        ",hl",
+        "<cmd>DiffviewFileHistory %<cr>",
+        mode = "n",
+        desc = "Trace current line history",
+      },
+      {
+        ",hl",
+        ":<C-u>'<,'>DiffviewFileHistory<cr>",
+        mode = "v",
+        desc = "Trace selection history",
+      },
+      {
+        ",d",
+        "<cmd>DiffviewOpen<cr>",
+        desc = "Diff working directory against HEAD",
+      },
+      {
+        ",hm",
+        "<cmd>DiffviewOpen HEAD~1<cr>",
+        desc = "Diff against local master",
+      },
+      {
+        ",hM",
+        "<cmd>DiffviewOpen origin/master<cr>",
+        desc = "Diff against remote master",
+      },
+      {
+        ",vc",
+        function()
+          local clipboard_content = vim.fn.getreg('+')
+          local temp_file = vim.fn.tempname()
+          vim.fn.writefile(vim.split(clipboard_content, '\n'), temp_file)
+          vim.cmd('DiffviewOpen ' .. temp_file)
+        end,
+        mode = "n",
+        desc = "Compare clipboard with current file",
+      },
+      {
+        ",vc",
+        function()
+          local clipboard_content = vim.fn.getreg('+')
+          local temp_file = vim.fn.tempname()
+          vim.fn.writefile(vim.split(clipboard_content, '\n'), temp_file)
+          
+          -- Get visual selection
+          local start_pos = vim.fn.getpos("'<")
+          local end_pos = vim.fn.getpos("'>")
+          local lines = vim.fn.getline(start_pos[2], end_pos[2])
+          
+          -- Create temp file with selection
+          local selection_file = vim.fn.tempname()
+          vim.fn.writefile(lines, selection_file)
+          
+          vim.cmd('DiffviewOpen ' .. selection_file .. ' ' .. temp_file)
+        end,
+        mode = "v",
+        desc = "Compare clipboard with selection",
+      },
+    },
   },
 
   {
