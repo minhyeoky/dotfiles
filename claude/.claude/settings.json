@@ -1,14 +1,44 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(fd:*)",
-      "Bash(rg:*)"
-    ]
-  },
+  "apiKeyHelper": "~/anthropic_api_key.sh",
   "env": {
     "DISABLE_TELEMETRY": "1",
     "DISABLE_ERROR_REPORTING": "1",
     "DISABLE_BUG_COMMAND": "1"
   },
-  "apiKeyHelper": "~/anthropic_api_key.sh"
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(fd:*)",
+      "Bash(grep:*)",
+      "Bash(ast-grep:*)",
+      "Bash(rg:*)",
+      "Bash(cat:*)",
+      "Bash(diff:*)",
+      "Bash(pre-commit:*)",
+      "Bash(git fetch:*)",
+      "Bash(git commit:*)",
+      "Bash(git add:*)",
+      "Bash(git log:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh pr edit:*)",
+      "Bash(gh pr list:*)",
+      "List(*)",
+      "Read(*)"
+    ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude needs your permission to proceed\" with title \"Claude Code Approval Required\" sound name \"Glass\"'"
+          }
+        ]
+      }
+    ]
+  }
 }
