@@ -23,6 +23,7 @@ This repository contains my personal configuration files (dotfiles) for various 
 .
 ├── alacritty/        # Alacritty terminal configuration
 ├── bash/             # Bash shell configuration
+├── claude/           # Claude AI assistant configuration
 ├── emacs/            # Emacs configuration
 ├── git/              # Git configuration and aliases
 ├── hammerspoon/      # Hammerspoon configuration
@@ -70,6 +71,7 @@ The following configurations are available:
 
 - `alacritty`: Configuration for Alacritty terminal emulator
 - `bash`: Bash shell configuration
+- `claude`: Claude AI assistant configuration
 - `emacs`: Emacs configuration
 - `git`: Git configuration and aliases
 - `hammerspoon`: Hammerspoon configuration for macOS automation
