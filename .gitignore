@@ -6,3 +6,4 @@ bash/.bash_constants
 .emacs.d/
 
 !init.el
+!local.el.sample

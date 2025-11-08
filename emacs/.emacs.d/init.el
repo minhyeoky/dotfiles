@@ -1,16 +1,13 @@
+;; -*- lexical-binding: t; -*-
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; general
+;; General
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; emacs
 (setq inhibit-startup-message t)  ; don't show the startup message
 (setq visible-bell t)  ; flash when the bell rings
 (setq use-dialog-box nil)  ; don't use dialog boxes
-
-;; disable the menu bar
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
 
 ;; make emacs remember recently opened files
 ;; (recentf-open-files)
@@ -48,38 +45,18 @@
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
-;; straight.el bootstrap
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name
-        "straight/repos/straight.el/bootstrap.el"
-        (or (bound-and-true-p straight-base-dir)
-            user-emacs-directory)))
-      (bootstrap-version 7))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; theme
+;; UI
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(unless (package-installed-p 'gruvbox-theme)
+  (package-install 'gruvbox-theme))
 (use-package gruvbox-theme
   :config
   (load-theme 'gruvbox t))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; dired mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; with human-readable size
-(setq dired-listing-switches "-alh")
-
-;; Suggest the directory in another Dired buffer as target destination when copying/moving files
-(setq dired-dwim-target t)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; exec-path-from-shell
@@ -100,8 +77,7 @@
 (exec-path-from-shell-copy-env "PKM_DIR")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; tree-sitter
-;; ts-fold
+;; Tree-sitter
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (unless (package-installed-p 'tree-sitter)
@@ -114,15 +90,8 @@
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
-;; install ts-fold with straight.el
-(use-package ts-fold
-  :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold"))
-
-;; enable whenever tree-sitter is turned on
-(global-ts-fold-mode 1)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; evil & extensions
+;; Evil Mode & Extensions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; ensure evil is installed
@@ -148,7 +117,6 @@
 (evil-mode 1)
 
 ;; enable evil-leader-mode
-
 (unless (package-installed-p 'evil-leader)
   (package-install 'evil-leader))
 (require 'evil-leader)
@@ -170,12 +138,12 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; org-mode
+;; Org Mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun dw/org-mode-setup ()
   (org-indent-mode)
-  (auto-fill-mode 0)
-  (visual-line-mode 1)
+  ; (auto-fill-mode 0)
+  ; (visual-line-mode 1)
   (setq evil-auto-indent nil))
 
 (use-package org
@@ -187,11 +155,6 @@
 ;; my org-files directory
 (setq org-directory (concat (getenv "PKM_DIR") "/org"))
 
-;; enable struture template
-(require 'org-tempo)
-
-;; setup org-capture
-(setq org-default-notes-file (concat org-directory "/notes.org"))
 
 ;; close all the other windows when opening org-capture
 (add-hook 'org-capture-mode-hook 'delete-other-windows)
@@ -205,11 +168,6 @@
 ;; setup #+STARTUP globally
 (setq org-startup-folded 'content)
 
-;; list markers
-(font-lock-add-keywords 'org-mode
-			'(("^ *\\([-]\\) "
-			    (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
 (use-package evil-org
   :ensure t
   :after org
@@ -218,41 +176,10 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
-;; ensure mixed-pitch-mode is installed
-;; `mixed-pitchW-mode` fixes `variable-pitch-mode`'s indentation issue with org-indent-mode
-(unless (package-installed-p 'mixed-pitch)
-  (package-install 'mixed-pitch))
-
-(add-hook 'org-mode-hook 'mixed-pitch-mode)
-
-;; insert when a item was marked as done
-(setq org-log-done 'time)
-
-;; enable log-mode on the agenda
-(setq org-agenda-start-with-log-mode t)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; org-roam
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; ensure org-roam is installed
-(unless (package-installed-p 'org-roam)
-  (package-install 'org-roam))
-
-;; tell note directory to org-roam
-(setq org-roam-directory
-  ;; resolve symbolic links
-  (file-truename
-   (concat (getenv "PKM_DIR") "/org")))
-
-;; run (org-roam-db-sync) automatically
-(org-roam-db-autosync-mode)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-bullets
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ensure marginalia is installed
+;; ensure org-bullets is installed
 (unless (package-installed-p 'org-bullets)
   (package-install 'org-bullets))
 
@@ -260,14 +187,6 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; org-download
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ensure marginalia is installed
-(unless (package-installed-p 'org-download)
-  (package-install 'org-download))
-
-(require 'org-download)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; consult
@@ -296,23 +215,6 @@
   ;; package.
   (marginalia-mode))
 
-;; consult-org-roam.el
-(unless (package-installed-p 'consult-org-roam)
-  (package-install 'consult-org-roam))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; org-roam-ui
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(unless (package-installed-p 'org-roam-ui)
-  (package-install 'org-roam-ui))
-(use-package org-roam-ui
-    :after org-roam ;; or :after org
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; vertico
@@ -378,19 +280,7 @@
   (completion-category-overrides '((file (styles partial-completion)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; elfeed
-;; RSS manager
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ensure vertico is installed
-(unless (package-installed-p 'elfeed)
-  (package-install 'elfeed))
-
-;; default filter
-;; https://github.com/skeeto/elfeed?tab=readme-ov-file#filter-syntax
-(setq-default elfeed-search-filter "@1-week-ago ")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; key bindings
+;; Key Bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; org-mode
@@ -399,29 +289,17 @@
 ;; org-agenda
 (evil-leader/set-key "a" 'org-agenda)
 
-;; org-capture
-(evil-leader/set-key "c" 'org-capture)
-
 ;; consult
 (evil-leader/set-key "ff" 'consult-fd)
 (evil-leader/set-key "fr" 'consult-ripgrep)
 (evil-leader/set-key "fb" 'consult-buffer)
 
-;; org-roam & consult-org-roam
-(evil-leader/set-key "zf" 'consult-org-roam-file-find)
-(evil-leader/set-key "zz" 'org-roam-capture)
-(evil-leader/set-key "zr" 'consult-org-roam-search)
-(evil-leader/set-key "zb" 'consult-org-roam-backlinks)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Misc 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; treemacs
-(evil-define-key 'normal 'global (kbd "gR") 'lsp-treemacs-find-references)
-(evil-define-key 'normal 'global (kbd "C-n") 'treemacs)
-
-;; dictionary
-(evil-leader/set-key "dl" 'dictionary-lookup-definition)
-
-; remap :q, :wq for org-capture-mode
-(evil-define-key nil org-capture-mode-map
-  [remap evil-save-and-close] #'org-capture-finalize
-  [remap evil-save-modified-and-close] #'org-capture-finalize
-  [remap evil-quit] #'org-capture-finalize)
+; load local config file
+(let ((local-file (expand-file-name "local.el" user-emacs-directory)))
+  (when (file-exists-p local-file)
+    (print (concat "Loading local.el at: " local-file))
+    (load local-file)))
