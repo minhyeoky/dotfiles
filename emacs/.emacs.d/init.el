@@ -168,6 +168,46 @@
 ;; setup #+STARTUP globally
 (setq org-startup-folded 'content)
 
+;; auto-update checkbox statistics cookies
+(defun my/org-auto-update-checkbox-cookies ()
+  "Add [/] to headings with checkboxes, remove from those without."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward org-heading-regexp nil t)
+      (let* ((heading-start (line-beginning-position))
+             (heading-end (line-end-position))
+             (element (org-element-at-point))
+             (has-checkboxes nil)
+             (has-cookie nil))
+        ;; Check if heading already has a statistics cookie
+        (save-excursion
+          (goto-char heading-start)
+          (setq has-cookie (re-search-forward "\\[\\([0-9]*%\\|[0-9]*/[0-9]*\\)\\]" heading-end t)))
+        ;; Check if subtree has checkboxes
+        (save-excursion
+          (org-back-to-heading t)
+          (let ((subtree-end (save-excursion (org-end-of-subtree t t))))
+            (setq has-checkboxes (re-search-forward "^[ \t]*- \\[[ X-]\\]" subtree-end t))))
+        ;; Add or remove cookie
+        (cond
+         ((and has-checkboxes (not has-cookie))
+          ;; Add [/] at the end of heading
+          (goto-char heading-end)
+          (insert " [/]"))
+         ((and (not has-checkboxes) has-cookie)
+          ;; Remove the cookie
+          (goto-char heading-start)
+          (when (re-search-forward "\\[\\([0-9]*%\\|[0-9]*/[0-9]*\\)\\]" heading-end t)
+            (replace-match "")))))))
+  ;; Update all statistics cookies
+  (org-update-checkbox-count 'all))
+
+;; auto-update checkbox heading on save
+(add-hook 'org-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook 'my/org-auto-update-checkbox-cookies nil 'local)))
+
 (use-package evil-org
   :ensure t
   :after org
@@ -186,7 +226,6 @@
 (use-package org-bullets
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; consult
