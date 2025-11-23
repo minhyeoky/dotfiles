@@ -3,7 +3,5 @@ node_modules
 .config/karabiner/automatic_backups
 bash/.bash_constants
 .ssh
-.emacs.d/
 
-!init.el
-!local.el.sample
+local.el
