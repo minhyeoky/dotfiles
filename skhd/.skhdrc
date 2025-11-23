@@ -49,27 +49,11 @@ alt - f         : yabai -m window --toggle zoom-fullscreen
 # ======================================================================================
 # Space
 # ======================================================================================
-ctrl - 1 : yabai -m space --focus 1; \
-  if [ "$(yabai -m query --windows --space | jq length)" -gt 0 ]; then \
-      yabai -m window --focus last; \
-  fi
-ctrl - 2 : yabai -m space --focus 2; \
-  if [ "$(yabai -m query --windows --space | jq length)" -gt 0 ]; then \
-      yabai -m window --focus last; \
-  fi
-ctrl - 3 : yabai -m space --focus 3; \
-  if [ "$(yabai -m query --windows --space | jq length)" -gt 0 ]; then \
-      yabai -m window --focus last; \
-  fi
-ctrl - 4 : yabai -m space --focus 4; \
-  if [ "$(yabai -m query --windows --space | jq length)" -gt 0 ]; then \
-      yabai -m window --focus last; \
-  fi
-ctrl - 5 : yabai -m space --focus 5; \
-  if [ "$(yabai -m query --windows --space | jq length)" -gt 0 ]; then \
-      yabai -m window --focus last; \
-  fi
-
+ctrl - 1 : yabai -m space --focus 1
+ctrl - 2 : yabai -m space --focus 2
+ctrl - 3 : yabai -m space --focus 3
+ctrl - 4 : yabai -m space --focus 4
+ctrl - 5 : yabai -m space --focus 5
 
 # =======================================================================================
 # Display
