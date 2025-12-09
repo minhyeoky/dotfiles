@@ -7,10 +7,12 @@ return {
       ensure_installed = {
         "vimdoc",
         "vim",
+        "markdown",
+        "markdown_inline",
       },
-      highlight = {
-        enable = true,
-      },
+      highlight = { enable = true },
+      indent = { enable = true },
+      folds = { enable = true },
     },
     config = function(_, opts)
       if type(opts.ensure_installed) == "table" then
@@ -25,6 +27,17 @@ return {
         end, opts.ensure_installed)
       end
       require("nvim-treesitter.configs").setup(opts)
+
+      -- markdown foldmethod, expr with treesitter
+      vim.api.nvim_create_autocmd({ "FileType" }, {
+        pattern = { "markdown" },
+        callback = function()
+          vim.opt_local.foldmethod = "expr"
+          vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+          vim.opt_local.foldenable = true
+          vim.opt_local.foldlevel = 2    
+        end,
+      })
     end,
   },
 }
