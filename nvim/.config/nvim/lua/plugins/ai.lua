@@ -5,7 +5,7 @@ return {
     config = function()
       vim.g.copilot_filetypes = {
         ["*"] = true,
-        ["markdown"] = false,
+        ["markdown"] = true,
       }
     end,
   },
