@@ -48,3 +48,8 @@ alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commi
 # Git Secret
 alias gsrf='git secret reveal -f'        # Reveal secret files
 alias gshm='git secret hide -m'          # Hide modified files
+
+# --------------------------------------------------------------------------------
+# ETC
+# --------------------------------------------------------------------------------
+alias lg='lazygit'
