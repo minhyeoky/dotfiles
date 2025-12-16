@@ -14,27 +14,6 @@ return {
   },
 
   {
-    "neovim/nvim-lspconfig",
-    opts = {
-      -- capabilities = capabilities,
-      servers = {
-        dockerls = {
-          -- https://www.npmjs.com/package/vscode-json-languageserver#settings
-          settings = {
-            docker = {
-              languageserver = {
-                formatter = {
-                  ignoreMultilineInstructions = true,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-
-  {
     "williamboman/mason-lspconfig.nvim",
     opts = {
       ensure_installed = {

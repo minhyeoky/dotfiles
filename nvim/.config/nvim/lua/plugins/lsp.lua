@@ -1,45 +1,16 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    opts = {
-      inlay_hints = {
-        enabled = true,
-      },
-      servers = {
-        lua_ls = {
-          settings = {
-            Lua = {
-              workspace = {
-                checkThirdParty = false,
-              },
-              codeLens = {
-                enable = true,
-              },
-              completion = {
-                callSnippet = "Replace",
-              },
-            },
-          },
-        },
-      },
-    },
-    config = function(_, opts)
-      -- enable lspconfig for opts.servers
-      for server, config in pairs(opts.servers) do
-        config["on_attach"] = function(client, _)
-          -- enable inlay hints if available
-          if client.server_capabilities.inlayHintProvider then
-            vim.lsp.inlay_hint.enable()
-          end
-        end
-        require("lspconfig")[server].setup(config)
-      end
-
-
+    config = function()
       -- setup key mappings
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
         callback = function(ev)
+          -- enable inlay hints if available
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          if client and client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+          end
 
           -- Helper to toggle inlay hints
           local function toggle_inlay_hints()
