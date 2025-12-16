@@ -18,24 +18,6 @@ return {
   },
 
   {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        pyright = {
-          settings = {
-            python = {
-              analysis = {
-                diagnosticMode = "workspace",
-              },
-            },
-          },
-        },
-        ruff = {},
-      },
-    }
-  },
-
-  {
     "williamboman/mason-lspconfig.nvim",
     opts = {
       ensure_installed = {

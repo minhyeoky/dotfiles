@@ -12,14 +12,6 @@ return {
       end
     end,
   },
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        bashls = {},
-      },
-    }
-  },
 
   {
     "williamboman/mason-lspconfig.nvim",
