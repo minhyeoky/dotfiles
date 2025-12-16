@@ -2,8 +2,6 @@ require("keymaps")
 require("bootstrap")
 require("options")
 
--- Enable LSP servers (Nvim 0.11+ vim.lsp.config)
--- Configs are automatically loaded from lsp/ directory
 vim.lsp.enable({
   "lua_ls",
   "ruff",
@@ -13,7 +11,8 @@ vim.lsp.enable({
   "graphql",
   "html",
   "jsonls",
+  "pyright",
 })
 
--- Disable pyright (using other Python LSP)
-vim.lsp.enable({ "pyright" }, false)
+-- Site-specific overrides (optional, gitignored)
+pcall(require, "local")

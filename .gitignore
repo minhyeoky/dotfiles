@@ -5,3 +5,4 @@ bash/.bash_constants
 .ssh
 
 local.el
+nvim/.config/nvim/lua/local.lua
