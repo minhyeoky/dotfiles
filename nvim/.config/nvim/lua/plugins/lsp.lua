@@ -53,7 +53,17 @@ return {
       "neovim/nvim-lspconfig",
     },
     opts = {
-      ensure_installed = {},
+      ensure_installed = {
+        "bashls",
+        "dockerls",
+        "graphql",
+        "html",
+        "jsonls",
+        "lua_ls",
+        "pyright",
+        "ruff",
+        "rust_analyzer",
+      },
     },
     config = true,
   },
