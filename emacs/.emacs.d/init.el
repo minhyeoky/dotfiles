@@ -188,11 +188,13 @@
         (save-excursion
           (goto-char heading-start)
           (setq has-cookie (re-search-forward "\\[\\([0-9]*%\\|[0-9]*/[0-9]*\\)\\]" heading-end t)))
-        ;; Check if subtree has checkboxes
+        ;; Check if heading's direct content has checkboxes (excluding subheadings)
         (save-excursion
           (org-back-to-heading t)
-          (let ((subtree-end (save-excursion (org-end-of-subtree t t))))
-            (setq has-checkboxes (re-search-forward "^[ \t]*- \\[[ X-]\\]" subtree-end t))))
+          (let ((content-end (save-excursion
+                               (outline-next-heading)
+                               (point))))
+            (setq has-checkboxes (re-search-forward "^[ \t]*- \\[[ X-]\\]" content-end t))))
         ;; Add or remove cookie
         (cond
          ((and has-checkboxes (not has-cookie))
