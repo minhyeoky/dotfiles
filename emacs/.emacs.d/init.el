@@ -34,7 +34,9 @@
 (load custom-file 'noerror 'nomessage) ; Load the custom variable file
 
 ;; my secrets
-(load-file (locate-user-emacs-file "org.el"))
+(let ((org-secrets-file (locate-user-emacs-file "org.el")))
+  (when (file-exists-p org-secrets-file)
+    (load-file org-secrets-file)))
 
 ;; initialize package
 ;; refresh -> (package-refresh-contents)
@@ -58,6 +60,16 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+;; Font configuration
+(set-face-attribute 'default nil
+                    :family "JetBrainsMono Nerd Font"
+                    :height 120  ; 12pt (height is in 1/10pt units)
+                    :weight 'extra-light)
+
+;; Set font for new frames
+(add-to-list 'default-frame-alist
+             '(font . "JetBrainsMono Nerd Font-12:weight=extralight"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; exec-path-from-shell
 ;; bring my shell environment to emacs
@@ -74,7 +86,7 @@
   (exec-path-from-shell-initialize))
 
 ;; copy environment variables from shell
-(exec-path-from-shell-copy-env "PKM_DIR")
+(exec-path-from-shell-copy-env "ORG_DIR")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Tree-sitter
@@ -153,7 +165,7 @@
 	org-hide-emphasis-markers t))
 
 ;; my org-files directory
-(setq org-directory (concat (getenv "PKM_DIR") "/org"))
+(setq org-directory (concat (getenv "ORG_DIR") "/org"))
 
 
 ;; close all the other windows when opening org-capture
