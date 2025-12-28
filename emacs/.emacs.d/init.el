@@ -146,8 +146,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun dw/org-mode-setup ()
   (org-indent-mode)
-  ; (auto-fill-mode 0)
-  ; (visual-line-mode 1)
+  (auto-fill-mode 0) ; disable hard wrapping
+  (visual-line-mode 1) ; enable soft wrapping
   (setq evil-auto-indent nil))
 
 (use-package org
