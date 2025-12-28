@@ -77,16 +77,8 @@
 (unless (package-installed-p 'exec-path-from-shell)
   (package-install 'exec-path-from-shell))
 
-;; set $PATH, ... when running in GUI
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-
-;; when running as a daemon
-(when (daemonp)
-  (exec-path-from-shell-initialize))
-
-;; copy environment variables from shell
-(exec-path-from-shell-copy-env "ORG_DIR")
+;; initialize environment variables from the shell
+(exec-path-from-shell-copy-envs '("ORG_DIR" "PKM_DIR"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Tree-sitter
@@ -165,7 +157,7 @@
 	org-hide-emphasis-markers t))
 
 ;; my org-files directory
-(setq org-directory (concat (getenv "ORG_DIR") "/org"))
+(setq org-directory (getenv "ORG_DIR"))
 
 
 ;; close all the other windows when opening org-capture
