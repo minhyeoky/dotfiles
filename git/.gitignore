@@ -4,11 +4,6 @@
 # OS
 .DS_Store
 
-# ctags
-tags
-tags.lock
-tags.temp
-
 # vim
 .vim
 
@@ -18,6 +13,3 @@ venv
 __pycache__
 *.ipynb
 
-# Vim gutentags
-.gutctags
-.notags
