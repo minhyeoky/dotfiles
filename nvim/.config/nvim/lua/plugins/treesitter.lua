@@ -4,7 +4,7 @@ return {
     version = false,
     build = ":TSUpdate",
     opts = {
-      ensure_installed = "all",
+      -- ensure_installed = "all",
       highlight = { enable = true },
       indent = { enable = true },
       folds = { enable = true },
