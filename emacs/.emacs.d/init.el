@@ -156,6 +156,11 @@
   (setq org-ellipsis " ▾"
 	org-hide-emphasis-markers t))
 
+;; org-mode inline code style (gruvbox)
+(custom-set-faces
+ '(org-verbatim ((t (:foreground "#8ec07c" :background "#3c3836"))))  ; aqua
+ '(org-code ((t (:foreground "#fe8019" :background "#3c3836")))))
+
 ;; my org-files directory
 (setq org-directory (getenv "ORG_DIR"))
 
