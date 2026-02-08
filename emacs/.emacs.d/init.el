@@ -334,7 +334,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; org-mode
-(evil-leader/set-key "t" 'org-toggle-narrow-to-subtree)
+(evil-leader/set-key "on" 'org-toggle-narrow-to-subtree)
 
 ;; org-agenda
 (evil-leader/set-key "a" 'org-agenda)
@@ -343,6 +343,12 @@
 (evil-leader/set-key "ff" 'consult-fd)
 (evil-leader/set-key "fr" 'consult-ripgrep)
 (evil-leader/set-key "fb" 'consult-buffer)
+
+;; tabs
+(tab-bar-mode 1)
+(evil-leader/set-key "tn" 'tab-new)
+(evil-leader/set-key "tc" 'tab-close)
+(evil-leader/set-key "to" 'tab-close-other)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Misc 
