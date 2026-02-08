@@ -115,6 +115,13 @@ return {
 
   {
     "sindrets/diffview.nvim",
+    cmd = { 
+      "DiffviewOpen",
+      "DiffviewFileHistory",
+      "DiffviewClose",
+      "DiffviewToggleFiles",
+      "DiffviewRefresh",
+    },
     config = function()
       require("diffview").setup({
         hooks = {
