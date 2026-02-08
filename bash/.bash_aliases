@@ -1,7 +1,6 @@
 # --------------------------------------------------------------------------------
 # GENERAL ALIASES
 # --------------------------------------------------------------------------------
-alias v='nvim'
 alias vim='nvim'
 alias ll='ls -alhF'
 alias cc='claude --verbose --dangerously-skip-permissions'
