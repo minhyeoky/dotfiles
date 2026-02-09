@@ -35,12 +35,10 @@ plugins=(
   tmux
   docker
   docker-compose
-  fasd
   git
   z
   fzf-tab
 )
-
 
 source $ZSH/oh-my-zsh.sh
 
@@ -58,20 +56,18 @@ if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
 fi
 
+# fzf-tab
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+
 # --------------------------------------------------------------------------------
 # TMUX
 # --------------------------------------------------------------------------------
 export DISABLE_AUTO_TITLE='true'
 
-
 # --------------------------------------------------------------------------------
 # NEOVIM
 # --------------------------------------------------------------------------------
 export MANPAGER='nvim +Man!'
-export NVIM_APPNAME=
-
-# fzf-tab
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 # --------------------------------------------------------------------------------
 # CLAUDE CODE
