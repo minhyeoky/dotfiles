@@ -72,7 +72,7 @@ export MANPAGER='nvim +Man!'
 # --------------------------------------------------------------------------------
 # CLAUDE CODE
 # --------------------------------------------------------------------------------
-alias cc='claude --verbose --dangerously-skip-permissions --plugin-dir $HOME/minhyeoky.github.io/claude-plugin'
+alias cc='claude --verbose --dangerously-skip-permissions'
 
 # --------------------------------------------------------------------------------
 # DIRENV
