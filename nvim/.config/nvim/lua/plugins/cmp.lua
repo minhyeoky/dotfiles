@@ -36,7 +36,7 @@ return {
         completion = {
           completeopt = "menu,menuone,noselect",
         },
-        sorting = defaults.sotring,
+        sorting = defaults.sorting,
         performance = {
           -- due to AI tools
           fetching_timeout = 2000,
