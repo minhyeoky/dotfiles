@@ -239,6 +239,44 @@
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Org Roam
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; ensure org-roam is installed
+(unless (package-installed-p 'org-roam)
+  (package-install 'org-roam))
+
+;; tell note directory to org-roam
+(setq org-roam-directory
+  ;; resolve symbolic links
+  (file-truename
+   (concat (getenv "PKM_DIR") "/org")))
+
+;; run (org-roam-db-sync) automatically
+(org-roam-db-autosync-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; org-roam-ui
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(unless (package-installed-p 'org-roam-ui)
+  (package-install 'org-roam-ui))
+(use-package org-roam-ui
+    :after org-roam
+    :init
+    (setq httpd-host "0.0.0.0")
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start nil)
+    (org-roam-ui-mode 1))
+
+;; consult-org-roam.el
+(unless (package-installed-p 'consult-org-roam)
+  (package-install 'consult-org-roam))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; consult
 ;; adds search and navigation commands
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -343,6 +381,12 @@
 (evil-leader/set-key "ff" 'consult-fd)
 (evil-leader/set-key "fr" 'consult-ripgrep)
 (evil-leader/set-key "fb" 'consult-buffer)
+
+;; org-roam
+(evil-leader/set-key "zf" 'consult-org-roam-file-find)
+(evil-leader/set-key "zz" 'org-roam-capture)
+(evil-leader/set-key "zr" 'consult-org-roam-search)
+(evil-leader/set-key "zb" 'consult-org-roam-backlinks)
 
 ;; tabs
 (tab-bar-mode 1)
