@@ -162,7 +162,7 @@
  '(org-code ((t (:foreground "#fe8019" :background "#3c3836")))))
 
 ;; my org-files directory
-(setq org-directory (getenv "ORG_DIR"))
+(setq org-directory (or (getenv "ORG_DIR") (expand-file-name "~/org")))
 
 
 ;; close all the other windows when opening org-capture
@@ -186,7 +186,6 @@
     (while (re-search-forward org-heading-regexp nil t)
       (let* ((heading-start (line-beginning-position))
              (heading-end (line-end-position))
-             (element (org-element-at-point))
              (has-checkboxes nil)
              (has-cookie nil))
         ;; Check if heading already has a statistics cookie
@@ -250,7 +249,7 @@
 (setq org-roam-directory
   ;; resolve symbolic links
   (file-truename
-   (concat (getenv "PKM_DIR") "/org")))
+   (concat (or (getenv "PKM_DIR") (expand-file-name "~/pkm")) "/org")))
 
 ;; run (org-roam-db-sync) automatically
 (org-roam-db-autosync-mode)
@@ -264,7 +263,7 @@
 (use-package org-roam-ui
     :after org-roam
     :init
-    (setq httpd-host "0.0.0.0")
+    (setq httpd-host "127.0.0.1")
     :config
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
@@ -401,5 +400,5 @@
 ; load local config file
 (let ((local-file (expand-file-name "local.el" user-emacs-directory)))
   (when (file-exists-p local-file)
-    (print (concat "Loading local.el at: " local-file))
+    (message "Loading local.el from: %s" local-file)
     (load local-file)))
