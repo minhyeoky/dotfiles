@@ -180,7 +180,7 @@ tmux_conf_new_session_prompt=true
 ##     - #{username}
 ##     - #{username_ssh}
 ##tmux_conf_theme_status_left=' ❐ #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
-#tmux_conf_theme_status_left=' #S | #{pomodoro_status}'
+#tmux_conf_theme_status_left=' #S '
 #tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} , %R , %d %b | #{username}#{root} | #{hostname} '
 ##tmux_conf_theme_status_right='| #{hostname} '
 #
@@ -310,7 +310,6 @@ bind-key -r ) run-shell -b "alacritty-opacity increase 0.1"
 bind-key -r ( run-shell -b "alacritty-opacity decrease 0.1"
 bind-key ! run-shell "tmux new-window $HOME/scripts/run-scripts.sh"
 
-# TODO: Replace tmux-pomodoro-plus C-b C-p with next-window
 bind-key -r C-p next-window
 bind-key -r C-n previous-window
 bind-key -r C-u last-window
