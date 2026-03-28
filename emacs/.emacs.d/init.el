@@ -186,7 +186,6 @@
     (while (re-search-forward org-heading-regexp nil t)
       (let* ((heading-start (line-beginning-position))
              (heading-end (line-end-position))
-             (element (org-element-at-point))
              (has-checkboxes nil)
              (has-cookie nil))
         ;; Check if heading already has a statistics cookie
@@ -401,5 +400,5 @@
 ; load local config file
 (let ((local-file (expand-file-name "local.el" user-emacs-directory)))
   (when (file-exists-p local-file)
-    (print (concat "Loading local.el at: " local-file))
+    (message "Loading local.el from: %s" local-file)
     (load local-file)))
