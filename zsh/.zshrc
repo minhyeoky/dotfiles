@@ -90,6 +90,15 @@ e() {
 alias ek='emacsclient -e "(kill-emacs)"'
 
 # --------------------------------------------------------------------------------
+# KEYBINDINGS
+# --------------------------------------------------------------------------------
+# Edit command line in $EDITOR with Ctrl+X, Ctrl+E
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M viins '^X^E' edit-command-line
+bindkey -M vicmd '^X^E' edit-command-line
+
+# --------------------------------------------------------------------------------
 # ETC
 # --------------------------------------------------------------------------------
 
