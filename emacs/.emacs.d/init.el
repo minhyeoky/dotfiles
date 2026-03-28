@@ -264,7 +264,7 @@
 (use-package org-roam-ui
     :after org-roam
     :init
-    (setq httpd-host "0.0.0.0")
+    (setq httpd-host "127.0.0.1")
     :config
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
