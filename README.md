@@ -13,7 +13,7 @@ This repository contains my personal configuration files (dotfiles) for various 
 - **Neovim Setup**: Modern Neovim configuration with LSP support, fuzzy finding, and more.
 - **Tmux Configuration**: Productive tmux setup with sensible defaults and useful plugins.
 - **Git Configuration**: Optimized Git configuration with useful aliases and settings.
-- **macOS Tools**: Configuration for macOS-specific tools like Karabiner, Yabai, and SKHD.
+- **macOS Tools**: Configuration for macOS-specific tools like Yabai and SKHD.
 - **Utility Scripts**: Collection of useful scripts for development workflow.
 - **Claude Code Plugins**: Personal Claude Code plugins for workflow automation (e.g., tmux session status).
 
@@ -23,7 +23,7 @@ This repository contains my personal configuration files (dotfiles) for various 
 .
 ├── alacritty/        # Alacritty terminal configuration
 ├── bash/             # Bash shell configuration
-├── claude/           # Claude AI assistant configuration
+├── claude/           # Claude Code behavioral guidelines
 ├── emacs/            # Emacs configuration
 ├── git/              # Git configuration and aliases
 ├── hammerspoon/      # Hammerspoon configuration
@@ -41,7 +41,7 @@ This repository contains my personal configuration files (dotfiles) for various 
 ### Prerequisites
 
 - Git
-- GNU Stow (will be installed automatically if not present)
+- [GNU Stow](https://www.gnu.org/software/stow/)
 
 ### Manual Installation
 
@@ -70,7 +70,8 @@ The `my-plugins/` directory contains personal Claude Code plugins, registered vi
 To install, open Claude Code in this repo and run:
 
 ```
-/install-plugin my-plugins
+/plugin marketplace add .
+/plugin install my-plugins@my-plugins
 ```
 
 See [`my-plugins/README.md`](my-plugins/README.md) for available plugins and details.
@@ -81,7 +82,7 @@ The following configurations are available:
 
 - `alacritty`: Configuration for Alacritty terminal emulator
 - `bash`: Bash shell configuration
-- `claude`: Claude AI assistant configuration
+- `claude`: Claude Code behavioral guidelines (CLAUDE.md)
 - `emacs`: Emacs configuration
 - `git`: Git configuration and aliases
 - `hammerspoon`: Hammerspoon configuration for macOS automation
@@ -94,7 +95,7 @@ The following configurations are available:
 
 ### Environment Secrets
 
-Sensitive information like API keys should be stored in `~/.env_secrets`, which is sourced by the shell but not tracked by Git.
+Sensitive information like API keys should be stored in `~/.env_secrets`, which is sourced by Bash but not tracked by Git.
 
 ## License
 
