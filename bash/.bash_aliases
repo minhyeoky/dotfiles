@@ -24,7 +24,6 @@ alias gcm='git checkout master'          # Checkout master branch
 alias gco='git checkout'                 # Checkout branch
 
 # Status and information
-alias ggh='${DOTFILES_DIR}/scripts/copy-commit-hash.sh'  # Copy commit hash
 alias gst='git status'                   # Show status
 
 # Working with changes
