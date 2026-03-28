@@ -162,7 +162,7 @@
  '(org-code ((t (:foreground "#fe8019" :background "#3c3836")))))
 
 ;; my org-files directory
-(setq org-directory (getenv "ORG_DIR"))
+(setq org-directory (or (getenv "ORG_DIR") (expand-file-name "~/org")))
 
 
 ;; close all the other windows when opening org-capture
@@ -250,7 +250,7 @@
 (setq org-roam-directory
   ;; resolve symbolic links
   (file-truename
-   (concat (getenv "PKM_DIR") "/org")))
+   (concat (or (getenv "PKM_DIR") (expand-file-name "~/pkm")) "/org")))
 
 ;; run (org-roam-db-sync) automatically
 (org-roam-db-autosync-mode)
