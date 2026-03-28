@@ -40,7 +40,7 @@ plugins=(
   fzf-tab
 )
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH/oh-my-zsh.sh"
 
 # --------------------------------------------------------------------------------
 # PATH CONFIGURATION
