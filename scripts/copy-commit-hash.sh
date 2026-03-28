@@ -1,3 +1,5 @@
+#!/bin/bash
+
 idx=$1
 echo "INDEX: ${idx:-0}" > /dev/null
 
