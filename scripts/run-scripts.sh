@@ -4,7 +4,7 @@ set -e
 
 BASE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-files=$(find -L "$BASE_DIR" -type f)
+files=$(find -L "$BASE_DIR" -type f ! -name "$(basename "$0")")
 
 filenames=""
 for file in $files; do
