@@ -25,4 +25,4 @@ yabai -m rule --add app=".*" manage=off
 # ======================================================================================
 # Others
 # ======================================================================================
-borders active_color=0xeea8e3232 inactive_color=0xff494d64 width=10.0 &
+borders active_color=0xeea8e323 inactive_color=0xff494d64 width=10.0 &
