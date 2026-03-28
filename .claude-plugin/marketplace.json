@@ -1,0 +1,17 @@
+{
+  "name": "my-plugins",
+  "owner": {
+    "name": "Minhyeok Lee"
+  },
+  "metadata": {
+    "description": "Claude Code plugins by Minhyeok Lee",
+    "pluginRoot": "./my-plugins"
+  },
+  "plugins": [
+    {
+      "name": "my-plugins",
+      "source": "./my-plugins",
+      "description": "Personal Claude Code plugins by Minhyeok Lee"
+    }
+  ]
+}

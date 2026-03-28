@@ -1,0 +1,11 @@
+{
+  "name": "my-plugins",
+  "description": "Personal Claude Code plugins by Minhyeok Lee",
+  "version": "1.0.0",
+  "author": {
+    "name": "Minhyeok Lee"
+  },
+  "repository": "https://github.com/minhyeoky/dotfiles",
+  "license": "MIT",
+  "keywords": ["personal", "dotfiles"]
+}

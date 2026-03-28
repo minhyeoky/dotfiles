@@ -72,7 +72,8 @@ export MANPAGER='nvim +Man!'
 # --------------------------------------------------------------------------------
 # CLAUDE CODE
 # --------------------------------------------------------------------------------
-alias cc='claude --verbose --dangerously-skip-permissions'
+alias c='claude --verbose --dangerously-skip-permissions --model "sonnet"'
+alias cc='claude --verbose --dangerously-skip-permissions --model "opus[1m]"'
 alias cr='claude remote-control --permission-mode "bypassPermissions" --verbose --spawn "same-dir"'
 
 # --------------------------------------------------------------------------------
