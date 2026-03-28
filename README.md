@@ -15,7 +15,7 @@ This repository contains my personal configuration files (dotfiles) for various 
 - **Git Configuration**: Optimized Git configuration with useful aliases and settings.
 - **macOS Tools**: Configuration for macOS-specific tools like Karabiner, Yabai, and SKHD.
 - **Utility Scripts**: Collection of useful scripts for development workflow.
-- **MCP Integration**: MCP Hub configuration for AI code assistant integrations.
+- **Claude Code Plugins**: Personal Claude Code plugins for workflow automation (e.g., tmux session status).
 
 ## Directory Structure
 
@@ -27,12 +27,10 @@ This repository contains my personal configuration files (dotfiles) for various 
 ├── emacs/            # Emacs configuration
 ├── git/              # Git configuration and aliases
 ├── hammerspoon/      # Hammerspoon configuration
-├── karabiner/        # Karabiner-Elements configuration
-├── mcp/              # MCP servers configuration
+├── my-plugins/       # Personal Claude Code plugins
 ├── nvim/             # Neovim configuration
 ├── scripts/          # Utility scripts
 ├── skhd/             # Simple Hotkey Daemon configuration
-├── tf/               # Terraform configuration
 ├── tmux/             # Tmux configuration
 ├── yabai/            # Yabai window manager configuration
 └── zsh/              # ZSH shell configuration
@@ -65,6 +63,18 @@ stow nvim
 stow tmux
 ```
 
+### Claude Code Plugins
+
+The `my-plugins/` directory contains personal Claude Code plugins, registered via a local marketplace (`.claude-plugin/marketplace.json`).
+
+To install, open Claude Code in this repo and run:
+
+```
+/install-plugin my-plugins
+```
+
+See [`my-plugins/README.md`](my-plugins/README.md) for available plugins and details.
+
 ## Available Configurations
 
 The following configurations are available:
@@ -75,11 +85,9 @@ The following configurations are available:
 - `emacs`: Emacs configuration
 - `git`: Git configuration and aliases
 - `hammerspoon`: Hammerspoon configuration for macOS automation
-- `karabiner`: Karabiner-Elements configuration for keyboard customization
-- `mcp`: MCP servers configuration for AI code assistants
+- `my-plugins`: Personal Claude Code plugins (tmux-status hooks)
 - `nvim`: Neovim configuration
 - `skhd`: Simple Hotkey Daemon configuration
-- `tf`: Terraform configuration
 - `tmux`: Tmux configuration
 - `yabai`: Yabai window manager configuration
 - `zsh`: ZSH shell configuration
@@ -99,3 +107,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm)
 - [Neovim](https://neovim.io/)
 - [GNU Stow](https://www.gnu.org/software/stow/)
+- [Claude Code](https://claude.ai/code)
