@@ -8,59 +8,47 @@ EVENT="${1:?usage: tmux-status.sh <event_name>}"
 # Load emoji config
 source "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/tmux-status-config.sh"
 
-ALL_EMOJIS=(
-  "$EMOJI_SESSION_START"
-  "$EMOJI_USER_PROMPT_SUBMIT"
-  "$EMOJI_PRE_TOOL_USE"
-  "$EMOJI_POST_TOOL_USE"
-  "$EMOJI_POST_TOOL_USE_FAILURE"
-  "$EMOJI_PERMISSION_REQUEST"
-  "$EMOJI_NOTIFICATION"
-  "$EMOJI_STOP"
-)
+ALL_EMOJIS=()
+for var in "${!EMOJI_@}"; do
+  ALL_EMOJIS+=("${!var}")
+done
 
-strip_emojis() {
+strip_prefix() {
   local text="$1"
   for e in "${ALL_EMOJIS[@]}"; do
-    text="${text//$e/}"
+    if [[ "$text" == "${e} "* ]]; then
+      text="${text#"${e} "}"
+      break
+    fi
   done
-  # trim leading/trailing whitespace
-  text="${text#"${text%%[![:space:]]*}"}"
-  text="${text%"${text##*[![:space:]]}"}"
   echo "$text"
 }
 
-update_prefix() {
-  local emoji="$1"
+set_window_name() {
+  local prefix="${1:-}"
   local raw_name
   raw_name=$(tmux display-message -t "$TMUX_PANE" -p '#{window_name}')
   local name
-  name=$(strip_emojis "$raw_name")
-  tmux rename-window -t "$TMUX_PANE" "${emoji} ${name}"
-}
-
-remove_prefix() {
-  local raw_name
-  raw_name=$(tmux display-message -t "$TMUX_PANE" -p '#{window_name}')
-  local name
-  name=$(strip_emojis "$raw_name")
-  tmux rename-window -t "$TMUX_PANE" "$name"
+  name=$(strip_prefix "$raw_name")
+  local new_name="${prefix:+$prefix }${name}"
+  [[ "$raw_name" == "$new_name" ]] && return 0
+  tmux rename-window -t "$TMUX_PANE" "$new_name"
 }
 
 case "$EVENT" in
   SessionStart)
     tmux set-option -w -t "$TMUX_PANE" automatic-rename off
-    update_prefix "$EMOJI_SESSION_START"
+    set_window_name "$EMOJI_SESSION_START"
     ;;
   SessionEnd)
-    remove_prefix
+    set_window_name
     tmux set-option -w -t "$TMUX_PANE" automatic-rename on
     ;;
-  UserPromptSubmit) update_prefix "$EMOJI_USER_PROMPT_SUBMIT" ;;
-  PreToolUse)         update_prefix "$EMOJI_PRE_TOOL_USE" ;;
-  PostToolUse)        update_prefix "$EMOJI_POST_TOOL_USE" ;;
-  PostToolUseFailure) update_prefix "$EMOJI_POST_TOOL_USE_FAILURE" ;;
-  PermissionRequest)  update_prefix "$EMOJI_PERMISSION_REQUEST" ;;
-  Notification)       update_prefix "$EMOJI_NOTIFICATION" ;;
-  Stop)               update_prefix "$EMOJI_STOP" ;;
+  UserPromptSubmit) set_window_name "$EMOJI_USER_PROMPT_SUBMIT" ;;
+  PreToolUse)         set_window_name "$EMOJI_PRE_TOOL_USE" ;;
+  PostToolUse)        set_window_name "$EMOJI_POST_TOOL_USE" ;;
+  PostToolUseFailure) set_window_name "$EMOJI_POST_TOOL_USE_FAILURE" ;;
+  PermissionRequest)  set_window_name "$EMOJI_PERMISSION_REQUEST" ;;
+  Notification)       set_window_name "$EMOJI_NOTIFICATION" ;;
+  Stop)               set_window_name "$EMOJI_STOP" ;;
 esac

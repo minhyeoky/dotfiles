@@ -15,5 +15,8 @@
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "autoDreamEnabled": true,
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "enabledPlugins": {
+    "my-plugins@my-plugins": true
+  }
 }
