@@ -14,7 +14,7 @@ vim.lsp.enable({
   "pyright",
 })
 
--- Diagnostics: virtual_text became opt-in starting from Neovim 0.11
+-- Keep diagnostic virtual_text enabled (became opt-in in Neovim 0.11)
 vim.diagnostic.config({
   virtual_text = true,
 })
