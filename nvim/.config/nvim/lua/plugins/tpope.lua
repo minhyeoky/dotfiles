@@ -10,11 +10,6 @@ return {
   },
 
   {
-    "tpope/vim-unimpaired",
-    lazy = false,
-  },
-
-  {
     "tpope/vim-eunuch",
     lazy = false,
   },
