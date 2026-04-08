@@ -64,6 +64,8 @@ return {
         "ruff",
         "rust_analyzer",
       },
+      -- Disable auto-enable; vim.lsp.enable() in init.lua handles activation
+      automatic_enable = false,
     },
     config = true,
   },
