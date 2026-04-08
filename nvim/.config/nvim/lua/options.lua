@@ -5,7 +5,9 @@ vim.opt.relativenumber = true -- show relative line numbers
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
-vim.opt.foldmethod = "indent"
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldtext = ""  -- preserve syntax highlighting on folded lines (Neovim 0.10+)
 vim.opt.shiftwidth = 2     -- number of spaces to use for each step of (auto)indent
 vim.opt.foldlevel = 99
 vim.opt.confirm = true     -- confirm to save changes before existing modified buffer
