@@ -14,9 +14,9 @@ vim.lsp.enable({
   "pyright",
 })
 
--- Keep diagnostic virtual_text enabled (became opt-in in Neovim 0.11)
+-- Use virtual_lines for diagnostics (Neovim 0.11+)
 vim.diagnostic.config({
-  virtual_text = true,
+  virtual_lines = true,
 })
 
 -- Site-specific overrides (optional, gitignored)
