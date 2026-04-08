@@ -14,5 +14,10 @@ vim.lsp.enable({
   "pyright",
 })
 
+-- Diagnostics: virtual_text became opt-in starting from Neovim 0.11
+vim.diagnostic.config({
+  virtual_text = true,
+})
+
 -- Site-specific overrides (optional, gitignored)
 pcall(require, "local")
