@@ -14,5 +14,10 @@ vim.lsp.enable({
   "pyright",
 })
 
+-- Use virtual_lines for diagnostics (Neovim 0.11+)
+vim.diagnostic.config({
+  virtual_lines = true,
+})
+
 -- Site-specific overrides (optional, gitignored)
 pcall(require, "local")
