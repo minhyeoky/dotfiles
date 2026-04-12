@@ -1,6 +1,7 @@
 require("keymaps")
 require("bootstrap")
 require("options")
+require("cc-edit")
 
 vim.lsp.enable({
   "lua_ls",
