@@ -89,18 +89,24 @@ local function open_context_layout()
   local text = extract_last_response(ctx.transcript_path)
   if not text then return end
 
-  local resp_path = vim.fn.stdpath('cache') .. '/cc-last-response.md'
-  vim.fn.writefile(vim.split(text, '\n', { plain = true }), resp_path)
-
   local prompt_win = vim.api.nvim_get_current_win()
 
-  vim.cmd('topleft vsplit ' .. vim.fn.fnameescape(resp_path))
+  -- Create an empty vsplit on the far left, then populate its (new, unnamed)
+  -- buffer with the response. Uses an in-memory scratch buffer — no file is
+  -- written to disk, so concurrent CC sessions never share state (no swap
+  -- collision, no undofile interleaving, no content races).
+  vim.cmd('topleft vnew')
+  local buf = vim.api.nvim_get_current_buf()
+  vim.bo[buf].buftype = 'nofile'
+  vim.bo[buf].bufhidden = 'wipe'
+  vim.bo[buf].swapfile = false
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(text, '\n', { plain = true }))
+  vim.bo[buf].filetype = 'markdown'
+  vim.bo[buf].modifiable = false
+  vim.bo[buf].readonly = true
+  pcall(vim.api.nvim_buf_set_name, buf, 'cc-last-response')
+
   vim.cmd('vertical resize ' .. math.floor(vim.o.columns * M.config.ratio))
-  vim.bo.filetype = 'markdown'
-  vim.bo.modifiable = false
-  vim.bo.readonly = true
-  vim.bo.buflisted = false
-  vim.bo.swapfile = false
 
   if vim.api.nvim_win_is_valid(prompt_win) then
     vim.api.nvim_set_current_win(prompt_win)
