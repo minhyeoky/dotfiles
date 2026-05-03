@@ -29,7 +29,8 @@ last_out=0
 while sleep 1; do
   [[ -r "$STATE_FILE" ]] || exit 0
 
-  start_epoch=$(get_state start_epoch)
+  active_seconds=$(get_state active_seconds)
+  tick_start_epoch=$(get_state tick_start_epoch)
   baseline_input=$(get_state baseline_input)
   baseline_output=$(get_state baseline_output)
   transcript_path=$(get_state transcript_path)
@@ -37,7 +38,7 @@ while sleep 1; do
   claude_pid=$(get_state claude_pid)
   current_emoji=$(get_state current_emoji)
 
-  [[ "$start_epoch"     =~ ^[0-9]+$ ]] || exit 0
+  [[ "$active_seconds"  =~ ^[0-9]+$ ]] || exit 0
   [[ "$baseline_input"  =~ ^[0-9]+$ ]] || exit 0
   [[ "$baseline_output" =~ ^[0-9]+$ ]] || exit 0
   [[ -n "$pane" ]] || exit 0
@@ -61,9 +62,7 @@ while sleep 1; do
     fi
   fi
 
-  now=$(date +%s)
-  elapsed=$((now - start_epoch))
-  (( elapsed < 0 )) && elapsed=0
+  elapsed=$(compute_elapsed "$active_seconds" "$tick_start_epoch")
   delta_in=$((last_in - baseline_input))
   delta_out=$((last_out - baseline_output))
   (( delta_in < 0 )) && delta_in=0

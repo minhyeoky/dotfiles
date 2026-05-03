@@ -54,7 +54,8 @@ write_initial_state() {
   cur_in=${cur_in:-0}; cur_out=${cur_out:-0}
   claude_pid=$(find_claude_pid || true)
   cat >"$f" <<EOF
-start_epoch=$(date +%s)
+active_seconds=0
+tick_start_epoch=$(date +%s)
 baseline_input=${cur_in}
 baseline_output=${cur_out}
 transcript_path=${TRANSCRIPT_PATH}
@@ -62,6 +63,29 @@ pane=${TMUX_PANE}
 claude_pid=${claude_pid}
 current_emoji=${EMOJI_USER_PROMPT_SUBMIT}
 EOF
+}
+
+# Stop event: fold current tick into the accumulator and clear tick_start.
+freeze_timer() {
+  local acc tick_start now delta
+  acc=$(get_state active_seconds); [[ "$acc" =~ ^[0-9]+$ ]] || acc=0
+  tick_start=$(get_state tick_start_epoch)
+  [[ "$tick_start" =~ ^[0-9]+$ ]] || return 0
+  now=$(date +%s)
+  delta=$((now - tick_start))
+  (( delta < 0 )) && delta=0
+  # Order matters: clear tick_start first so a daemon read mid-update
+  # under-reports by ms rather than over-reports.
+  set_state tick_start_epoch ""
+  set_state active_seconds "$((acc + delta))"
+}
+
+# Activity event after a freeze: restart the tick from now (accumulator preserved).
+resume_timer() {
+  local tick_start
+  tick_start=$(get_state tick_start_epoch)
+  [[ "$tick_start" =~ ^[0-9]+$ ]] && return 0
+  set_state tick_start_epoch "$(date +%s)"
 }
 
 clear_state() {
@@ -93,17 +117,16 @@ spawn_daemon() {
 
 build_metrics_suffix() {
   [[ "${TMUX_STATUS_SHOW_METRICS:-1}" == "1" ]] || return 0
-  local start_epoch baseline_input baseline_output
-  start_epoch=$(get_state start_epoch)
+  local active_seconds tick_start_epoch baseline_input baseline_output
+  active_seconds=$(get_state active_seconds)
+  tick_start_epoch=$(get_state tick_start_epoch)
   baseline_input=$(get_state baseline_input)
   baseline_output=$(get_state baseline_output)
-  [[ "$start_epoch"     =~ ^[0-9]+$ ]] || return 0
+  [[ "$active_seconds"  =~ ^[0-9]+$ ]] || return 0
   [[ "$baseline_input"  =~ ^[0-9]+$ ]] || return 0
   [[ "$baseline_output" =~ ^[0-9]+$ ]] || return 0
-  local now elapsed cur_in cur_out
-  now=$(date +%s)
-  elapsed=$((now - start_epoch))
-  (( elapsed < 0 )) && elapsed=0
+  local elapsed cur_in cur_out
+  elapsed=$(compute_elapsed "$active_seconds" "$tick_start_epoch")
   read -r cur_in cur_out <<<"$(compute_tokens "$TRANSCRIPT_PATH")"
   cur_in=${cur_in:-0}; cur_out=${cur_out:-0}
   local delta_in=$((cur_in - baseline_input))
@@ -147,10 +170,10 @@ case "$EVENT" in
     rename "$EMOJI_USER_PROMPT_SUBMIT"
     spawn_daemon
     ;;
-  PreToolUse)         rename "$EMOJI_PRE_TOOL_USE"          "$(build_metrics_suffix)" ;;
-  PostToolUse)        rename "$EMOJI_POST_TOOL_USE"         "$(build_metrics_suffix)" ;;
-  PostToolUseFailure) rename "$EMOJI_POST_TOOL_USE_FAILURE" "$(build_metrics_suffix)" ;;
-  PermissionRequest)  rename "$EMOJI_PERMISSION_REQUEST"    "$(build_metrics_suffix)" ;;
-  Notification)       rename "$EMOJI_NOTIFICATION"          "$(build_metrics_suffix)" ;;
-  Stop)               rename "$EMOJI_STOP"                  "$(build_metrics_suffix)" ;;
+  PreToolUse)         resume_timer; rename "$EMOJI_PRE_TOOL_USE"          "$(build_metrics_suffix)" ;;
+  PostToolUse)        resume_timer; rename "$EMOJI_POST_TOOL_USE"         "$(build_metrics_suffix)" ;;
+  PostToolUseFailure) resume_timer; rename "$EMOJI_POST_TOOL_USE_FAILURE" "$(build_metrics_suffix)" ;;
+  PermissionRequest)  resume_timer; rename "$EMOJI_PERMISSION_REQUEST"    "$(build_metrics_suffix)" ;;
+  Notification)       resume_timer; rename "$EMOJI_NOTIFICATION"          "$(build_metrics_suffix)" ;;
+  Stop)               freeze_timer; rename "$EMOJI_STOP"                  "$(build_metrics_suffix)" ;;
 esac
