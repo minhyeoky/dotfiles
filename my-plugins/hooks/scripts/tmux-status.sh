@@ -6,11 +6,10 @@ set -uo pipefail
 EVENT="${1:?usage: tmux-status.sh <event_name>}"
 
 source "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/tmux-status-config.sh"
+source "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/tmux-status-lib.sh"
 
 STDIN_JSON=""
-if [[ ! -t 0 ]]; then
-  STDIN_JSON=$(cat 2>/dev/null || true)
-fi
+[[ ! -t 0 ]] && STDIN_JSON=$(cat 2>/dev/null || true)
 
 SESSION_ID=""
 TRANSCRIPT_PATH=""
@@ -23,87 +22,90 @@ fi
 STATE_DIR="${TMPDIR:-/tmp}"
 STATE_DIR="${STATE_DIR%/}/cc-tmux-status"
 
-state_file() {
-  [[ -n "$SESSION_ID" ]] || return 1
-  printf '%s/%s.state' "$STATE_DIR" "$SESSION_ID"
+state_file() { [[ -n "$SESSION_ID" ]] || return 1; printf '%s/%s.state' "$STATE_DIR" "$SESSION_ID"; }
+pid_file()   { [[ -n "$SESSION_ID" ]] || return 1; printf '%s/%s.pid'   "$STATE_DIR" "$SESSION_ID"; }
+
+get_state() {
+  local f
+  f=$(state_file) || return 1
+  grep "^${1}=" "$f" 2>/dev/null | head -1 | cut -d= -f2-
 }
 
-write_state() {
+# In-place single-key update via temp-file rewrite (avoids macOS sed -i quirks).
+set_state() {
+  local key=$1 val=$2 f tmp
+  f=$(state_file) || return 0
+  [[ -r "$f" ]] || return 0
+  tmp="${f}.tmp.$$"
+  awk -v k="$key" -v v="$val" -F= '
+    BEGIN { found=0 }
+    $1 == k { print k "=" v; found=1; next }
+    { print }
+    END { if (!found) print k "=" v }
+  ' "$f" >"$tmp" 2>/dev/null && mv "$tmp" "$f" 2>/dev/null || rm -f "$tmp" 2>/dev/null
+}
+
+write_initial_state() {
   local f
   f=$(state_file) || return 0
   mkdir -p "$STATE_DIR" 2>/dev/null || return 0
-  printf 'start_epoch=%s\nbaseline_input=%s\nbaseline_output=%s\n' \
-    "$1" "$2" "$3" >"$f" 2>/dev/null || return 0
-}
-
-read_state() {
-  local f
-  f=$(state_file) || return 1
-  [[ -r "$f" ]] || return 1
-  start_epoch=$(grep '^start_epoch=' "$f" | head -1 | cut -d= -f2)
-  baseline_input=$(grep '^baseline_input=' "$f" | head -1 | cut -d= -f2)
-  baseline_output=$(grep '^baseline_output=' "$f" | head -1 | cut -d= -f2)
-  [[ "$start_epoch" =~ ^[0-9]+$ ]] || return 1
-  [[ "$baseline_input" =~ ^[0-9]+$ ]] || return 1
-  [[ "$baseline_output" =~ ^[0-9]+$ ]] || return 1
-  return 0
+  local cur_in cur_out claude_pid
+  read -r cur_in cur_out <<<"$(compute_tokens "$TRANSCRIPT_PATH")"
+  cur_in=${cur_in:-0}; cur_out=${cur_out:-0}
+  claude_pid=$(find_claude_pid || true)
+  cat >"$f" <<EOF
+start_epoch=$(date +%s)
+baseline_input=${cur_in}
+baseline_output=${cur_out}
+transcript_path=${TRANSCRIPT_PATH}
+pane=${TMUX_PANE}
+claude_pid=${claude_pid}
+current_emoji=${EMOJI_USER_PROMPT_SUBMIT}
+EOF
 }
 
 clear_state() {
-  local f
-  f=$(state_file) || return 0
-  rm -f "$f" 2>/dev/null || true
+  local f p
+  f=$(state_file 2>/dev/null) && rm -f "$f"
+  p=$(pid_file   2>/dev/null) && rm -f "$p"
 }
 
-# Sum input/output tokens across all assistant messages in the transcript.
-# Echoes "<input> <output>" (defaults to "0 0" on any failure).
-compute_tokens() {
-  local path="${1:-}"
-  [[ -n "$path" && -r "$path" ]] || { echo "0 0"; return; }
-  jq -rs '
-    map(select(.type=="assistant") | .message.usage // {})
-    | { i: (map((.input_tokens//0) + (.cache_creation_input_tokens//0)
-                + (.cache_read_input_tokens//0)) | add // 0),
-        o: (map(.output_tokens//0) | add // 0) }
-    | "\(.i) \(.o)"
-  ' "$path" 2>/dev/null || echo "0 0"
+kill_daemon() {
+  local p old
+  p=$(pid_file 2>/dev/null) || return 0
+  [[ -r "$p" ]] || return 0
+  old=$(cat "$p" 2>/dev/null)
+  [[ "$old" =~ ^[0-9]+$ ]] && kill "$old" 2>/dev/null || true
+  rm -f "$p"
 }
 
-format_elapsed() {
-  local s=$1
-  if (( s < 60 )); then
-    printf '%ds' "$s"
-  elif (( s < 3600 )); then
-    printf '%dm' "$((s / 60))"
-  else
-    printf '%dh' "$((s / 3600))"
-  fi
-}
-
-format_tokens() {
-  local n=$1
-  if (( n < 1000 )); then
-    printf '%d' "$n"
-  elif (( n < 1000000 )); then
-    awk -v n="$n" 'BEGIN { printf "%.1fk", n/1000 }'
-  else
-    awk -v n="$n" 'BEGIN { printf "%.1fM", n/1000000 }'
-  fi
+spawn_daemon() {
+  [[ "${TMUX_STATUS_SHOW_METRICS:-1}" == "1" ]] || return 0
+  [[ -n "$SESSION_ID" ]] || return 0
+  local p
+  p=$(pid_file) || return 0
+  nohup env CLAUDE_PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT}" TMPDIR="${TMPDIR:-/tmp}" \
+    "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/tmux-status-daemon.sh" "$SESSION_ID" \
+    </dev/null >/dev/null 2>&1 &
+  echo $! >"$p"
+  disown 2>/dev/null || true
 }
 
 build_metrics_suffix() {
   [[ "${TMUX_STATUS_SHOW_METRICS:-1}" == "1" ]] || return 0
   local start_epoch baseline_input baseline_output
-  read_state || return 0
-  local now elapsed
+  start_epoch=$(get_state start_epoch)
+  baseline_input=$(get_state baseline_input)
+  baseline_output=$(get_state baseline_output)
+  [[ "$start_epoch"     =~ ^[0-9]+$ ]] || return 0
+  [[ "$baseline_input"  =~ ^[0-9]+$ ]] || return 0
+  [[ "$baseline_output" =~ ^[0-9]+$ ]] || return 0
+  local now elapsed cur_in cur_out
   now=$(date +%s)
   elapsed=$((now - start_epoch))
   (( elapsed < 0 )) && elapsed=0
-  local tokens cur_in cur_out
-  tokens=$(compute_tokens "$TRANSCRIPT_PATH")
-  read -r cur_in cur_out <<<"$tokens"
-  cur_in=${cur_in:-0}
-  cur_out=${cur_out:-0}
+  read -r cur_in cur_out <<<"$(compute_tokens "$TRANSCRIPT_PATH")"
+  cur_in=${cur_in:-0}; cur_out=${cur_out:-0}
   local delta_in=$((cur_in - baseline_input))
   local delta_out=$((cur_out - baseline_output))
   (( delta_in < 0 )) && delta_in=0
@@ -114,21 +116,8 @@ build_metrics_suffix() {
     "$(format_tokens "$delta_out")"
 }
 
-reset_baseline() {
-  [[ "${TMUX_STATUS_SHOW_METRICS:-1}" == "1" ]] || return 0
-  [[ -n "$SESSION_ID" ]] || return 0
-  local tokens cur_in cur_out
-  tokens=$(compute_tokens "$TRANSCRIPT_PATH")
-  read -r cur_in cur_out <<<"$tokens"
-  cur_in=${cur_in:-0}
-  cur_out=${cur_out:-0}
-  write_state "$(date +%s)" "$cur_in" "$cur_out"
-}
-
 rename() {
-  local emoji="${1:-}"
-  local metrics="${2:-}"
-  local dir title
+  local emoji="${1:-}" metrics="${2:-}" dir title
   dir=$(tmux display-message -t "$TMUX_PANE" -p '#{b:pane_current_path}' 2>/dev/null) || dir=""
   if [[ -n "$metrics" ]]; then
     title="${emoji:+$emoji }${metrics} ${dir}"
@@ -136,26 +125,32 @@ rename() {
     title="${emoji:+$emoji }${dir}"
   fi
   tmux rename-window -t "$TMUX_PANE" "$title" 2>/dev/null || true
+  # Propagate emoji to state so the daemon's next tick uses the latest one.
+  [[ -n "$emoji" ]] && set_state current_emoji "$emoji"
 }
 
 case "$EVENT" in
   SessionStart)
     tmux set-option -w -t "$TMUX_PANE" automatic-rename off 2>/dev/null || true
+    kill_daemon
     clear_state
     rename "$EMOJI_SESSION_START"
     ;;
   SessionEnd)
+    kill_daemon
     clear_state
     tmux set-option -w -t "$TMUX_PANE" automatic-rename on 2>/dev/null || true
     ;;
   UserPromptSubmit)
-    reset_baseline
+    kill_daemon
+    write_initial_state
     rename "$EMOJI_USER_PROMPT_SUBMIT"
+    spawn_daemon
     ;;
-  PreToolUse)         rename "$EMOJI_PRE_TOOL_USE"         "$(build_metrics_suffix)" ;;
-  PostToolUse)        rename "$EMOJI_POST_TOOL_USE"        "$(build_metrics_suffix)" ;;
+  PreToolUse)         rename "$EMOJI_PRE_TOOL_USE"          "$(build_metrics_suffix)" ;;
+  PostToolUse)        rename "$EMOJI_POST_TOOL_USE"         "$(build_metrics_suffix)" ;;
   PostToolUseFailure) rename "$EMOJI_POST_TOOL_USE_FAILURE" "$(build_metrics_suffix)" ;;
-  PermissionRequest)  rename "$EMOJI_PERMISSION_REQUEST"   "$(build_metrics_suffix)" ;;
-  Notification)       rename "$EMOJI_NOTIFICATION"         "$(build_metrics_suffix)" ;;
-  Stop)               rename "$EMOJI_STOP"                 "$(build_metrics_suffix)" ;;
+  PermissionRequest)  rename "$EMOJI_PERMISSION_REQUEST"    "$(build_metrics_suffix)" ;;
+  Notification)       rename "$EMOJI_NOTIFICATION"          "$(build_metrics_suffix)" ;;
+  Stop)               rename "$EMOJI_STOP"                  "$(build_metrics_suffix)" ;;
 esac

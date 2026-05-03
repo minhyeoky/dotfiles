@@ -24,7 +24,9 @@ Between `UserPromptSubmit` events the title also shows **autonomous-run metrics*
 ✅ 5m ↑180k ↓12.8k ~/dotfiles
 ```
 
-`↑` = input (`input_tokens` + cache reads + cache creation), `↓` = `output_tokens`. Resets on every `UserPromptSubmit`. The displayed value freezes after `Stop` until the next prompt — it is the **lower bound** of the true `UserPromptSubmit`→`UserPromptSubmit` interval.
+`↑` = sum of `input_tokens` + `cache_creation_input_tokens` across distinct assistant messages (deduped by `message.id`; `cache_read_input_tokens` is excluded because it reports the cumulative cache prefix at each turn and double-counts when summed). `↓` = `output_tokens`. Resets on every `UserPromptSubmit`.
+
+A per-session background daemon (`tmux-status-daemon.sh`) refreshes the title every second so elapsed time keeps ticking between hook events. The daemon **self-exits** if any of: state file is removed, the tmux pane disappears, or the parent Claude process dies (`kill -0` check) — preventing zombie processes. It is also explicitly killed on every `UserPromptSubmit` / `SessionStart` / `SessionEnd`.
 
 The original window name is restored when the session ends.
 
