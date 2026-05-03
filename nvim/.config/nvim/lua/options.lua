@@ -15,7 +15,7 @@ vim.opt.smartindent = false -- insert indents automatically
 vim.opt.expandtab = true   -- use spaces instead of tabs
 vim.opt.tabstop = 2        -- number of spaces that a <Tab> in the file counts for
 vim.opt.autowriteall = true  -- automatically write the file when switching buffers
-vim.opt.conceallevel = 0  -- show concealable text
+vim.opt.conceallevel = 2  -- hide concealable text
 vim.opt.termguicolors = true  -- enable 24-bit RGB color in the TUI
 vim.opt.cursorline = true  -- highlight cursor line
 
