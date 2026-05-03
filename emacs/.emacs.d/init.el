@@ -386,6 +386,7 @@
 (evil-leader/set-key "zz" 'org-roam-capture)
 (evil-leader/set-key "zr" 'consult-org-roam-search)
 (evil-leader/set-key "zb" 'consult-org-roam-backlinks)
+(evil-leader/set-key "zi" 'org-roam-node-insert)
 
 ;; tabs
 (tab-bar-mode 1)
