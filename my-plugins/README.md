@@ -26,7 +26,12 @@ Between `UserPromptSubmit` events the title also shows **autonomous-run metrics*
 
 `↑` = sum of `input_tokens` + `cache_creation_input_tokens` across distinct assistant messages (deduped by `message.id`; `cache_read_input_tokens` is excluded because it reports the cumulative cache prefix at each turn and double-counts when summed). `↓` = `output_tokens`. Resets on every `UserPromptSubmit`.
 
-The elapsed counter **freezes on `Stop`** and **resumes on the next active event** (`PreToolUse`, `PostToolUse`, `Notification`, `PermissionRequest`) if Claude continues without user intervention — so the displayed time only counts time Claude was actually working, not idle wall-clock between turns.
+The elapsed counter only counts time Claude is actually working — not idle wall-clock between turns:
+
+- **Resume** (Claude is active): `PreToolUse`, `PostToolUse`, `PostToolUseFailure`
+- **Freeze** (waiting on the user): `Stop`, `Notification`, `PermissionRequest`
+
+If a frozen run resumes (e.g., hook-driven continuation after `Stop`), the tick continues from the accumulated value rather than starting over.
 
 A per-session background daemon (`tmux-status-daemon.sh`) refreshes the title every second so elapsed time keeps ticking between hook events. The daemon **self-exits** if any of: state file is removed, the tmux pane disappears, or the parent Claude process dies (`kill -0` check) — preventing zombie processes. It is also explicitly killed on every `UserPromptSubmit` / `SessionStart` / `SessionEnd`.
 

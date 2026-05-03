@@ -170,10 +170,12 @@ case "$EVENT" in
     rename "$EMOJI_USER_PROMPT_SUBMIT"
     spawn_daemon
     ;;
+  # Active events — Claude is doing work; resume the tick.
   PreToolUse)         resume_timer; rename "$EMOJI_PRE_TOOL_USE"          "$(build_metrics_suffix)" ;;
   PostToolUse)        resume_timer; rename "$EMOJI_POST_TOOL_USE"         "$(build_metrics_suffix)" ;;
   PostToolUseFailure) resume_timer; rename "$EMOJI_POST_TOOL_USE_FAILURE" "$(build_metrics_suffix)" ;;
-  PermissionRequest)  resume_timer; rename "$EMOJI_PERMISSION_REQUEST"    "$(build_metrics_suffix)" ;;
-  Notification)       resume_timer; rename "$EMOJI_NOTIFICATION"          "$(build_metrics_suffix)" ;;
+  # User-wait events — Claude is idle waiting on the user; freeze the tick.
+  PermissionRequest)  freeze_timer; rename "$EMOJI_PERMISSION_REQUEST"    "$(build_metrics_suffix)" ;;
+  Notification)       freeze_timer; rename "$EMOJI_NOTIFICATION"          "$(build_metrics_suffix)" ;;
   Stop)               freeze_timer; rename "$EMOJI_STOP"                  "$(build_metrics_suffix)" ;;
 esac
