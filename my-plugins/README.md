@@ -20,8 +20,8 @@ Show Claude Code session status as emoji prefix on tmux window name.
 Between `UserPromptSubmit` events the title also shows **autonomous-run metrics** — elapsed time and token throughput since the last user prompt:
 
 ```
-🚧 2m ↑45k ↓4.1k ~/dotfiles
-✅ 5m ↑180k ↓12.8k ~/dotfiles
+🚧 2m 15s ↑45k ↓4.1k ~/dotfiles
+✅ 5m 42s ↑180k ↓12.8k ~/dotfiles
 ```
 
 `↑` = sum of `input_tokens` + `cache_creation_input_tokens` across distinct assistant messages (deduped by `message.id`; `cache_read_input_tokens` is excluded because it reports the cumulative cache prefix at each turn and double-counts when summed). `↓` = `output_tokens`. Resets on every `UserPromptSubmit`.

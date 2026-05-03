@@ -24,8 +24,8 @@ compute_tokens() {
 format_elapsed() {
   local s=$1
   if   (( s < 60 ));   then printf '%ds' "$s"
-  elif (( s < 3600 )); then printf '%dm' "$((s / 60))"
-  else                      printf '%dh' "$((s / 3600))"
+  elif (( s < 3600 )); then printf '%dm %ds' "$((s / 60))" "$((s % 60))"
+  else                      printf '%dh %dm %ds' "$((s / 3600))" "$(( (s % 3600) / 60 ))" "$((s % 60))"
   fi
 }
 
