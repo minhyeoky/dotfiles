@@ -9,3 +9,7 @@ EMOJI_POST_TOOL_USE_FAILURE="❌"
 EMOJI_PERMISSION_REQUEST="🔓"
 EMOJI_NOTIFICATION="🔔"
 EMOJI_STOP="✅"
+
+# Show "<elapsed> ↑<input> ↓<output>" suffix on the window title between
+# UserPromptSubmit events. Set to 0 to disable and keep title as "<emoji> <dir>".
+TMUX_STATUS_SHOW_METRICS=1
