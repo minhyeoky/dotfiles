@@ -21,6 +21,21 @@ compute_tokens() {
   ' "$path" 2>/dev/null || echo "0 0"
 }
 
+# Total elapsed seconds = accumulated + (now - tick_start), or just accumulated
+# when frozen (tick_start empty / non-numeric).
+compute_elapsed() {
+  local acc=${1:-0} tick_start=${2:-} now delta
+  [[ "$acc" =~ ^[0-9]+$ ]] || acc=0
+  if [[ "$tick_start" =~ ^[0-9]+$ ]]; then
+    now=$(date +%s)
+    delta=$((now - tick_start))
+    (( delta < 0 )) && delta=0
+    printf '%d' "$((acc + delta))"
+  else
+    printf '%d' "$acc"
+  fi
+}
+
 format_elapsed() {
   local s=$1
   if   (( s < 60 ));   then printf '%ds' "$s"
