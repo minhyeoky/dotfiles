@@ -254,6 +254,13 @@
 ;; run (org-roam-db-sync) automatically
 (org-roam-db-autosync-mode)
 
+;; org-capture templates — inbox to main.org datetree (,c i)
+(setq org-capture-templates
+      `(("i" "Inbox" entry
+         (file+olp+datetree ,(expand-file-name "main.org" org-roam-directory))
+         "* %<%H:%M> %?"
+         :empty-lines 1)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-roam-ui
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
