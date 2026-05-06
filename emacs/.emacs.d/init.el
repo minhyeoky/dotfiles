@@ -168,6 +168,13 @@
 ;; close all the other windows when opening org-capture
 (add-hook 'org-capture-mode-hook 'delete-other-windows)
 
+;; org-capture: evil :q/:wq finalizes capture buffer
+(with-eval-after-load 'org-capture
+  (evil-define-key nil org-capture-mode-map
+    [remap evil-save-and-close] #'org-capture-finalize
+    [remap evil-save-modified-and-close] #'org-capture-finalize
+    [remap evil-quit] #'org-capture-finalize))
+
 ;; show agenda in the current window
 (setq org-agenda-window-setup 'current-window)
 
@@ -382,6 +389,9 @@
 
 ;; org-agenda
 (evil-leader/set-key "a" 'org-agenda)
+
+;; org-capture
+(evil-leader/set-key "c" 'org-capture)
 
 ;; consult
 (evil-leader/set-key "ff" 'consult-fd)
