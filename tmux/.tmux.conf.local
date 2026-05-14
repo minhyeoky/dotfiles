@@ -316,8 +316,8 @@ bind-key -r C-u last-window
 bind-key -r C-o run-shell '$HOME/scripts/swap-tmux-pane.sh'
 
 # Window swapping shortcuts
-bind -r "<" swap-window -d -t -1  # Move current window left
-bind -r ">" swap-window -d -t +1  # Move current window right
+bind -r "<" swap-window -t -1  # Move current window left
+bind -r ">" swap-window -t +1  # Move current window right
 bind W choose-window "swap-window -t %%"  # Interactive window swapping
 bind M-w command-prompt -p "move window to:" "move-window -t %%"  # Move to specific position
 
