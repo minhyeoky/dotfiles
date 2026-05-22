@@ -68,3 +68,6 @@ If the reflection yields a **reusable, generalizable insight**, append it to the
 ## Accumulated Learnings
 
 *(Grows as vault saves accumulate. Each entry is a distilled lesson from a past reflection.)*
+
+- **설계 노트는 Q&A 카드 형태가 효과적.** 결정 사항이 많을 때 `<div class="decision">` 블록으로 질문/답 구조를 만들면 나중에 읽기 쉽다.
+- **index.html은 `<title>` 태그 파싱으로 재생성.** 파일마다 별도 메타데이터 없이 title만으로 충분히 깔끔한 아카이브 페이지를 만들 수 있다.
