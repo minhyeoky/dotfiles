@@ -17,24 +17,8 @@ Show Claude Code session status as emoji prefix on tmux window name.
 | 🔔 | Notification | Permission/idle notification |
 | ✅ | Stop | Task completed |
 
-Between `UserPromptSubmit` events the title also shows **autonomous-run metrics** — elapsed time and token throughput since the last user prompt:
+The window name is `<emoji> <pane_title>`, where `pane_title` is the semantic conversation summary Claude Code sets via OSC escape sequences (falling back to the cwd basename before CC has set it). Each hook event just re-renames the window with the matching emoji — no background process or state files. CJK titles are truncated codepoint-safely.
 
-```
-🚧 2m 15s ↑45k ↓4.1k ~/dotfiles
-✅ 5m 42s ↑180k ↓12.8k ~/dotfiles
-```
+The original window name is restored when the session ends (`automatic-rename` is turned off on `SessionStart` and back on at `SessionEnd`).
 
-`↑` = sum of `input_tokens` + `cache_creation_input_tokens` across distinct assistant messages (deduped by `message.id`; `cache_read_input_tokens` is excluded because it reports the cumulative cache prefix at each turn and double-counts when summed). `↓` = `output_tokens`. Resets on every `UserPromptSubmit`.
-
-The elapsed counter only counts time Claude is actually working — not idle wall-clock between turns:
-
-- **Resume** (Claude is active): `PreToolUse`, `PostToolUse`, `PostToolUseFailure`
-- **Freeze** (waiting on the user): `Stop`, `Notification`, `PermissionRequest`
-
-If a frozen run resumes (e.g., hook-driven continuation after `Stop`), the tick continues from the accumulated value rather than starting over.
-
-A per-session background daemon (`tmux-status-daemon.sh`) refreshes the title every second so elapsed time keeps ticking between hook events. The daemon **self-exits** if any of: state file is removed, the tmux pane disappears, or the parent Claude process dies (`kill -0` check) — preventing zombie processes. It is also explicitly killed on every `UserPromptSubmit` / `SessionStart` / `SessionEnd`.
-
-The original window name is restored when the session ends.
-
-**Customization:** Edit `hooks/scripts/tmux-status-config.sh` to change emoji mappings or set `TMUX_STATUS_SHOW_METRICS=0` to disable the metrics suffix.
+**Customization:** Edit `hooks/scripts/tmux-status-config.sh` to change emoji mappings or `TMUX_STATUS_TITLE_MAXLEN`.

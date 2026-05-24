@@ -10,6 +10,6 @@ EMOJI_PERMISSION_REQUEST="🔓"
 EMOJI_NOTIFICATION="🔔"
 EMOJI_STOP="✅"
 
-# Show "<elapsed> ↑<input> ↓<output>" suffix on the window title between
-# UserPromptSubmit events. Set to 0 to disable and keep title as "<emoji> <dir>".
-TMUX_STATUS_SHOW_METRICS=1
+# Max characters for the pane-title segment of the window name. Truncated
+# overflow gets a trailing "…".
+TMUX_STATUS_TITLE_MAXLEN=50
