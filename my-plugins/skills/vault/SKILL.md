@@ -5,10 +5,10 @@ description: Save the current conversation result, analysis, or artifact to the 
 
 # Vault Skill
 
-Save conversation outputs to `~/minhyeoky.github.io/vault/` as self-contained HTML files.
+Save conversation outputs to the vault directory (`$VAULT_PATH`) as self-contained HTML files.
 
 ## VAULT_PATH
-`~/minhyeoky.github.io/vault/`
+The vault directory is given by the `$VAULT_PATH` environment variable, set per-machine in machine-local config (e.g. the `env` block of `~/.claude/settings.json`) — never hardcode a personal path in this repo. **Before anything else, resolve it once** (`printf '%s' "$VAULT_PATH"`) and use that absolute path for every file operation below. If it is unset or empty, stop and ask the user to set `VAULT_PATH` — do not guess a path.
 
 ## When to proactively suggest
 Offer "이거 vault에 저장할까요?" when:
@@ -36,12 +36,12 @@ Each individual entry HTML must be **fully self-contained** — no external CDN,
 
 ## Steps to execute
 1. Determine slug from conversation context
-2. Write HTML to `~/minhyeoky.github.io/vault/YYYY-MM-DD-<slug>.html`
-3. Regenerate `~/minhyeoky.github.io/vault/index.html` (see below)
-4. Commit — stage **only the two files you produced** (never `git add vault/`; the directory may contain unrelated in-flight HTML from other sessions):
+2. Write HTML to `$VAULT_PATH/YYYY-MM-DD-<slug>.html`
+3. Regenerate `$VAULT_PATH/index.html` (see below)
+4. Commit — stage **only the two files you produced** (never `git add .` / `git add -A`; the directory may contain unrelated in-flight HTML from other sessions):
    ```bash
-   cd ~/minhyeoky.github.io && \
-     git add vault/YYYY-MM-DD-<slug>.html vault/index.html && \
+   cd "$VAULT_PATH" && \
+     git add YYYY-MM-DD-<slug>.html index.html && \
      git commit -m "vault: <slug>"
    ```
 5. Reflect on what you made (see below)
@@ -82,7 +82,7 @@ If unsure → `note`. Slug hints: `*-snapshot*`→snapshot, `*-stocks-*`/`*-refe
 
 검증:
 ```bash
-grep -c '<li data-type=' ~/minhyeoky.github.io/vault/index.html
+grep -c '<li data-type=' "$VAULT_PATH/index.html"
 # = #src 안의 entries 합계
 ```
 
