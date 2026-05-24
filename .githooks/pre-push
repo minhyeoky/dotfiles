@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# dotfiles-guard pre-push: scan the commits leaving for the remote (last local gate).
+# git feeds "<local ref> <local oid> <remote ref> <remote oid>" lines on stdin.
+set -uo pipefail
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+commits=""
+while read -r _lref loid _rref roid; do
+  [[ "$loid" =~ ^0+$ ]] && continue                 # branch deletion → nothing to scan
+  if [[ "$roid" =~ ^0+$ ]]; then                    # new branch → only commits not on any remote
+    commits+=" $(git rev-list "$loid" --not --remotes)"
+  else
+    commits+=" $(git rev-list "$roid..$loid")"
+  fi
+done
+
+diff=""; names=""
+for c in $commits; do
+  diff+="$(git diff -U0 "$c^" "$c" 2>/dev/null)"$'\n'
+  names+="$(git diff --name-only "$c^" "$c" 2>/dev/null)"$'\n'
+done
+
+export GUARD_FILES="$(printf '%s' "$names" | sort -u | sed '/^$/d')"
+printf '%s' "$diff" | "$DIR/guard.sh" push
