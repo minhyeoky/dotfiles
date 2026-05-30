@@ -32,63 +32,22 @@ Each individual entry HTML must be **fully self-contained** — no external CDN,
 - Must include a descriptive `<title>` tag (shown in browser tab)
 - Must be readable and useful when opened standalone in a browser
 
-> `index.html` itself is an **exception** — it loads Pretendard from CDN because its outline + filter UI demands strong Korean readability and information hierarchy. See "index.html structure" below.
-
 ## Steps to execute
 1. Determine slug from conversation context
 2. Write HTML to `$VAULT_PATH/YYYY-MM-DD-<slug>.html`
-3. Regenerate `$VAULT_PATH/index.html` (see below)
-4. Commit — stage **only the two files you produced** (never `git add .` / `git add -A`; the directory may contain unrelated in-flight HTML from other sessions):
+3. Commit — stage **only the single file you produced** (never `git add .` / `git add -A`; the directory may contain unrelated in-flight HTML from other sessions):
    ```bash
    cd "$VAULT_PATH" && \
-     git add YYYY-MM-DD-<slug>.html index.html && \
+     git add YYYY-MM-DD-<slug>.html && \
      git commit -m "vault: <slug>"
    ```
-5. 검증 게이트 3개를 통과 (see "검증 게이트" below) — 통과 전엔 작업을 "완료"로 보지 않는다
+4. 검증 게이트 3개를 통과 (see "검증 게이트" below) — 통과 전엔 작업을 "완료"로 보지 않는다
 
-## Entry metadata (type / tag)
+## Listing — Caddy autoindex (no index to maintain)
 
-Each `<li class="entry">` in `index.html` carries `data-type`, `data-tags`, `data-date` for filtering and outline counts. Decide all three when saving:
+손으로 유지하던 `index.html`은 폐기됐다. vault 디렉토리는 일반 웹 서버(Caddy `file_server browse`)의 자동 디렉토리 리스팅으로 노출된다 (`apps/vault-server/Caddyfile`). 파일을 추가/삭제하면 즉시 반영되고 stale이 불가능하다 — **갱신할 인덱스 파일이 없다**.
 
-**type** — single value from a fixed set:
-- `research` — 산업/도메인 입문, 분석, 카탈로그, reference, 비교 doc
-- `snapshot` — 설정/상태 캡처 (configs, dotfiles, dashboard, system state)
-- `note` — 설계 노트, 회고, 계획, grilling, 의사결정, redesign 기록
-
-If unsure → `note`. Slug hints: `*-snapshot*`→snapshot, `*-stocks-*`/`*-references`/`*-입문`→research, `*-note`/`*-plan`/`*-design`/`*-redesign`/`*-grilling`→note.
-
-**tags** — space-separated kebab-case (Korean OK). 1~2 핵심 도메인. 기존 태그(`주식`, `claude-code`, `career`, `design`, ...) 재사용 우선; 정말 새로운 도메인일 때만 신규 태그.
-
-**date** — filename prefix `YYYY-MM-DD`.
-
-## index.html structure (current)
-
-좌측 sticky outline (overview / months / types / tags) + main column (controls / chips / entries by month) 구조. light paper(`#f8f6f1`) 기본 + `prefers-color-scheme: dark` 자동 전환. Pretendard sans 본문 + JetBrains Mono 메타·뱃지·날짜. Design rationale 전체는 vault entry `2026-05-23-vault-index-redesign.html`.
-
-각 entry는 제목을 `" — "`(공백+em-dash+공백) 기준으로 **head(굵게) + desc(dim 2줄 클램프)** 2단 카드로 JS가 자동 분리(ive 메인 인덱스의 title+summary 카드와 동형). 따라서 제목은 `<핵심 제목> — <한 줄 설명>` 형태로 쓰면 카드가 가장 잘 읽힌다. `—`가 없으면 제목만 한 줄로 표시(정상).
-
-## index.html 갱신 — single source of truth
-
-`index.html`의 진실은 `<ul id="src">` 하나뿐이다. JS가 정렬·month 그룹핑·chip 카운트·outline 모두 자동 derive. 새 entry 추가는 **이 ul 안에 li 한 줄만** 넣으면 끝.
-
-1. `index.html`을 Read (절대 통째 Write 금지 — learning #79).
-2. `<ul id="src">` 안 어디든(위치 무관, JS가 정렬함) 다음 한 줄을 Edit으로 삽입:
-
-   ```html
-   <li data-type="<type>" data-tags="<tag1> <tag2>" data-date="YYYY-MM-DD"><a href="YYYY-MM-DD-<slug>.html"><title></a></li>
-   ```
-
-   끝. chip / outline / month section / NEW pill / 카운트는 자동 갱신된다.
-
-> **건드리지 말 것:** `<aside>`의 `<ul id="o-*">`, `<div id="chips-type/tag">`의 dynamic chip, `<div id="list">`, `#meta-hint` — 모두 JS가 매 페이지 로드마다 채운다. 손으로 채우면 다음 로드 시 덮어써진다.
-
-검증:
-```bash
-grep -c '<li data-type=' "$VAULT_PATH/index.html"
-# = #src 안의 entries 합계
-```
-
-신규 월·신규 태그도 별도 갱신 불필요 — JS가 첫 entry 들어오는 순간 만든다.
+리스팅이 보여주는 유일한 신호는 **파일명**(`YYYY-MM-DD-<slug>.html`)이다. 따라서 slug를 내용이 한눈에 잡히도록 서술적으로 짓는다 (날짜 프리픽스가 자동 역순 정렬을 만든다). type/tag 같은 별도 메타데이터는 더 이상 어디에도 쓰이지 않으므로 결정하지 않는다.
 
 ## 검증 게이트 (저장·커밋 후 필수)
 
@@ -97,7 +56,7 @@ grep -c '<li data-type=' "$VAULT_PATH/index.html"
 ### Gate 1 — 보안 (공개 누수 차단)
 `references/patterns.md`는 **dotfiles 공개 레포의 추적 파일**이다. 여기로 새는 순간 영구 공개된다.
 - **patterns.md append 자가검열**: Gate 3에서 patterns.md에 적을 교훈에 *개인 구체값*이 섞였는지 점검 — 종목·티커·수치, 거주지·지역명, 금전·매출 목표, 제품/서비스 고유명, 내면·관계. 하나라도 있으면 generic 예시("정량 자산 카드", "지역 특화 정보")로 치환한 **뒤에만** append. 레이아웃/구조 규칙만 적는다.
-- **스테이징 범위**: vault 커밋에 의도한 2개 파일(`YYYY-MM-DD-<slug>.html`, `index.html`)만 들어갔는지 `git -C "$VAULT_PATH" show --stat HEAD`로 확인 — 다른 세션의 in-flight HTML 혼입 방지.
+- **스테이징 범위**: vault 커밋에 의도한 1개 파일(`YYYY-MM-DD-<slug>.html`)만 들어갔는지 `git -C "$VAULT_PATH" show --stat HEAD`로 확인 — 다른 세션의 in-flight HTML 혼입 방지.
 - entry 본문의 개인 콘텐츠는 OK(`$VAULT_PATH`는 비공개) — 누수 경계는 어디까지나 patterns.md다.
 
 ### Gate 2 — 연결성 & 회고
