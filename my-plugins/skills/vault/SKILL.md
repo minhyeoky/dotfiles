@@ -44,7 +44,7 @@ Each individual entry HTML must be **fully self-contained** — no external CDN,
      git add YYYY-MM-DD-<slug>.html index.html && \
      git commit -m "vault: <slug>"
    ```
-5. Reflect on what you made (see below)
+5. 검증 게이트 3개를 통과 (see "검증 게이트" below) — 통과 전엔 작업을 "완료"로 보지 않는다
 
 ## Entry metadata (type / tag)
 
@@ -88,14 +88,22 @@ grep -c '<li data-type=' "$VAULT_PATH/index.html"
 
 신규 월·신규 태그도 별도 갱신 불필요 — JS가 첫 entry 들어오는 순간 만든다.
 
-## Reflection
-After saving, spend a moment evaluating the HTML you just created:
-- Was the structure immediately clear?
-- Did the visual style fit the content type?
-- What would a reader find confusing or missing?
-- What would you do differently next time?
+## 검증 게이트 (저장·커밋 후 필수)
 
-If the reflection yields a **reusable, generalizable insight**, append it as one entry (1–2 lines) to `references/patterns.md` — never inline patterns in this file (keeps SKILL.md lean per progressive disclosure). Skip trivial observations.
+작업을 "완료"로 간주하기 전에 아래 3개 게이트를 순서대로 통과시킨다. 통과 못 하면 고치고 다시 본다.
 
-> **개인정보 금지 (patterns.md는 공개 추적 파일):** 적는 건 *레이아웃/구조 규칙*뿐이다. 실제 종목·티커·수치, 거주지·지역명, 금전·매출 목표, 제품/서비스 고유명, 내면·관계 등 개인 구체값은 절대 박지 말 것 — generic 예시("정량 자산 카드", "지역 특화 정보")로 치환한다. 구체 콘텐츠는 `$VAULT_PATH`(비공개)의 entry HTML에만 둔다.
+### Gate 1 — 보안 (공개 누수 차단)
+`references/patterns.md`는 **dotfiles 공개 레포의 추적 파일**이다. 여기로 새는 순간 영구 공개된다.
+- **patterns.md append 자가검열**: Gate 3에서 patterns.md에 적을 교훈에 *개인 구체값*이 섞였는지 점검 — 종목·티커·수치, 거주지·지역명, 금전·매출 목표, 제품/서비스 고유명, 내면·관계. 하나라도 있으면 generic 예시("정량 자산 카드", "지역 특화 정보")로 치환한 **뒤에만** append. 레이아웃/구조 규칙만 적는다.
+- **스테이징 범위**: vault 커밋에 의도한 2개 파일(`YYYY-MM-DD-<slug>.html`, `index.html`)만 들어갔는지 `git -C "$VAULT_PATH" show --stat HEAD`로 확인 — 다른 세션의 in-flight HTML 혼입 방지.
+- entry 본문의 개인 콘텐츠는 OK(`$VAULT_PATH`는 비공개) — 누수 경계는 어디까지나 patterns.md다.
+
+### Gate 2 — 연결성 & 회고
+- 이 entry가 기존 vault 문서와 이어지나? 같은 주제·시리즈·후속이면 footer cross-link, 또는 `-plan`/`-shortlist` 같은 페어링을 건다. 거의-중복이면 새 파일 말고 원본에 addendum(앞 룰).
+- 여러 문서를 가로지르는 **메타 인사이트**가 보이면, 그것 자체를 새 entry나 patterns.md 교훈(레이아웃 한정)으로 남길지 판단한다.
+
+### Gate 3 — 내용 검토 & 스킬 개선
+- 저장한 HTML을 다시 보고: 구조가 즉시 명확한가? 시각 스타일이 콘텐츠 타입에 맞나? 독자가 헷갈리거나 빠진 부분은? 다음엔 무엇을 다르게?
+- **재사용 가능한 일반화 인사이트**가 나오면 `references/patterns.md`에 한 줄(1–2줄)로 append — Gate 1 자가검열을 반드시 거친다. 절대 SKILL.md에 inline 금지(progressive disclosure). 사소한 관찰은 skip.
+- 이번 작업이 **스킬 자체의 개선 기회**를 드러냈나? (반복되는 수작업, 빠진 content-type 패턴, 더 나은 JS derive, index 구조 등) → 절차 개선은 SKILL.md에, 레이아웃 개선은 patterns.md에 반영을 제안한다.
 
