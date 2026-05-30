@@ -65,6 +65,8 @@ If unsure → `note`. Slug hints: `*-snapshot*`→snapshot, `*-stocks-*`/`*-refe
 
 좌측 sticky outline (overview / months / types / tags) + main column (controls / chips / entries by month) 구조. light paper(`#f8f6f1`) 기본 + `prefers-color-scheme: dark` 자동 전환. Pretendard sans 본문 + JetBrains Mono 메타·뱃지·날짜. Design rationale 전체는 vault entry `2026-05-23-vault-index-redesign.html`.
 
+각 entry는 제목을 `" — "`(공백+em-dash+공백) 기준으로 **head(굵게) + desc(dim 2줄 클램프)** 2단 카드로 JS가 자동 분리(ive 메인 인덱스의 title+summary 카드와 동형). 따라서 제목은 `<핵심 제목> — <한 줄 설명>` 형태로 쓰면 카드가 가장 잘 읽힌다. `—`가 없으면 제목만 한 줄로 표시(정상).
+
 ## index.html 갱신 — single source of truth
 
 `index.html`의 진실은 `<ul id="src">` 하나뿐이다. JS가 정렬·month 그룹핑·chip 카운트·outline 모두 자동 derive. 새 entry 추가는 **이 ul 안에 li 한 줄만** 넣으면 끝.
