@@ -97,3 +97,5 @@ After saving, spend a moment evaluating the HTML you just created:
 
 If the reflection yields a **reusable, generalizable insight**, append it as one entry (1–2 lines) to `references/patterns.md` — never inline patterns in this file (keeps SKILL.md lean per progressive disclosure). Skip trivial observations.
 
+> **개인정보 금지 (patterns.md는 공개 추적 파일):** 적는 건 *레이아웃/구조 규칙*뿐이다. 실제 종목·티커·수치, 거주지·지역명, 금전·매출 목표, 제품/서비스 고유명, 내면·관계 등 개인 구체값은 절대 박지 말 것 — generic 예시("정량 자산 카드", "지역 특화 정보")로 치환한다. 구체 콘텐츠는 `$VAULT_PATH`(비공개)의 entry HTML에만 둔다.
+

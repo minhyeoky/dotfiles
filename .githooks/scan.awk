@@ -18,7 +18,7 @@
   else if (line ~ /AIza[0-9A-Za-z_-]+/)                                hit = "google-api-key"
   else if (line ~ /eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/) hit = "jwt"
   else if (line ~ /\/Users\/[^\/"'[:space:]]+\//)                      hit = "personal-path"
-  else if (line ~ /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+/) hit = "email"
+  else if (line ~ /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+/ && line !~ /noreply@|@users\.noreply\./) hit = "email"
 
   if (hit != "") {
     n++
