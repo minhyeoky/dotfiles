@@ -66,5 +66,5 @@ Each individual entry HTML must be **fully self-contained** — no external CDN,
 ### Gate 3 — 내용 검토 & 스킬 개선
 - 저장한 HTML을 다시 보고: 구조가 즉시 명확한가? 시각 스타일이 콘텐츠 타입에 맞나? 독자가 헷갈리거나 빠진 부분은? 다음엔 무엇을 다르게?
 - **재사용 가능한 일반화 인사이트**가 나오면 `references/patterns.md`에 한 줄(1–2줄)로 append — Gate 1 자가검열을 반드시 거친다. 절대 SKILL.md에 inline 금지(progressive disclosure). 사소한 관찰은 skip.
-- 이번 작업이 **스킬 자체의 개선 기회**를 드러냈나? (반복되는 수작업, 빠진 content-type 패턴, 더 나은 JS derive, index 구조 등) → 절차 개선은 SKILL.md에, 레이아웃 개선은 patterns.md에 반영을 제안한다.
+- 이번 작업이 **스킬 자체의 개선 기회**를 드러냈나? (반복되는 수작업, 빠진 content-type 패턴, 더 나은 검증 절차 등) → 절차 개선은 SKILL.md에, 레이아웃 개선은 patterns.md에 반영을 제안한다.
 
