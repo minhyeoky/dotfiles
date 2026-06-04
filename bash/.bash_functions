@@ -18,10 +18,3 @@ function watch() {
     sleep 10
   done
 }
-
-# --------------------------------------------------------------------------------
-# GitHub
-# --------------------------------------------------------------------------------
-function gcop() {
-  gh save-me-copilot $(gh repo view --json nameWithOwner -q .nameWithOwner) $(gh pr view --json number -q .number)
-}
