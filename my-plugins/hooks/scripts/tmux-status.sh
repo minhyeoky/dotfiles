@@ -37,4 +37,7 @@ case "$EVENT" in
   PermissionRequest)  rename "$EMOJI_PERMISSION_REQUEST" ;;
   Notification)       rename "$EMOJI_NOTIFICATION" ;;
   Stop)               rename "$EMOJI_STOP" ;;
+  # compact 진행 동안 직전 emoji에 멈추지 않도록 압축 상태를 표시한다.
+  # compact 종료 후엔 SessionStart(source=compact)가 다시 발생해 복원한다.
+  PreCompact)         rename "$EMOJI_PRE_COMPACT" ;;
 esac
