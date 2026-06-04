@@ -13,25 +13,25 @@ When you propose many changes at once (copy edits, design tweaks, refactors, ter
 2. **Build the review JSON** (schema below). One card per decision. Put images inline as base64 `data:` URIs — the file must be fully self-contained (no CDN, no external paths).
 3. **Render**: read `references/template.html`, replace the contents of `<script type="application/json" id="reviewData">…</script>` with your JSON, write to `$VAULT_PATH/YYYY-MM-DD-<slug>-review.html`. Touch nothing else in the template.
 4. **Hand off**: give the user the file path / URL. They review → 「피드백 복사」 → paste back to you → you apply and (if iterating) regenerate the next round.
-5. **Commit only that one file** (`git -C "$VAULT_PATH" add <file> && git commit -m "review: <slug>"`) — never `git add .`; the dir holds other sessions' in-flight HTML. Pass the **보안 게이트** below before saving/committing.
+5. **Commit only that one file** (`git -C "$VAULT_PATH" add <file> && git commit -m "review: <slug>"`) — never `git add .`; the dir holds other sessions' in-flight HTML. (The review artifact lives in the private `$VAULT_PATH`; its content is not the leak boundary — see 보안 게이트.)
 
 ## reviewData schema
 
 ```json
 {
-  "title": "책 변경 리뷰",
+  "title": "변경 리뷰",
   "subtitle": "로컬 적용 완료, 발행 전 검토",
-  "storageKey": "book-change-2026-06-05",   // UNIQUE per doc+round (localStorage namespace)
+  "storageKey": "review-2026-01-01",         // UNIQUE per doc+round (localStorage namespace)
   "pills": ["확정","수정","보류"],            // optional; these 3 labels, in order
   "cards": [
     {
-      "id": "term-rename",                   // stable unique id (localStorage key)
-      "section": "용어",                      // optional; ≥2 distinct sections → sticky tabs auto
-      "title": "신뢰 눈금 → 위임 등급",
-      "loc": "4.5 제목 · 6장 ×3",            // optional: where it lives
-      "why": "...어휘 근거 (inline HTML ok: <code>, <b>)",
-      "before": "<code>신뢰 눈금</code> ...", // optional, rendered red
-      "after":  "<code>위임 등급</code> ...", // optional, rendered green
+      "id": "card-1",                        // stable unique id (localStorage key)
+      "section": "그룹 A",                    // optional; ≥2 distinct sections → sticky tabs auto
+      "title": "옛 표현 → 새 표현",
+      "loc": "3.2 제목 · 본문 2곳",           // optional: where it lives
+      "why": "...근거 (inline HTML ok: <code>, <b>)",
+      "before": "<code>옛 표현</code> ...",   // optional, rendered red
+      "after":  "<code>새 표현</code> ...",   // optional, rendered green
       "images": [{"label":"후","src":"data:image/png;base64,..."}],  // optional; 2 → side-by-side
       "kind": "choice",                       // optional: offer A/B branches
       "options": [{"label":"A안","body":"..."},{"label":"B안","body":"..."}]
@@ -51,10 +51,10 @@ When you propose many changes at once (copy edits, design tweaks, refactors, ter
 - For a big batch, fan out section-by-section (subagents) → each returns its `cards[]` → merge into one JSON. Tabs keep it navigable.
 - When a round is settled, the review file is disposable — old rounds can be deleted or compacted into one archive to cut noise.
 
-## 보안 게이트 (저장·커밋 전 필수)
+## 보안 게이트 — 이 SKILL 편집 시 자가검열
 
-리뷰 파일은 `$VAULT_PATH`(비공개·로컬 서빙)에 저장되므로 카드 안의 개인·업무 콘텐츠 자체는 vault 엔트리와 같은 기준으로 OK다. 단 리뷰 도구는 **복사·전달되라고 만든 것**이라 누수 경계가 더 무르다 — 저장·커밋 전 셋을 본다.
+누수 경계는 **생성되는 리뷰 산출물이 아니라 이 SKILL.md·template.html 자체**다. 산출물은 비공개 `$VAULT_PATH`(로컬, 외부 비노출)에 저장되므로 그 콘텐츠는 vault 엔트리와 같은 가정 아래 OK다. 반면 이 두 파일은 **공개 dotfiles 레포에 추적**되므로, 여기 적는 예시·기본값을 통해 사용자가 실제로 다루는 게 무엇인지(프로젝트·주제·도메인)가 영구 공개로 새어 나갈 수 있다. 이 파일을 고칠 때 점검한다.
 
-1. **비밀값은 절대 임베드 금지.** API 키·토큰·비밀번호·인증 자격증명은 카드 텍스트에도 base64 이미지(스크린샷)에도 넣지 않는다 — 리뷰 파일은 돌아다닌다. 꼭 보여야 하면 마스킹(`sk-…REDACTED`).
-2. **vault 밖으로 나갈 거면 PII 스크럽.** 이 파일을 비공개 vault 밖으로 보낼 가능성이 있으면 이메일·전화·주소·사내 호스트명을 먼저 가린다. vault 안에만 둘 거면 개인 콘텐츠는 OK(`$VAULT_PATH`는 비공개).
-3. **스테이징 범위.** 만든 리뷰 파일 1개만 stage. `git add .`/`-A` 금지 — 다른 세션의 in-flight HTML 혼입 방지. (이 SKILL·template 자체는 공개 dotfiles에 있으니, 예시·기본값에 실제 비밀·PII를 절대 쓰지 않는다.)
+- **예시·기본값은 중립 placeholder만.** title·storageKey·section·카드 샘플에 실제 프로젝트·주제·고유명을 드러내지 않는다(책 제목, 운세/사주 앱, 금액·종목, 지역, 관계 등). `"변경 리뷰"`·`"옛 표현 → 새 표현"`·`"A안/B안"`처럼 도메인 없는 generic으로.
+- **template 기본 JSON·주석에 실제 비밀·PII·개인 경로 금지.**
+- 스킬 파일만 stage(`git add .` 금지).

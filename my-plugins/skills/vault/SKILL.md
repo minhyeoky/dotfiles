@@ -57,7 +57,7 @@ Each individual entry HTML must be **fully self-contained** — no external CDN,
 `references/patterns.md`는 **dotfiles 공개 레포의 추적 파일**이다. 여기로 새는 순간 영구 공개된다.
 - **patterns.md append 자가검열**: Gate 3에서 patterns.md에 적을 교훈에 *개인 구체값*이 섞였는지 점검 — 종목·티커·수치, 거주지·지역명, 금전·매출 목표, 제품/서비스 고유명, 내면·관계. 하나라도 있으면 generic 예시("정량 자산 카드", "지역 특화 정보")로 치환한 **뒤에만** append. 레이아웃/구조 규칙만 적는다.
 - **스테이징 범위**: vault 커밋에 의도한 1개 파일(`YYYY-MM-DD-<slug>.html`)만 들어갔는지 `git -C "$VAULT_PATH" show --stat HEAD`로 확인 — 다른 세션의 in-flight HTML 혼입 방지.
-- entry 본문의 개인 콘텐츠는 OK(`$VAULT_PATH`는 비공개) — 누수 경계는 어디까지나 patterns.md다.
+- entry 본문의 개인 콘텐츠는 OK(`$VAULT_PATH`는 비공개·외부 비노출이라 가정) — 누수 경계는 **공개 추적 파일**, 즉 patterns.md append와 이 SKILL.md의 예시·기본값이다. SKILL을 고칠 때 예시에 개인 구체값(종목·지역·금액·제품명·프로젝트 주제)을 박지 않는다.
 
 ### Gate 2 — 연결성 & 회고
 - 이 entry가 기존 vault 문서와 이어지나? 같은 주제·시리즈·후속이면 footer cross-link, 또는 `-plan`/`-shortlist` 같은 페어링을 건다. 거의-중복이면 새 파일 말고 원본에 addendum(앞 룰).
