@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!--
+  change-review template. Agent fills the JSON in <script id="reviewData">.
+  Self-contained: no CDN, no imports. Images go in card.images[].src as data: URIs.
+  Schema (see SKILL.md):
+    { title, subtitle, storageKey, pills:[adoptLabel, editLabel, holdLabel],
+      cards:[ { id, section?, title, loc?, why?, before?, after?,
+                images?:[{label,src}], kind?:"choice", options?:[{label,body}] } ] }
+-->
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Review</title>
+<style>
+ :root{--bg:#0f1115;--panel:#171a21;--panel2:#1d212b;--line:#2a2f3a;--ink:#e7e9ee;
+  --dim:#9aa3b2;--accent:#7aa2f7;--green:#7ee0a3;--amber:#f2c66b;--red:#f08a8a;--pre:#0b0d12;}
+ *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard",sans-serif;line-height:1.65;font-size:15px}
+ header{padding:24px 22px 14px;border-bottom:1px solid var(--line)}
+ h1{margin:0 0 6px;font-size:20px} .sub{color:var(--dim);font-size:13.5px}
+ .tabs{position:sticky;top:0;z-index:5;display:flex;gap:6px;flex-wrap:wrap;padding:12px 22px;
+  background:rgba(15,17,21,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+ .tab{cursor:pointer;font-size:13px;color:var(--dim);border:1px solid var(--line);border-radius:999px;
+  padding:5px 14px;user-select:none} .tab.on{color:var(--ink);border-color:var(--accent);background:var(--panel2)}
+ .wrap{max-width:900px;margin:0 auto;padding:20px}
+ .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0}
+ .seclab{display:inline-block;font-size:11.5px;color:var(--accent);border:1px solid var(--line);
+  border-radius:999px;padding:2px 10px;margin-bottom:8px;background:var(--panel2)}
+ .card h2{margin:0 0 4px;font-size:16.5px} .loc{color:var(--dim);font-size:12.5px;margin-bottom:10px}
+ .why{color:#c4ccd8;font-size:13.5px;margin:0 0 12px;border-left:3px solid var(--line);padding-left:12px}
+ code{background:var(--pre);padding:1px 6px;border-radius:5px;font-size:12px}
+ .ba .b,.ba .a{border-radius:10px;padding:11px 13px;font-size:13.5px;border:1px solid var(--line);margin:4px 0}
+ .ba .b{background:rgba(240,138,138,.08);border-color:rgba(240,138,138,.4)}
+ .ba .a{background:rgba(126,224,163,.08);border-color:rgba(126,224,163,.4)}
+ .tag{display:inline-block;font-size:11px;font-weight:700;margin-right:8px;padding:1px 7px;border-radius:5px}
+ .b .tag{background:rgba(240,138,138,.2);color:var(--red)} .a .tag{background:rgba(126,224,163,.2);color:var(--green)}
+ .figs{display:grid;gap:12px;margin:6px 0 10px;grid-template-columns:1fr}
+ .figs.two{grid-template-columns:1fr 1fr} .figs figure{margin:0}
+ .figs img{width:100%;border:1px solid var(--line);border-radius:8px;background:#fff}
+ .figs figcaption{font-size:12px;color:var(--dim);margin-top:5px;text-align:center}
+ @media(max-width:640px){.figs.two{grid-template-columns:1fr}}
+ .opts{display:grid;gap:8px;margin:6px 0 4px}
+ .opt{border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:13.5px;background:var(--panel2)}
+ .opt.on{border-color:var(--accent);background:rgba(126,162,247,.12)}
+ .opt b{color:var(--accent)}
+ .pills{display:flex;gap:8px;margin:14px 0 8px;flex-wrap:wrap}
+ .pill{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--ink);
+  border-radius:999px;padding:6px 16px;font-size:13px;user-select:none} .pill:hover{border-color:var(--accent)}
+ .pill.on[data-d=adopt]{background:rgba(126,224,163,.16);border-color:var(--green);color:var(--green)}
+ .pill.on[data-d=edit]{background:rgba(242,198,107,.16);border-color:var(--amber);color:var(--amber)}
+ .pill.on[data-d=hold]{background:rgba(240,138,138,.16);border-color:var(--red);color:var(--red)}
+ textarea{width:100%;background:var(--pre);color:var(--ink);border:1px solid var(--line);border-radius:10px;
+  padding:10px 12px;font-size:13.5px;font-family:inherit;resize:vertical;min-height:42px;margin-top:4px}
+ .bar{position:sticky;bottom:0;background:linear-gradient(0deg,#0f1115 70%,rgba(15,17,21,.85));
+  backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:14px 22px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+ .counts{color:var(--dim);font-size:13px}
+ button.copy{background:var(--accent);color:#0b0d12;border:0;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600;cursor:pointer}
+ .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:78px;background:#1d212b;border:1px solid var(--green);
+  color:var(--green);padding:10px 18px;border-radius:10px;font-size:13px;opacity:0;transition:.2s;pointer-events:none} .toast.show{opacity:1}
+</style></head><body>
+<header><h1 id="h-title">Review</h1><div class="sub" id="h-sub"></div></header>
+<div class="tabs" id="tabs"></div>
+<div class="wrap" id="cards"></div>
+<div class="bar"><span class="counts" id="counts">—</span><button class="copy" onclick="copyFeedback()">피드백 복사</button></div>
+<div class="toast" id="toast">복사됨</div>
+
+<script type="application/json" id="reviewData">
+{"title":"Review","subtitle":"","storageKey":"change-review","pills":["확정","수정","보류"],"cards":[]}
+</script>
+<script>
+const D = JSON.parse(document.getElementById('reviewData').textContent);
+const PILL = D.pills && D.pills.length===3 ? D.pills : ["확정","수정","보류"];
+const KEY = D.storageKey || "change-review";
+const store = JSON.parse(localStorage.getItem(KEY) || "{}");
+document.getElementById('h-title').textContent = D.title || "Review";
+document.getElementById('h-sub').textContent = D.subtitle || "";
+document.title = D.title || "Review";
+const sections = [...new Set(D.cards.map(c=>c.section).filter(Boolean))];
+let activeTab = "__all__";
+
+function esc(s){return (s==null?"":String(s));}
+function render(){
+  const tabsEl = document.getElementById('tabs');
+  if(sections.length > 1){
+    const all = [{k:"__all__",label:"전체"}].concat(sections.map(s=>({k:s,label:s})));
+    tabsEl.innerHTML = all.map(t=>{
+      const cs = D.cards.filter(c=>t.k==="__all__"||c.section===t.k);
+      const done = cs.filter(c=>store[c.id]&&store[c.id].d).length;
+      return `<span class="tab ${t.k===activeTab?'on':''}" data-k="${t.k}">${t.label} <span style="opacity:.6">${done}/${cs.length}</span></span>`;
+    }).join('');
+    tabsEl.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{activeTab=t.dataset.k;render();});
+  } else { tabsEl.style.display='none'; }
+
+  const box = document.getElementById('cards');
+  box.innerHTML='';
+  D.cards.filter(c=>activeTab==="__all__"||c.section===activeTab).forEach(c=>{
+    const s = store[c.id]||{};
+    const el = document.createElement('div'); el.className='card';
+    let figs='';
+    if(c.images&&c.images.length){
+      figs=`<div class="figs ${c.images.length>1?'two':''}">`+c.images.map(im=>
+        `<figure><img src="${im.src}" alt="${esc(im.label)}"><figcaption>${esc(im.label)}</figcaption></figure>`).join('')+`</div>`;
+    }
+    let ba='';
+    if(c.before||c.after){
+      ba=`<div class="ba">${c.before?`<div class="b"><span class="tag">전</span>${c.before}</div>`:''}${c.after?`<div class="a"><span class="tag">후</span>${c.after}</div>`:''}</div>`;
+    }
+    let opts='';
+    if(c.kind==='choice'&&c.options){
+      opts=`<div class="opts">`+c.options.map((o,i)=>
+        `<div class="opt ${s.choice===i?'on':''}" data-i="${i}"><b>${esc(o.label)}</b> ${esc(o.body||'')}</div>`).join('')+`</div>`;
+    }
+    el.innerHTML=`${c.section?`<div class="seclab">${esc(c.section)}</div>`:''}
+      <h2>${esc(c.title)}</h2>${c.loc?`<div class="loc">${esc(c.loc)}</div>`:''}
+      ${c.why?`<div class="why">${c.why}</div>`:''}${figs}${ba}${opts}
+      <div class="pills">
+        <span class="pill" data-d="adopt">${PILL[0]}</span>
+        <span class="pill" data-d="edit">${PILL[1]}</span>
+        <span class="pill" data-d="hold">${PILL[2]}</span>
+      </div>
+      <textarea placeholder="메모">${s.m?esc(s.m):''}</textarea>`;
+    el.querySelectorAll('.opt').forEach(o=>o.onclick=()=>{store[c.id]=store[c.id]||{};store[c.id].choice=+o.dataset.i;save();render();});
+    el.querySelectorAll('.pill').forEach(p=>{
+      if(s.d===p.dataset.d)p.classList.add('on');
+      p.onclick=()=>{store[c.id]=store[c.id]||{};store[c.id].d=p.dataset.d;save();render();};
+    });
+    const ta=el.querySelector('textarea');
+    ta.oninput=()=>{store[c.id]=store[c.id]||{};store[c.id].m=ta.value;save();updateCounts();};
+    box.appendChild(el);
+  });
+  updateCounts();
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(store));}
+function updateCounts(){
+  let a=0,e=0,h=0;const t=D.cards.length;
+  D.cards.forEach(c=>{const s=store[c.id];if(!s)return;if(s.d==='adopt')a++;if(s.d==='edit')e++;if(s.d==='hold')h++;});
+  document.getElementById('counts').textContent=`${PILL[0]} ${a} · ${PILL[1]} ${e} · ${PILL[2]} ${h} · 미정 ${t-a-e-h} / ${t}`;
+  if(sections.length>1) render._tabsOnly && render._tabsOnly();
+}
+function copyFeedback(){
+  const lab={adopt:PILL[0],edit:PILL[1],hold:PILL[2]};
+  const L=[`# ${D.title||'Review'} — 피드백`,''];
+  D.cards.forEach(c=>{
+    const s=store[c.id]||{};
+    const sec=c.section?`[${c.section}] `:'';
+    let line=`## ${sec}${esc(c.title)} → ${lab[s.d]||'미정'}`;
+    if(c.kind==='choice'&&typeof s.choice==='number'&&c.options[s.choice]) line+=` (${esc(c.options[s.choice].label)})`;
+    L.push(line);
+    if(s.m&&s.m.trim()) L.push(`- ${s.m.trim()}`);
+    L.push('');
+  });
+  navigator.clipboard.writeText(L.join('\n')).then(()=>{
+    const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1500);
+  });
+}
+render();
+</script></body></html>
