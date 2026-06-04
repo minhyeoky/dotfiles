@@ -1,7 +1,6 @@
 ---
 name: self-check
-description: 하나의 주제나 thesis에 깊이 매몰됐을 때 한 발 빼고 적대적으로 자기검증한다. 매몰 감지 → thesis 명문화 → 반증 적극 수집(fan-out) → 할인율 산정 → 보정. 사용자가 "self-check", "한 발 빼고 검증", "우리 매몰된 거 아냐", "zoom out해서 점검", "thesis 점검" 등을 말할 때 수동 호출.
-disable-model-invocation: true
+description: 하나의 주제나 thesis에 깊이 매몰됐을 때 한 발 빼고 적대적으로 자기검증한다. 매몰 감지 → thesis 명문화 → 반증 적극 수집(fan-out) → 할인율 산정 → 보정. 사용자가 "self-check", "한 발 빼고 검증", "우리 매몰된 거 아냐", "zoom out해서 점검", "thesis 점검" 등을 말할 때, 또는 한 thesis를 여러 턴 연속 강화하거나 사용자가 제시한 반례를 흡수해 합리화하는 매몰 징후가 보일 때 호출.
 ---
 
 지금 빠져 있는 thesis에서 한 발 물러나, 그게 *맞아서* 매력적인지 *기분이 좋아서* 매력적인지 가른다.
