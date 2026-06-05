@@ -148,9 +148,10 @@ function copyFeedback(){
     if(s.m&&s.m.trim()) L.push(`- ${s.m.trim()}`);
     L.push('');
   });
-  navigator.clipboard.writeText(L.join('\n')).then(()=>{
-    const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1500);
-  });
+  const text=L.join('\n');
+  const done=()=>{const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1500);};
+  const fallback=()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.top='0';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();let ok=false;try{ok=document.execCommand('copy');}catch(e){}document.body.removeChild(ta);if(ok)done();else window.prompt('복사 (Cmd/Ctrl+C 후 Enter):',text);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(fallback);}else{fallback();}
 }
 render();
 </script></body></html>
