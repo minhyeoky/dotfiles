@@ -25,10 +25,9 @@ a worse moment.
 Wrapup does not reimplement those homes — it dispatches to them. Git is one home, not
 the whole job.
 
-## The engine: two questions decide every routing
+## The engine: survey first, propose, then execute
 
-Don't memorise a taxonomy. Run each open loop through two questions and the routing
-falls out.
+Don't jump to writing. The flow is always: **survey → propose → confirm intent → execute.**
 
 **1. What *kind* of state is it?** → picks the durable home.
 
@@ -39,17 +38,14 @@ falls out.
 | An unfinished thread a successor must resume | a `handoff` document |
 | Deferred work you are choosing not to do now | an **explicit** park — TODO, issue, or a noted line. Never silent. |
 
-**2. Who must be the gate, and how reversible is it?** → picks autonomy.
+**2. Who must confirm before you write anything?** → always the user.
 
-- Reversible *and* you are the legitimate gate (routine commits, memory writes,
-  handoff docs) → **act, no confirmation.**
-- Irreversible *or* the user is the gate (PR creation, pushing logic the user wants to
-  review, any branch deletion) → **confirm first.**
+Every write action — commits, memory writes, handoff docs, PR creation, branch deletion —
+requires the user to confirm intent first. The survey phase is read-only. After surveying,
+present a proposed routing plan and ask. Only execute after the user approves.
 
-The old cruft / routine / review-worthy split is just this engine applied to code:
-cruft is reversible cleanup you own, routine is reversible default-branch work you own,
-review-worthy is logic where the *user* is the gate. You no longer memorise the split —
-you derive it.
+The only exception: purely mechanical read operations (git status, log, diff) that
+produce no side effects are always safe to run without asking.
 
 ## The bar for "done"
 
@@ -73,20 +69,22 @@ left implicit.**
    personal, or sensitive specifics. PRIVATE → detail is fine. This gate applies to
    memory and handoff content too, not just git.
 
-3. **Route each loop through the engine.** Group code by concern (read the repo's
-   `CLAUDE.md` for commit-prefix and grouping conventions); never bundle unrelated
-   concerns. If one file mixes two concerns, split with `git add -p`. Send each
-   knowledge loop to memory, handoff, or an explicit park.
+3. **Map out the open loops.** Group code by concern (read the repo's `CLAUDE.md` for
+   commit-prefix and grouping conventions); never bundle unrelated concerns. Note which
+   files would go in which commit, which decisions are memory-worthy, and whether any
+   thread needs a handoff doc.
 
-4. **Execute the autonomous routes (no confirmation):** one atomic commit per concern,
-   prefixed per `CLAUDE.md`, then push; memory writes; handoff doc if a thread needs
-   resuming. After committing, run the project's post-work documentation rule from
-   `CLAUDE.md`; fold any doc changes it produces into the *same* concern's commit so
-   wrapup doesn't leave its own dirt.
+4. **Propose and confirm before writing anything.** Present the full routing plan to the
+   user — what would go into each commit, what would land in memory, what would become a
+   handoff, what would be parked. Ask which parts the user actually wants done and in what
+   order. If it's a long list, ask one category at a time. Do **not** execute any write
+   until the user confirms.
 
-5. **Execute the gated routes (with confirmation):** for review-worthy logic, branch
-   off the default branch, move just those changes over, commit, push, open the PR. For
-   stale-branch pruning, confirm scope before deleting anything.
+5. **Execute what was approved.** After each confirmed scope: commit atomically per
+   concern + push; write memory entries; produce handoff doc if needed. After committing,
+   run the project's post-work documentation rule from `CLAUDE.md`; fold any doc changes
+   into the same concern's commit. For review-worthy logic, branch off, move changes,
+   open the PR.
 
 6. **Report against the bar.** State the end position: tree status, branch, what was
    committed/pushed, PRs opened, what landed in memory/handoff, what was parked and
@@ -95,9 +93,8 @@ left implicit.**
 
 ## Hard rules
 
-- Default branch is the home for routine work; a PR is reserved for changes the **user**
-  wants to gate. The user is the gate, not every change.
-- Never auto-create a PR, delete a branch, or push user-gated logic without confirmation.
+- Every write action needs user confirmation first — even routine commits. The user's intent, not reversibility, is the gate.
+- Routine commits go to the default branch (no PR); a PR is for changes the user explicitly wants gated. Both still require step 4 confirmation.
 - Honour remote visibility (step 2) in **every** written artifact — commit, PR, memory,
   handoff alike.
 - Parking is allowed; *silent* parking is not. An unfinished thread must leave a visible
