@@ -24,9 +24,16 @@ Format: `YYYY-MM-DD-<slug>.html`
 - Slug: 2–5 word kebab-case summary, Korean or English
 - Examples: `2026-05-22-claude-api-caching.html`, `2026-05-22-tmux-단축키-정리.html`
 
+## Layout patterns — memory에 산다
+누적 레이아웃 패턴은 이 레포가 아니라 **memory 파일 `reference_vault_patterns.md`** 에 있다(비공개 — 공개 레포 검열 부담 없음, 2026-06-12 이전). 위치는 고정 경로가 아니라 glob으로 찾는다:
+```bash
+grep -iE '<콘텐츠타입 키워드>' ~/.claude/projects/*/memory/reference_vault_patterns.md
+```
+파일이 없으면 패턴 없이 진행한다(차단 아님).
+
 ## HTML creation (per-entry)
 Each individual entry HTML must be **fully self-contained** — no external CDN, no imports.
-- Before building, grep `references/patterns.md` for a layout matching the content type (e.g. `grep -iE 'self-check|카탈로그|how-to|입문' references/patterns.md`) and reuse it — that file holds accumulated layout patterns by content type.
+- Before building, grep the patterns memory (위 섹션) for a layout matching the content type (e.g. `grep -iE 'self-check|카탈로그|how-to|입문' ~/.claude/projects/*/memory/reference_vault_patterns.md`) and reuse it.
 - Let content type drive structure: analysis → article layout, mini-app → interactive UI, summary → clean card
 - Style freely with inline CSS. Choose typography, colors, layout that best fit the content.
 - Must include a descriptive `<title>` tag (shown in browser tab)
@@ -54,17 +61,15 @@ Each individual entry HTML must be **fully self-contained** — no external CDN,
 작업을 "완료"로 간주하기 전에 아래 3개 게이트를 순서대로 통과시킨다. 통과 못 하면 고치고 다시 본다.
 
 ### Gate 1 — 보안 (공개 누수 차단)
-`references/patterns.md`는 **dotfiles 공개 레포의 추적 파일**이다. 여기로 새는 순간 영구 공개된다.
-- **patterns.md append 자가검열**: Gate 3에서 patterns.md에 적을 교훈에 *개인 구체값*이 섞였는지 점검 — 종목·티커·수치, 거주지·지역명, 금전·매출 목표, 제품/서비스 고유명, 내면·관계. 하나라도 있으면 generic 예시("정량 자산 카드", "지역 특화 정보")로 치환한 **뒤에만** append. 레이아웃/구조 규칙만 적는다.
 - **스테이징 범위**: vault 커밋에 의도한 1개 파일(`YYYY-MM-DD-<slug>.html`)만 들어갔는지 `git -C "$VAULT_PATH" show --stat HEAD`로 확인 — 다른 세션의 in-flight HTML 혼입 방지.
-- entry 본문의 개인 콘텐츠는 OK(`$VAULT_PATH`는 비공개·외부 비노출이라 가정) — 누수 경계는 **공개 추적 파일**, 즉 patterns.md append와 이 SKILL.md의 예시·기본값이다. SKILL을 고칠 때 예시에 개인 구체값(종목·지역·금액·제품명·프로젝트 주제)을 박지 않는다.
+- entry 본문·패턴 memory의 개인 콘텐츠는 OK(둘 다 비공개) — 누수 경계는 **이 SKILL.md(공개 dotfiles)뿐**이다. SKILL을 고칠 때 예시·기본값에 개인 구체값(종목·지역·금액·제품명·프로젝트 주제)을 박지 않는다.
 
 ### Gate 2 — 연결성 & 회고
 - 이 entry가 기존 vault 문서와 이어지나? 같은 주제·시리즈·후속이면 footer cross-link, 또는 `-plan`/`-shortlist` 같은 페어링을 건다. 거의-중복이면 새 파일 말고 원본에 addendum(앞 룰).
-- 여러 문서를 가로지르는 **메타 인사이트**가 보이면, 그것 자체를 새 entry나 patterns.md 교훈(레이아웃 한정)으로 남길지 판단한다.
+- 여러 문서를 가로지르는 **메타 인사이트**가 보이면, 그것 자체를 새 entry나 패턴 memory 교훈(레이아웃 한정)으로 남길지 판단한다.
 
 ### Gate 3 — 내용 검토 & 스킬 개선
 - 저장한 HTML을 다시 보고: 구조가 즉시 명확한가? 시각 스타일이 콘텐츠 타입에 맞나? 독자가 헷갈리거나 빠진 부분은? 다음엔 무엇을 다르게?
-- **재사용 가능한 일반화 인사이트**가 나오면 `references/patterns.md`에 한 줄(1–2줄)로 append — Gate 1 자가검열을 반드시 거친다. 절대 SKILL.md에 inline 금지(progressive disclosure). 사소한 관찰은 skip.
-- 이번 작업이 **스킬 자체의 개선 기회**를 드러냈나? (반복되는 수작업, 빠진 content-type 패턴, 더 나은 검증 절차 등) → 절차 개선은 SKILL.md에, 레이아웃 개선은 patterns.md에 반영을 제안한다.
+- **재사용 가능한 일반화 인사이트**가 나오면 패턴 memory(`reference_vault_patterns.md`)에 한 줄(1–2줄)로 append — 레이아웃 규칙만(개인 구체값 원칙은 파일 상단 주석 참조). 절대 SKILL.md에 inline 금지(progressive disclosure). 사소한 관찰은 skip.
+- 이번 작업이 **스킬 자체의 개선 기회**를 드러냈나? (반복되는 수작업, 빠진 content-type 패턴, 더 나은 검증 절차 등) → 절차 개선은 SKILL.md에, 레이아웃 개선은 패턴 memory에 반영을 제안한다.
 
