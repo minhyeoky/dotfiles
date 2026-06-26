@@ -144,6 +144,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org Mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; force .org -> org-mode to the FRONT of auto-mode-alist. on case-insensitive fs
+;; (macOS) dockerfile-ts-mode-maybe otherwise wins for names like "...dockerfile.org",
+;; breaking org-refile's target scan ("must be org-mode"). add-to-list won't reorder an
+;; existing entry, so delete then prepend.
+(setq auto-mode-alist
+      (cons '("\\.org\\'" . org-mode)
+            (assoc-delete-all "\\.org\\'" auto-mode-alist)))
+
 (defun dw/org-mode-setup ()
   (org-indent-mode)
   (auto-fill-mode 0) ; disable hard wrapping
@@ -163,10 +172,6 @@
 
 ;; my org-files directory
 (setq org-directory (or (getenv "ORG_DIR") (expand-file-name "~/org")))
-
-
-;; close all the other windows when opening org-capture
-(add-hook 'org-capture-mode-hook 'delete-other-windows)
 
 ;; org-capture: evil :q/:wq finalizes capture buffer
 (with-eval-after-load 'org-capture
@@ -261,12 +266,23 @@
 ;; run (org-roam-db-sync) automatically
 (org-roam-db-autosync-mode)
 
-;; org-capture templates — inbox to main.org datetree (,c i)
+;; org-capture templates — dump to flat inbox.org, triage later via refile (,c i)
 (setq org-capture-templates
       `(("i" "Inbox" entry
-         (file+olp+datetree ,(expand-file-name "main.org" org-roam-directory))
-         "* %<%H:%M> %?"
+         (file ,(expand-file-name "inbox.org" org-roam-directory))
+         "* %?"
          :empty-lines 1)))
+
+;; org-refile — empty inbox.org into any roam note (C-c C-w)
+(defun my/org-roam-refile-targets ()
+  "Org files under `org-roam-directory', excluding dotfiles/dotdirs."
+  (seq-remove (lambda (f) (string-match-p "/\\." f))
+              (directory-files-recursively org-roam-directory "\\.org$")))
+
+(setq org-refile-targets '((my/org-roam-refile-targets :maxlevel . 3))
+      org-refile-use-outline-path 'file       ; show file path in completion
+      org-outline-path-complete-in-steps nil  ; one-shot completion (vertico-friendly)
+      org-refile-allow-creating-parent-nodes 'confirm)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-roam-ui
@@ -404,6 +420,8 @@
 (evil-leader/set-key "zr" 'consult-org-roam-search)
 (evil-leader/set-key "zb" 'consult-org-roam-backlinks)
 (evil-leader/set-key "zi" 'org-roam-node-insert)
+(evil-leader/set-key "ze" 'org-roam-extract-subtree) ; inbox 항목 → 새 zettel
+(evil-leader/set-key "zR" 'org-roam-refile)          ; subtree → 기존 노드(제목 선택)
 
 ;; tabs
 (tab-bar-mode 1)
