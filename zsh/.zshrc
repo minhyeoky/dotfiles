@@ -89,6 +89,8 @@ e() {
   emacsclient -nw "$@"
 }
 alias ek='emacsclient -e "(kill-emacs)"'
+# drain Apple Notes staging inbox -> org inbox.org (path derived from this file's symlink)
+alias idrain="${${(%):-%x}:A:h:h}/scripts/drain-apple-notes.sh"
 
 # --------------------------------------------------------------------------------
 # KEYBINDINGS

@@ -284,6 +284,23 @@
       org-outline-path-complete-in-steps nil  ; one-shot completion (vertico-friendly)
       org-refile-allow-creating-parent-nodes 'confirm)
 
+;; drain Apple Notes "Inbox" (mobile staging inbox) into inbox.org, then refresh it.
+;; script path derived from the init.el symlink -> no hardcoded dotfiles path.
+(defconst my/dotfiles-dir
+  (expand-file-name "../../" (file-name-directory
+                              (file-truename (or load-file-name user-init-file))))
+  "Dotfiles repo root, resolved via the init.el symlink.")
+
+(defun my/org-drain-apple-notes ()
+  "Drain the Apple Notes staging inbox into inbox.org and refresh its buffer."
+  (interactive)
+  (let ((out (shell-command-to-string
+              (shell-quote-argument
+               (expand-file-name "scripts/drain-apple-notes.sh" my/dotfiles-dir))))
+        (buf (get-file-buffer (expand-file-name "inbox.org" org-roam-directory))))
+    (when buf (with-current-buffer buf (revert-buffer t t t)))
+    (message "%s" (string-trim out))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-roam-ui
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -408,6 +425,9 @@
 
 ;; org-capture
 (evil-leader/set-key "c" 'org-capture)
+
+;; drain Apple Notes staging inbox -> inbox.org
+(evil-leader/set-key "nd" 'my/org-drain-apple-notes)
 
 ;; consult
 (evil-leader/set-key "ff" 'consult-fd)
