@@ -13,6 +13,7 @@ vim.lsp.enable({
   "html",
   "jsonls",
   "pyright",
+  "yamlls",
 })
 
 -- Use virtual_lines for diagnostics (Neovim 0.11+)

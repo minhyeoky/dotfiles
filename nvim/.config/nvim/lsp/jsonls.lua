@@ -5,9 +5,7 @@ return {
         enable = true,
       },
       schemas = require("schemastore").json.schemas({
-        select = {
-          "package.json",
-        },
+        -- No `select` → entire SchemaStore catalog active (filename auto-match).
         extra = {
           {
             description = "Claude Code settings",
