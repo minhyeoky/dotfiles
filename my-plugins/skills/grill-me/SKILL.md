@@ -8,5 +8,3 @@ Interview me relentlessly about every aspect of this plan until we reach a share
 Ask the questions one at a time.
 
 If a question can be answered by exploring the codebase, explore the codebase instead.
-
-Likewise, if a question may already be settled in my saved notes, check `$VAULT_PATH` (set per-machine; skip this step when it is unset or empty) — grep it for the topic and read the matching note before asking. Treat what you find as dated prior context to confirm, not a settled fact.
