@@ -193,8 +193,15 @@
 
 ;; auto-update checkbox statistics cookies
 (defun my/org-auto-update-checkbox-cookies ()
-  "Add [/] to headings with checkboxes, remove from those without."
+  "Add [/] cookies to headings and to list items that own checkboxes.
+Headings without checkboxes have their cookie removed."
   (interactive)
+  ;; normalize lowercase [x] -> [X]; org only tallies uppercase, so a hand-typed
+  ;; [x] would otherwise count as unchecked and skew the [/] cookie.
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^[ \t]*- \\[\\(x\\)\\]" nil t)
+      (replace-match "X" nil nil nil 1)))
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward org-heading-regexp nil t)
@@ -224,6 +231,31 @@
           (goto-char heading-start)
           (when (re-search-forward "\\[\\([0-9]*%\\|[0-9]*/[0-9]*\\)\\]" heading-end t)
             (replace-match "")))))))
+  ;; Insert [/] after a checkbox list item that owns nested checkbox children
+  ;; (heading pass above only cookies headings). Walk items bottom-up so an
+  ;; inserted cookie never shifts a not-yet-visited item's position.
+  (save-excursion
+    (goto-char (point-max))
+    (while (re-search-backward "^[ \t]*- \\[[ X-]\\]" nil t)
+      (let* ((item-indent (current-indentation))
+             (item-eol (line-end-position))
+             (has-cookie (save-excursion
+                           (re-search-forward "\\[[0-9]*/[0-9]*\\]\\|\\[[0-9]*%\\]" item-eol t)))
+             (has-child nil))
+        (unless has-cookie
+          (save-excursion
+            (forward-line 1)
+            (catch 'stop
+              (while (not (eobp))
+                (cond
+                 ((looking-at-p "^[ \t]*$") (forward-line 1))          ; blank: keep scanning
+                 ((<= (current-indentation) item-indent) (throw 'stop nil)) ; sibling/dedent: no child
+                 ((looking-at-p "^[ \t]*- \\[[ X-]\\]")                ; deeper checkbox: child found
+                  (setq has-child t) (throw 'stop nil))
+                 (t (forward-line 1))))))
+          (when has-child
+            (goto-char item-eol)
+            (insert " [/]"))))))
   ;; Update all statistics cookies
   (org-update-checkbox-count 'all))
 
