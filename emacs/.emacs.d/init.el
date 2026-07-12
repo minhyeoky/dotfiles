@@ -162,6 +162,8 @@
 (use-package org
   :hook (org-mode . dw/org-mode-setup)
   :config
+  ;; restore classic easy templates (<s TAB, <e TAB, ...); removed from org core in 9.2
+  (require 'org-tempo)
   (setq org-ellipsis " ▾"
 	org-hide-emphasis-markers t))
 
