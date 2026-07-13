@@ -86,6 +86,13 @@ local function open_context_layout()
   local ctx = load_context()
   if not ctx then return end
 
+  -- Move to CC's cwd so the prompt-edit window can reference project files
+  -- (:e, telescope, LSP). Done before the early return below so it applies
+  -- even when there is no last response to show.
+  if ctx.cwd and ctx.cwd ~= '' and vim.fn.isdirectory(ctx.cwd) == 1 then
+    pcall(vim.cmd, 'cd ' .. vim.fn.fnameescape(ctx.cwd))
+  end
+
   local text = extract_last_response(ctx.transcript_path)
   if not text then return end
 
