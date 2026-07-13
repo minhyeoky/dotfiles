@@ -231,31 +231,35 @@ Headings without checkboxes have their cookie removed."
           (goto-char heading-start)
           (when (re-search-forward "\\[\\([0-9]*%\\|[0-9]*/[0-9]*\\)\\]" heading-end t)
             (replace-match "")))))))
-  ;; Insert [/] after a checkbox list item that owns nested checkbox children
-  ;; (heading pass above only cookies headings). Walk items bottom-up so an
-  ;; inserted cookie never shifts a not-yet-visited item's position.
+  ;; Sync [/] on checkbox list items that own nested checkbox children: add when
+  ;; children appear, remove when they're gone (heading pass above only cookies
+  ;; headings). Walk items bottom-up so an edit never shifts a not-yet-visited
+  ;; item's position; wrap each edit in save-excursion so point stays put.
   (save-excursion
     (goto-char (point-max))
     (while (re-search-backward "^[ \t]*- \\[[ X-]\\]" nil t)
       (let* ((item-indent (current-indentation))
              (item-eol (line-end-position))
+             (cookie-re " ?\\(\\[[0-9]*/[0-9]*\\]\\|\\[[0-9]*%\\]\\)")
              (has-cookie (save-excursion
-                           (re-search-forward "\\[[0-9]*/[0-9]*\\]\\|\\[[0-9]*%\\]" item-eol t)))
-             (has-child nil))
-        (unless has-cookie
+                           (re-search-forward cookie-re item-eol t)))
+             (has-child (save-excursion
+                          (forward-line 1)
+                          (catch 'found
+                            (while (not (eobp))
+                              (cond
+                               ((looking-at-p "^[ \t]*$") (forward-line 1))          ; blank: keep scanning
+                               ((<= (current-indentation) item-indent) (throw 'found nil)) ; sibling/dedent
+                               ((looking-at-p "^[ \t]*- \\[[ X-]\\]") (throw 'found t))    ; deeper checkbox
+                               (t (forward-line 1))))))))
+        (cond
+         ((and has-child (not has-cookie))
+          (save-excursion (goto-char item-eol) (insert " [/]")))
+         ((and (not has-child) has-cookie)
           (save-excursion
-            (forward-line 1)
-            (catch 'stop
-              (while (not (eobp))
-                (cond
-                 ((looking-at-p "^[ \t]*$") (forward-line 1))          ; blank: keep scanning
-                 ((<= (current-indentation) item-indent) (throw 'stop nil)) ; sibling/dedent: no child
-                 ((looking-at-p "^[ \t]*- \\[[ X-]\\]")                ; deeper checkbox: child found
-                  (setq has-child t) (throw 'stop nil))
-                 (t (forward-line 1))))))
-          (when has-child
-            (goto-char item-eol)
-            (insert " [/]"))))))
+            (goto-char (line-beginning-position))
+            (when (re-search-forward cookie-re item-eol t)
+              (replace-match ""))))))))
   ;; Update all statistics cookies
   (org-update-checkbox-count 'all))
 
