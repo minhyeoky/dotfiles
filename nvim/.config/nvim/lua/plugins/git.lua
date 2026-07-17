@@ -114,7 +114,7 @@ return {
   },
 
   {
-    "sindrets/diffview.nvim",
+    "dlyongemallo/diffview.nvim",
     cmd = { 
       "DiffviewOpen",
       "DiffviewFileHistory",
@@ -211,17 +211,44 @@ return {
   },
 
   {
-    "ldelossa/gh.nvim",
+    "pwntester/octo.nvim",
     dependencies = {
-        {
-        "ldelossa/litee.nvim",
-        config = function()
-            require("litee.lib").setup()
-        end,
-        },
+      "nvim-lua/plenary.nvim",
+      "ibhagwan/fzf-lua",
+      "nvim-tree/nvim-web-devicons",
     },
+    cmd = "Octo",
+    opts = {
+      picker = "fzf-lua",
+    },
+  },
+
+  {
+    "harrisoncramer/gitlab.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "dlyongemallo/diffview.nvim",
+    },
+    -- auth via shell env: GITLAB_TOKEN + GITLAB_URL (never committed here)
+    build = function()
+      require("gitlab.server").build(true)
+    end,
     config = function()
-        require("litee.gh").setup()
+      require("gitlab").setup()
+    end,
+  },
+
+  {
+    "shumphrey/fugitive-gitlab.vim",
+    dependencies = { "tpope/vim-fugitive" },
+    lazy = false,
+    init = function()
+      -- :GBrowse for GitLab remotes; domain comes from env, not this repo
+      local gitlab_url = vim.env.GITLAB_URL
+      if gitlab_url and gitlab_url ~= "" then
+        vim.g.fugitive_gitlab_domains = { gitlab_url }
+      end
     end,
   },
 }
