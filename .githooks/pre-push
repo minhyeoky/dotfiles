@@ -5,8 +5,17 @@ set -uo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 commits=""
-while read -r _lref loid _rref roid; do
+while read -r _lref loid rref roid; do
   [[ "$loid" =~ ^0+$ ]] && continue                 # branch deletion → nothing to scan
+  if [[ "$rref" == "refs/heads/master" ]]; then     # trunk-based: master is PR-only
+    echo "" >&2
+    echo "push rejected — direct push to master is disabled (trunk-based, all changes via PR)." >&2
+    echo "  push to a topic branch instead:  git push origin master:refs/heads/<topic>" >&2
+    echo "  then open a PR:                  gh pr create --head <topic>" >&2
+    echo "  deliberate bypass: git push --no-verify (the server ruleset will still reject it)" >&2
+    echo "" >&2
+    exit 1
+  fi
   if [[ "$roid" =~ ^0+$ ]]; then                    # new branch → only commits not on any remote
     commits+=" $(git rev-list "$loid" --not --remotes)"
   else
