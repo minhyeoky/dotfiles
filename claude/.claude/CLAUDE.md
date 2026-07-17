@@ -60,6 +60,15 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
+## 5. Sub-agent & Workflow Model Selection
+
+**Default to Sonnet (inherited). Escalate to Opus only when the task demands it.**
+
+- Omit `model` in `agent()` calls by default — agents inherit the session model (Sonnet), which is correct for most tasks.
+- Only set `model: "opus"` when the task genuinely requires stronger reasoning: e.g., multi-source synthesis, complex reduction/summarization across many findings, or adversarial judgment panels where quality matters more than cost.
+- Never upgrade to Opus "just in case" or for simple search/read/transform agents.
+- When in doubt, omit the model override and let it inherit.
+
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
