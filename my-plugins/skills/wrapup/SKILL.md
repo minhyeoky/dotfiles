@@ -34,7 +34,9 @@ Don't jump to writing. The flow is always: **survey → propose → confirm inte
 | State | Durable home |
 |---|---|
 | Working code / config / content | git — commit + push (or PR) |
-| A fact, decision, or rationale worth keeping | `memory/` (see the memory system) |
+| A **rule** Claude must follow ("always X", "never Y") | `CLAUDE.md` — or `.claude/rules/` with `paths:` if it only applies to some files |
+| A **fact**: state, decision, rationale, external reference | `memory/` (see the memory system) |
+| A rule that must hold *every* time, no exceptions | a hook or permission — CLAUDE.md is a request, not a guarantee |
 | An unfinished thread a successor must resume | a `handoff` document |
 | Deferred work you are choosing not to do now | an **explicit** park — TODO, issue, or a noted line. Never silent. |
 
@@ -46,6 +48,56 @@ present a proposed routing plan and ask. Only execute after the user approves.
 
 The only exception: purely mechanical read operations (git status, log, diff) that
 produce no side effects are always safe to run without asking.
+
+## memory vs CLAUDE.md — picking the home
+
+The axis is **instruction vs fact**, and **who maintains it**. It is *not* stability, and
+it is *not* app-boundness. "It rarely changes" and "it belongs to one app" are both true
+of things in either home, so neither tells you where to put anything.
+
+- **CLAUDE.md** = rules you write for Claude to obey. The root one loads **in full, every
+  session** — its cost is real and permanent.
+- **memory/** = facts Claude records and reads back on demand. Topic files cost **0 tokens
+  at startup**; only `MEMORY.md` (the index) is always loaded, capped at 200 lines / 25KB —
+  **past the cap it is silently dropped**, so the index is the only thing worth budgeting.
+
+Consequences that are easy to get backwards:
+
+- **Never move content into CLAUDE.md to "save context."** It inverts the cost — you move
+  something free into something billed every session. Volume in `memory/` is not a problem
+  worth solving; a bloated *index* is.
+- **Duplication is the real failure, not volume.** When a rule lives in both homes they
+  drift, and contradictory rules make Claude pick one arbitrarily. The verb is **delete one
+  side**, never "move." Before writing a rule to either home, grep the other for it.
+- **memory is machine-local and not in git** — no history, no diff, no review, lost on a new
+  machine. Anything that needs versioning, sharing, or an audit trail belongs in the repo.
+  Decision *logs* especially: git already remembers why.
+- **Keep derivable content out of CLAUDE.md** — directory layouts, port tables, app
+  inventories, dependency lists. Claude can read those from the tree, and they rot fastest.
+  CLAUDE.md earns its cost with pitfalls, rationale, and conventions that differ from
+  defaults.
+
+## Writing to memory: supersede, verify, and leave guards alone
+
+Memory rots by **appending without invalidating**, not by growing. Three rules:
+
+- **Supersede in the same edit.** When a new fact contradicts one already in the file,
+  amend or delete the old line — do not append beside it. Two present-tense claims that
+  disagree is the defect; file size is only its shadow. If a file has become an append-only
+  session log, that is the signal to rewrite it, not to split it.
+- **Verify checkable claims before writing.** Counts, paths, command names, URLs, and
+  ports are cheap to check against the tree and are the first things to go stale. An
+  unverified number is worse than no number — it will be trusted later. Better still,
+  record *how to derive* a moving number instead of the number: a count that changes daily
+  is a stale-generator no matter how carefully you update it today.
+- **Check against `git show HEAD:<path>`, not the working tree.** A dirty tree may be
+  someone else's work in progress, and judging a memory "stale" against uncommitted edits
+  gets the verdict exactly backwards. If HEAD and the working tree disagree, that
+  disagreement is the finding — report it and hold the verdict.
+- **Never judge a negative guard by its age.** A guard like "don't propose X again" works
+  precisely by nothing happening, so it looks abandoned when it is doing its job. Staleness
+  heuristics invert on these. Same for a file that documents an *unresolved* gap: code
+  disagreeing with it can be the very thing it records.
 
 ## The bar for "done"
 
@@ -99,3 +151,5 @@ left implicit.**
   handoff alike.
 - Parking is allowed; *silent* parking is not. An unfinished thread must leave a visible
   marker, or it isn't done.
+- Route by instruction-vs-fact, never by "how much context it costs" — and never write the
+  same rule to both homes. If it is already in the other one, delete a side instead.
