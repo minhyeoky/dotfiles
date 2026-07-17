@@ -12,9 +12,17 @@ command -v git >/dev/null 2>&1 || exit 0
 git rev-parse --is-inside-work-tree >/dev/null 2>&1 || exit 0
 git remote get-url origin >/dev/null 2>&1 || exit 0
 
-# Resolve origin's default branch: origin/HEAD if set, else main/master probe.
-DEF=$(git symbolic-ref -q --short refs/remotes/origin/HEAD 2>/dev/null)
-DEF=${DEF#origin/}
+# Resolve the branch to track. Explicit config wins — the mainline branch
+# varies by environment and policy:
+#   1. per-repo git config:   git config main-drift.branch <name>
+#   2. env var:               MAIN_DRIFT_BRANCH=<name>
+#   3. origin/HEAD, then main/master probe.
+DEF=$(git config --get main-drift.branch 2>/dev/null)
+[ -n "$DEF" ] || DEF=${MAIN_DRIFT_BRANCH:-}
+if [ -z "$DEF" ]; then
+	DEF=$(git symbolic-ref -q --short refs/remotes/origin/HEAD 2>/dev/null)
+	DEF=${DEF#origin/}
+fi
 if [ -z "$DEF" ]; then
 	for b in main master; do
 		if git show-ref -q "refs/remotes/origin/$b"; then DEF=$b; break; fi
