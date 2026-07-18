@@ -3,9 +3,14 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
+      -- git 키맵 그룹라벨 — ,g 팝업에서 하위 갈래를 이름으로 보여줘 탐색으로 찾게 한다
+      spec = {
+        { "<leader>g", group = "git" },
+        { "<leader>gd", group = "diff" },
+        { "<leader>gh", group = "history" },
+        { "<leader>gs", group = "stage/hunk" },
+        { "<leader>gr", group = "review" },
+      },
     },
     keys = {
       {
