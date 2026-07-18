@@ -81,6 +81,47 @@ return {
         end,
         desc = "Dot Files",
       },
+      {
+        "<leader>fs",
+        function()
+          -- Secret 파일 계층: global(~/.zshrc.local, .zshrc가 source) + cwd 조상의 .envrc(direnv)
+          local files = {}
+          local global = vim.fn.expand("~/.zshrc.local")
+          if vim.fn.filereadable(global) == 1 then
+            table.insert(files, global)
+          end
+          local dir = vim.fn.getcwd()
+          while true do
+            local envrc = dir .. "/.envrc"
+            if vim.fn.filereadable(envrc) == 1 then
+              table.insert(files, envrc)
+            end
+            local parent = vim.fn.fnamemodify(dir, ":h")
+            if parent == dir then
+              break
+            end
+            dir = parent
+          end
+
+          if #files == 0 then
+            vim.notify("No secret / .envrc files found", vim.log.levels.WARN)
+          elseif #files == 1 then
+            vim.cmd.edit(vim.fn.fnameescape(files[1]))
+          else
+            require("fzf-lua").fzf_exec(files, {
+              prompt = "Secrets> ",
+              actions = {
+                ["default"] = function(selected)
+                  if selected[1] then
+                    vim.cmd.edit(vim.fn.fnameescape(selected[1]))
+                  end
+                end,
+              },
+            })
+          end
+        end,
+        desc = "Secret files (global + .envrc)",
+      },
     },
   },
 }
