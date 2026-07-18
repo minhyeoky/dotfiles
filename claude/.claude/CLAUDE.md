@@ -60,14 +60,21 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-## 5. Sub-agent & Workflow Model Selection
+## 5. Model Selection — match tier to task KIND
 
-**Default to Sonnet (inherited). Escalate to Opus only when the task demands it.**
+**Judgment stays at the main-loop tier; implementation delegates DOWN to the cheapest tier that suffices, verified back in the loop.**
 
-- Omit `model` in `agent()` calls by default — agents inherit the session model (Sonnet), which is correct for most tasks.
-- Only set `model: "opus"` when the task genuinely requires stronger reasoning: e.g., multi-source synthesis, complex reduction/summarization across many findings, or adversarial judgment panels where quality matters more than cost.
-- Never upgrade to Opus "just in case" or for simple search/read/transform agents.
-- When in doubt, omit the model override and let it inherit.
+Pick the tier by the KIND of work, not a fixed default:
+- **Judgment** (design, review, synthesis, audit) → the main-loop tier (the top model you're running). This is the bottleneck — spend here.
+- **Real implementation** (coding once the design is settled) → Sonnet subagent. The top model is rarely needed to implement.
+- **Mechanical/trivial edits** (rename, format, rote changes) → Haiku subagent.
+
+Rules:
+- In `agent()` calls, omit `model` to inherit the session model by default. Set an explicit tier only to delegate DOWN (Sonnet/Haiku) for implementation, or UP (Opus) for multi-source synthesis / adversarial judgment when the session model is weaker.
+- Make each subagent instruction self-contained — executable without the main-loop context.
+- Verify and commit results in the main loop; keep design/audit/analysis there.
+- **Stop when review falls behind generation** — your review speed is the ceiling on how much delegation you can absorb. Batch-review large changes async.
+- Never delegate or upgrade "just in case," and never route a simple search/read/transform agent through a bigger model than it needs.
 
 ---
 
