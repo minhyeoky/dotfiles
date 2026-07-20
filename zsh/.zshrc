@@ -77,6 +77,14 @@ alias cc='claude --dangerously-skip-permissions --model "opus[1m]"'
 alias cr='claude remote-control --permission-mode "bypassPermissions" --spawn "same-dir"'
 
 # --------------------------------------------------------------------------------
+# NO-MISTAKES
+# --------------------------------------------------------------------------------
+# Gated-push pipeline (github.com/kunchenguid/no-mistakes). The daemon reads
+# env from the login shell, so these must live here, not in session env.
+export NO_MISTAKES_TELEMETRY=0
+export NO_MISTAKES_NO_UPDATE_CHECK=1
+
+# --------------------------------------------------------------------------------
 # DIRENV
 # --------------------------------------------------------------------------------
 eval "$(direnv hook zsh)"

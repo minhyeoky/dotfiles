@@ -28,6 +28,7 @@ This repository contains my personal configuration files (dotfiles) for various 
 ├── git/              # Git configuration and aliases
 ├── hammerspoon/      # Hammerspoon configuration
 ├── my-plugins/       # Personal Claude Code plugins
+├── no-mistakes/      # no-mistakes gated-push config (not a stow package)
 ├── nvim/             # Neovim configuration
 ├── scripts/          # Utility scripts
 ├── skhd/             # Simple Hotkey Daemon configuration
