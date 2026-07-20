@@ -22,3 +22,16 @@ The window name is `<emoji> <pane_title>`, where `pane_title` is the semantic co
 The original window name is restored when the session ends (`automatic-rename` is turned off on `SessionStart` and back on at `SessionEnd`).
 
 **Customization:** Edit `hooks/scripts/tmux-status-config.sh` to change emoji mappings or `TMUX_STATUS_TITLE_MAXLEN`.
+
+### main-drift
+
+Warn on `SessionStart` / `UserPromptSubmit` when a tracked remote's default branch has commits the current HEAD does not know about. Silent when there is no drift; fetches are throttled to once per 5 minutes per remote.
+
+**Customization** (per-repo git config wins over env var; unset falls back to the default):
+
+| Setting | git config | Env var | Default |
+|---------|-----------|---------|---------|
+| Remotes to check | `main-drift.remotes` | `MAIN_DRIFT_REMOTES` | `origin` |
+| Branch to track | `main-drift.branch` | `MAIN_DRIFT_BRANCH` | `<remote>/HEAD`, then `main`/`master` probe per remote |
+
+Remotes are space/comma separated and checked in order, e.g. `git config main-drift.remotes "gitlab origin"`. Remotes that do not exist in the repo are skipped silently. The branch setting, when set, applies to every remote.
