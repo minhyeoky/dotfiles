@@ -1,0 +1,8 @@
+# no-mistakes global config, linked to ~/.no-mistakes/config.yaml by
+# scripts/no-mistakes-setup.sh. Edit here, not the link target.
+# This directory is deliberately NOT a stow package — see the setup script.
+agent: claude
+intent:
+  # Never infer intent from local agent transcripts. This config is shared
+  # across machines, so it must be safe on the strictest one.
+  enabled: false
