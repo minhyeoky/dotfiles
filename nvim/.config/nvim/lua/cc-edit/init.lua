@@ -107,8 +107,13 @@ local function open_context_layout()
   vim.bo[buf].buftype = 'nofile'
   vim.bo[buf].bufhidden = 'wipe'
   vim.bo[buf].swapfile = false
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(text, '\n', { plain = true }))
+  -- Set filetype BEFORE inserting content: treesitter foldexpr computes fold
+  -- levels asynchronously, and content added after ft goes through the normal
+  -- edit path (on_bytes → fold recompute). The reverse order races — foldexpr
+  -- evaluates before the first parse, returns 0 for every line, and never
+  -- refreshes, leaving the pane unfoldable despite ft=markdown.
   vim.bo[buf].filetype = 'markdown'
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(text, '\n', { plain = true }))
   vim.bo[buf].modifiable = false
   vim.bo[buf].readonly = true
   pcall(vim.api.nvim_buf_set_name, buf, 'cc-last-response')
