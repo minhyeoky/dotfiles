@@ -3,8 +3,11 @@
 # nvim (invoked via Ctrl-G → $EDITOR on a claude-prompt-*.md tempfile) can load
 # the last assistant response alongside the prompt draft.
 #
-# Fires on SessionStart. Overwrites on /clear, /resume, /compact — all of which
-# re-fire SessionStart with a different source.
+# Fires on SessionStart (also re-fired by /clear, /resume, /compact) and on
+# Stop. The Stop refresh is what keeps cwd/transcript_path correct after
+# EnterWorktree: entering a worktree moves the session cwd *and* relocates the
+# transcript mid-session, so a SessionStart-only snapshot goes stale. Ctrl-G is
+# always pressed after a response lands, so the last Stop write is current.
 set -u
 
 # Walk up the process tree to find the first ancestor with a real controlling
