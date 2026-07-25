@@ -27,6 +27,18 @@ local function diffview_base(spec)
   vim.cmd("DiffviewOpen " .. string.format(spec, base))
 end
 
+-- 현재 브랜치의 PR 을 번호 없이 연다. octo 는 브랜치→PR 해석 함수를 갖고 있지만 커맨드로는
+-- 안 뚫려 있어(`Octo pr edit` 은 번호 인자 필수) gh 로 번호만 뽑아 넘긴다.
+local function current_pr()
+  local out = vim.fn.system({ "gh", "pr", "view", "--json", "number", "-q", ".number" })
+  local number = vim.v.shell_error == 0 and out:match("%d+") or nil
+  if not number then
+    vim.notify("gh: 현재 브랜치의 PR 을 찾을 수 없음", vim.log.levels.ERROR)
+    return
+  end
+  vim.cmd("Octo pr edit " .. number)
+end
+
 -- push 할 커밋(base..HEAD)만 히스토리로. trunk 워크플로의 "올릴 커밋 검수".
 local function push_log()
   local base = git_base()
@@ -288,9 +300,26 @@ return {
         desc = "GitHub: issue list",
       },
       {
+        "<leader>grc",
+        current_pr,
+        desc = "GitHub: current branch PR",
+      },
+      -- browse 는 diff 를 로컬에 띄우기만 하고, start 는 서버에 pending review 를 만든다
+      -- (PR당 1개 제한 — 남아 있으면 다음 start 가 에러). 부작용 없는 쪽을 기본키에 둔다.
+      {
         "<leader>grv",
+        "<cmd>Octo review browse<cr>",
+        desc = "GitHub: browse PR diff (read-only)",
+      },
+      {
+        "<leader>grV",
         "<cmd>Octo review start<cr>",
-        desc = "GitHub: start PR review",
+        desc = "GitHub: start PR review (pending review 생성)",
+      },
+      {
+        "<leader>grk",
+        "<cmd>Octo pr checks<cr>",
+        desc = "GitHub: PR checks (PR 버퍼에서)",
       },
     },
   },
