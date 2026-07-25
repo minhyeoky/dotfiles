@@ -6,5 +6,4 @@ bash/.bash_constants
 
 local.el
 nvim/.config/nvim/lua/local.lua
-/.claude/worktrees/
-/.claude/settings.local.json
+/.claude/

@@ -308,12 +308,12 @@ set-option -g status-position top
 
 bind-key -r ) run-shell -b "alacritty-opacity increase 0.1"
 bind-key -r ( run-shell -b "alacritty-opacity decrease 0.1"
-bind-key ! run-shell "tmux new-window $HOME/scripts/run-scripts.sh"
+bind-key ! run-shell "tmux new-window $HOME/dotfiles/scripts/run-scripts.sh"
 
 bind-key -r C-p next-window
 bind-key -r C-n previous-window
 bind-key -r C-u last-window
-bind-key -r C-o run-shell '$HOME/scripts/swap-tmux-pane.sh'
+bind-key -r C-o run-shell '$HOME/dotfiles/scripts/swap-tmux-pane.sh'
 
 # Pane swapping (index-based, focus follows the moved pane)
 bind -r "<" swap-pane -U  # move current pane to the previous slot
