@@ -62,8 +62,17 @@ for R in $REMOTES; do
 	git log --oneline --no-decorate -5 "HEAD..$R/$DEF"
 	if [ "$BR" = "$DEF" ]; then
 		echo "→ run git pull $R $DEF to sync."
-	else
-		echo "→ rebase onto $R/$DEF if needed (current branch: $BR). If rule files (CLAUDE.md, memory/) changed, prefer the $R/$DEF version even before rebasing."
+		continue
 	fi
+
+	# A branch already on the remote may be pointed at by review threads and
+	# other clones, so rebasing it rewrites published commits. Merge instead;
+	# rebase only while the branch is still local.
+	if git show-ref -q "refs/remotes/$R/$BR"; then
+		echo "→ merge $R/$DEF into $BR if needed (current branch: $BR, already published — rebase rewrites pushed commits)."
+	else
+		echo "→ rebase onto $R/$DEF if needed (current branch: $BR, not published yet)."
+	fi
+	echo "If rule files (CLAUDE.md, memory/) changed, prefer the $R/$DEF version even before syncing."
 done
 exit 0
