@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Shared remote -> forge (GitHub/GitLab) URL logic. Sourced by open-issue.sh
 # and pick-issue.sh; not meant to be run on its own.
+# no-menu
 #
 # forge 판별은 remote host로 한다: github.com 이면 GitHub, 그 외는 GitLab.
 # self-hosted GitLab을 상정한 규칙이라 GitHub Enterprise는 지원하지 않는다.
