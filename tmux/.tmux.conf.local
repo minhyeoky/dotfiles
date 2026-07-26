@@ -308,7 +308,15 @@ set-option -g status-position top
 
 bind-key -r ) run-shell -b "alacritty-opacity increase 0.1"
 bind-key -r ( run-shell -b "alacritty-opacity decrease 0.1"
-bind-key ! run-shell "tmux new-window $HOME/dotfiles/scripts/run-scripts.sh"
+# popup 안에서 돌린다. new-window 와 달리 window 목록을 어지럽히지 않고, tmux 를
+# 조작하는 스크립트가 #{pane_id} 로 실제 활성 pane 을 잡는다 (new-window 에서는
+# 새 window 자신을 잡았다). 대신 오래 걸리는 작업 중 다른 window 로 이탈은 못 한다.
+# 포맷은 -d 에서만 확장된다 (커맨드 문자열에서는 확장되지 않는다).
+bind-key ! display-popup -E -d '#{pane_current_path}' -w 80% -h 60% \
+  -T ' scripts ' "$HOME/dotfiles/scripts/run-scripts.sh"
+
+bind-key g display-popup -E -d '#{pane_current_path}' -w 80% -h 60% \
+  -T ' issue/MR ' "$HOME/dotfiles/scripts/pick-issue.sh"
 
 bind-key -r C-p next-window
 bind-key -r C-n previous-window
