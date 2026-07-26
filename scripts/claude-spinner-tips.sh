@@ -5,6 +5,8 @@
 # script merges them into settings.json as spinnerTipsOverride.
 # Idempotent — re-run after editing the tips file. Optional $1 overrides the
 # tips file path (useful before the stow link exists).
+# Runs from stow setup, not from the picker.
+# no-menu
 
 set -e
 command -v jq >/dev/null 2>&1 || { echo "jq is required" >&2; exit 1; }
