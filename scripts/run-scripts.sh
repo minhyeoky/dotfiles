@@ -4,7 +4,8 @@ set -e
 
 BASE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-files=$(find -L "$BASE_DIR" -type f ! -name "$(basename "$0")")
+# *-lib.sh 는 다른 스크립트가 source 하는 라이브러리라 고를 대상이 아니다.
+files=$(find -L "$BASE_DIR" -type f ! -name "$(basename "$0")" ! -name '*-lib.sh')
 
 filenames=""
 for file in $files; do
