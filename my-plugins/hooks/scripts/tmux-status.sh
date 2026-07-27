@@ -13,45 +13,18 @@ PANE=$(resolve_pane)
 
 # The pane owns its own state. A window can hold several sessions, so this is the
 # only place a per-session signal survives; the pane border renders @cc_state.
+#
+# The window name is left to tmux. Only two states actually need attention from
+# another window — waiting on permission and waiting on input — and Claude Code
+# already rings the terminal bell for both, which reddens the window in the tab
+# list on its own.
 mark() {
   tmux set-option -p -t "$PANE" @cc_state "${1:-}" 2>/dev/null || true
-  rename
-}
-
-# The window name carries the window's most attention-worthy state plus the active
-# pane's title, so it stays meaningful in the tab list — where the pane borders of
-# other windows are not drawn — without any pane clobbering another's status.
-rename() {
-  local win emoji title name
-  win=$(tmux display-message -t "$PANE" -p '#{window_id}' 2>/dev/null) || return
-  emoji=$(aggregate_emoji "$PANE")
-  # Claude Code writes a semantic summary of the conversation into pane_title via
-  # OSC escape sequences; prefer that over cwd basename for window naming. Fall
-  # back to folder only when pane_title is empty (e.g., before CC has set it).
-  title=$(tmux display-message -t "$win" -p '#{pane_title}' 2>/dev/null) || title=""
-  if [[ -z "$title" ]]; then
-    title=$(tmux display-message -t "$win" -p '#{b:pane_current_path}' 2>/dev/null) || title=""
-  fi
-  title=$(truncate_title "$title")
-  name="${emoji:+$emoji }${title}"
-  tmux rename-window -t "$win" "$name" 2>/dev/null || true
 }
 
 case "$EVENT" in
-  SessionStart)
-    tmux set-option -w -t "$PANE" automatic-rename off 2>/dev/null || true
-    mark "$EMOJI_SESSION_START"
-    ;;
-  SessionEnd)
-    tmux set-option -pu -t "$PANE" @cc_state 2>/dev/null || true
-    # Only hand the name back to tmux once no session is left in the window;
-    # otherwise the departing pane would erase a sibling session's status.
-    if [[ -z "$(aggregate_emoji "$PANE")" ]]; then
-      tmux set-option -w -t "$PANE" automatic-rename on 2>/dev/null || true
-    else
-      rename
-    fi
-    ;;
+  SessionStart)       mark "$EMOJI_SESSION_START" ;;
+  SessionEnd)         tmux set-option -pu -t "$PANE" @cc_state 2>/dev/null || true ;;
   UserPromptSubmit)   mark "$EMOJI_USER_PROMPT_SUBMIT" ;;
   PreToolUse)         mark "$EMOJI_PRE_TOOL_USE" ;;
   PostToolUse)        mark "$EMOJI_POST_TOOL_USE" ;;

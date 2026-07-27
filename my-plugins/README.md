@@ -19,13 +19,11 @@ Show Claude Code session status as an emoji, per pane.
 
 Each hook event stamps the matching emoji onto the pane's own `@cc_state` option — no background process or state files. Render it by putting `#{@cc_state}` in `pane-border-format`; the tmux config in this repo does.
 
-The pane, not the window, is the unit because one window can hold several sessions at once (Claude Code splits a pane per teammate). A window name can only show one of them, so the window gets an aggregate instead: the most attention-worthy state among its panes, ordered by `TMUX_STATUS_PRIORITY`, followed by the active pane's title. That keeps a background window's status readable in the tab list, where pane borders are not drawn. `pane_title` is the semantic conversation summary Claude Code sets via OSC escape sequences, falling back to the cwd basename before CC has set it; CJK titles are truncated codepoint-safely.
+The pane, not the window, is the unit because one window can hold several sessions at once (Claude Code splits a pane per teammate), and a window name can only show one of them. Window names are left to tmux entirely: the two states that have to reach you from another window — waiting on permission, waiting on input — are exactly the ones Claude Code rings the terminal bell for, and tmux already reddens a window with a pending bell in the tab list. That needs `preferredNotifChannel: "terminal_bell"` in Claude Code settings, plus `monitor-bell on` and a `window-status-format` that branches on `window_bell_flag`; the tmux config in this repo does both.
 
 `$TMUX_PANE` is not used to find the pane — it is inherited by child processes, so a session started by another pane's process would stamp its parent's pane. The hook walks its own process ancestry until a pid matches a `pane_pid` instead.
 
-The original window name is restored when the last session in the window ends (`automatic-rename` is turned off on `SessionStart`, and back on at the `SessionEnd` that leaves no `@cc_state` behind).
-
-**Customization:** Edit `hooks/scripts/tmux-status-config.sh` to change emoji mappings, `TMUX_STATUS_PRIORITY`, or `TMUX_STATUS_TITLE_MAXLEN`.
+**Customization:** Edit `hooks/scripts/tmux-status-config.sh` to change emoji mappings.
 
 ### main-drift
 
