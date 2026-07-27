@@ -49,6 +49,13 @@ present a proposed routing plan and ask. Only execute after the user approves.
 The only exception: purely mechanical read operations (git status, log, diff) that
 produce no side effects are always safe to run without asking.
 
+**3. Survey from queries, not from recall.** A session's memory records what it
+*attempted*, not what *landed* — and the two diverge exactly where it matters, on the loop
+that failed to close quietly. Derive every state claim in the survey and in the report
+from the forge or the repo at survey time: what merged, what closed, what a durable home
+currently says. What cannot be derived is reported as recalled, not verified. A survey
+that silently mixes the two is worse than a short one.
+
 ## memory vs CLAUDE.md — picking the home
 
 The axis is **instruction vs fact**, and **who maintains it**. It is *not* stability, and
@@ -113,13 +120,14 @@ left implicit.**
 
 1. **Survey both debts.** `git status` + ahead/behind for code debt. Scan the
    conversation for knowledge debt — decisions made, things ruled out, threads left
-   hanging. If both are empty (clean tree, on default branch, nothing unpushed, nothing
-   undecided) → "이미 정리됨, 할 일 없음" and stop.
+   hanging — then settle each thread's actual state by query, per engine rule 3. If both
+   are empty (clean tree, on default branch, nothing unpushed, nothing undecided) →
+   "이미 정리됨, 할 일 없음" and stop.
 
-2. **Detect remote visibility once** — `gh repo view --json visibility`. PUBLIC →
-   every commit message, PR body, and written artifact must be abstracted: no private,
-   personal, or sensitive specifics. PRIVATE → detail is fine. This gate applies to
-   memory and handoff content too, not just git.
+2. **Detect remote visibility once** — ask the forge. PUBLIC → every commit message,
+   PR body, and written artifact must be abstracted: no private, personal, or sensitive
+   specifics. PRIVATE → detail is fine. This gate applies to memory and handoff content
+   too, not just git.
 
 3. **Map out the open loops.** Group code by concern (read the repo's `CLAUDE.md` for
    commit-prefix and grouping conventions); never bundle unrelated concerns. Note which
