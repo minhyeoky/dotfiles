@@ -2,6 +2,8 @@ vim.g.mapleader = ","
 
 vim.keymap.set({ "v" }, "<C-c>", '"*y')
 
+vim.keymap.set({ "n" }, "<Tab>", "za", { silent = true })
+
 vim.keymap.set({ "n" }, "<leader>tn", ":tabnew<CR>", { silent = true })
 vim.keymap.set({ "n" }, "<leader>tc", ":tabclose<CR>", { silent = true })
 vim.keymap.set({ "n" }, "<leader>to", ":tabonly<CR>", { silent = true })
