@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "DISABLE_BUG_COMMAND": "1",
+    "DISABLE_ERROR_REPORTING": "1"
+  },
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "worktree": {
+    "baseRef": "fresh"
+  },
+  "enableArtifact": false,
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "askUserQuestionTimeout": "never",
+  "tui": "fullscreen",
+  "autoDreamEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "theme": "dark",
+  "editorMode": "vim",
+  "preferredNotifChannel": "terminal_bell",
+  "autoCompactEnabled": true,
+  "switchModelsOnFlag": true,
+  "remoteControlAtStartup": true,
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "useAutoModeDuringPlan": false
+}
