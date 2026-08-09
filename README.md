@@ -23,7 +23,7 @@ This repository contains my personal configuration files (dotfiles) for various 
 .
 ├── alacritty/        # Alacritty terminal configuration
 ├── bash/             # Bash shell configuration
-├── claude/           # Claude Code behavioral guidelines
+├── claude/           # Claude Code behavioral guidelines + settings template
 ├── emacs/            # Emacs configuration
 ├── git/              # Git configuration and aliases
 ├── hammerspoon/      # Hammerspoon configuration
@@ -76,13 +76,26 @@ To install, open Claude Code in this repo and run:
 
 See [`my-plugins/README.md`](my-plugins/README.md) for available plugins and details.
 
+### Claude Code Settings
+
+`~/.claude/settings.json` is not stowed. Claude Code rewrites it on its own (theme, model, plugin toggles) and parts of it are machine-bound: absolute paths, the statusline's pinned node binary, the local plugin marketplace, per-machine `env` entries. Symlinking it would either fight the tool or carry one machine's paths onto another.
+
+What is tracked instead is [`claude/settings.template.json`](claude/settings.template.json) — the portable keys only, so a preference worth having everywhere is written down somewhere other than one machine's home directory. It is deliberately excluded from stow (`claude/.stow-local-ignore`); nothing reads it from `$HOME`. `spinnerTipsOverride` is absent on purpose — `scripts/claude-spinner-tips.sh` already owns that key, from `claude/.claude/spinner-tips.json`.
+
+Applying it is a judgement call, so Claude Code does it rather than a script. Point a session at the template and `~/.claude/settings.json`: keys missing from the live file get added, keys whose values differ get reported instead of overwritten — a machine that runs a lower effort level on purpose is indistinguishable from drift without knowing why.
+
+Two rules keep the file safe to commit:
+
+- No absolute paths, and nothing machine-bound. The one way secrets leak here is lifting keys out of a live `settings.json` wholesale.
+- Adopting a setting worth keeping everywhere means adding it to the template in a PR.
+
 ## Available Configurations
 
 The following configurations are available:
 
 - `alacritty`: Configuration for Alacritty terminal emulator
 - `bash`: Bash shell configuration
-- `claude`: Claude Code behavioral guidelines (CLAUDE.md)
+- `claude`: Claude Code behavioral guidelines (CLAUDE.md) and settings template
 - `emacs`: Emacs configuration
 - `git`: Git configuration and aliases
 - `hammerspoon`: Hammerspoon configuration for macOS automation
