@@ -74,7 +74,6 @@ export MANPAGER='nvim +Man!'
 # --------------------------------------------------------------------------------
 alias c='claude --permission-mode "auto" --chrome --model "sonnet[1m]"'
 alias cc='claude --permission-mode "auto" --chrome --model "opus[1m]"'
-alias cr='claude remote-control --permission-mode "auto" --spawn "same-dir"'
 
 # --------------------------------------------------------------------------------
 # DIRENV
