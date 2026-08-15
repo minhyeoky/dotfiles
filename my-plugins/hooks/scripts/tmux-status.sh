@@ -34,10 +34,27 @@ refresh_window() {
   fi
 }
 
+# Park the session id on the pane so a person can lift it without a transcript
+# hunt — it is a UUID, and unlike the pane id on the border it cannot be retyped
+# from sight. Only SessionStart reads stdin: startup, resume, clear, compact and
+# fork all raise it, so every id change is covered at one grep per session rather
+# than one per tool call.
+stamp_session_id() {
+  local sid
+  sid=$(grep -oE '"session_id"[[:space:]]*:[[:space:]]*"[^"]+"' | head -1 |
+    sed 's/.*"\(.*\)"$/\1/')
+  [[ -n "$sid" ]] || return 0
+  tmux set-option -p -t "$PANE" @cc_sid "$sid" 2>/dev/null || true
+}
+
 case "$EVENT" in
-  SessionStart)       mark "$EMOJI_SESSION_START" ;;
+  SessionStart)
+    stamp_session_id
+    mark "$EMOJI_SESSION_START"
+    ;;
   SessionEnd)
     tmux set-option -pu -t "$PANE" @cc_state 2>/dev/null || true
+    tmux set-option -pu -t "$PANE" @cc_sid 2>/dev/null || true
     refresh_window
     ;;
   UserPromptSubmit)   mark "$EMOJI_USER_PROMPT_SUBMIT" ;;
