@@ -105,10 +105,13 @@ bindkey -M vicmd '^X^E' edit-command-line
 # --------------------------------------------------------------------------------
 # dotfiles-guard: warn loudly if a repo ships .githooks but they aren't active here
 _dotfiles_guard_check() {
-  local root
+  local root hooks
   root=$(git rev-parse --show-toplevel 2>/dev/null) || return
   [[ -d "$root/.githooks" ]] || return
-  [[ "$(git config core.hooksPath 2>/dev/null)" == ".githooks" ]] && return
+  # core.hooksPath is valid relative or absolute, and a worktree resolves it to
+  # the main tree. Judge by the directory git actually uses, not the raw setting.
+  hooks=$(git rev-parse --path-format=absolute --git-path hooks 2>/dev/null)
+  [[ -d "$hooks" && "${hooks:t}" == ".githooks" ]] && return
   print -P "%F{red}⚠ dotfiles-guard 비활성%f — secret/PII 훅이 꺼져 있습니다. %F{yellow}./.githooks/install.sh%f 실행."
 }
 autoload -Uz add-zsh-hook
