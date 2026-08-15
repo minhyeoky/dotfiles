@@ -4,7 +4,6 @@
     "showAgents": true,
     "showDuration": true,
     "showConfigCounts": true,
-    "showSessionName": true,
     "showEffortLevel": true,
     "showSessionTokens": true,
     "usageCompact": true,
