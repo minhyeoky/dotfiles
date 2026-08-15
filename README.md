@@ -23,7 +23,7 @@ This repository contains my personal configuration files (dotfiles) for various 
 .
 ├── alacritty/        # Alacritty terminal configuration
 ├── bash/             # Bash shell configuration
-├── claude/           # Claude Code behavioral guidelines + settings template
+├── claude/           # Claude Code behavioral guidelines + config templates
 ├── emacs/            # Emacs configuration
 ├── git/              # Git configuration and aliases
 ├── hammerspoon/      # Hammerspoon configuration
@@ -84,7 +84,9 @@ What is tracked instead is [`claude/settings.template.json`](claude/settings.tem
 
 Applying it is a judgement call, so Claude Code does it rather than a script. Point a session at the template and `~/.claude/settings.json`: keys missing from the live file get added, keys whose values differ get reported instead of overwritten — a machine that runs a lower effort level on purpose is indistinguishable from drift without knowing why.
 
-Two rules keep the file safe to commit:
+The statusline plugin keeps a separate file at `~/.claude/plugins/claude-hud/config.json`, tracked the same way as [`claude/claude-hud.config.template.json`](claude/claude-hud.config.template.json). Stow is not just unnecessary here but wrong: `/claude-hud:configure` rewrites that file with Claude Code's Write tool, which refuses to write through a symlink, so stowing it would break the plugin's own configure command. Only keys that differ from the plugin defaults are kept, so the file reads as the list of deliberate choices rather than a snapshot.
+
+Two rules keep these files safe to commit:
 
 - No absolute paths, and nothing machine-bound. The one way secrets leak here is lifting keys out of a live `settings.json` wholesale.
 - Adopting a setting worth keeping everywhere means adding it to the template in a PR.
@@ -95,7 +97,7 @@ The following configurations are available:
 
 - `alacritty`: Configuration for Alacritty terminal emulator
 - `bash`: Bash shell configuration
-- `claude`: Claude Code behavioral guidelines (CLAUDE.md) and settings template
+- `claude`: Claude Code behavioral guidelines (CLAUDE.md) and config templates
 - `emacs`: Emacs configuration
 - `git`: Git configuration and aliases
 - `hammerspoon`: Hammerspoon configuration for macOS automation
