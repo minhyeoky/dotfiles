@@ -1,4 +1,4 @@
-# settings.template.json is read from this repo, never linked into $HOME.
+# The *.template.json files are read from this repo, never linked into $HOME.
 # Note: this file replaces stow's default ignore list for the claude package,
 # so anything else that should stay out of $HOME needs an entry here too.
-settings\.template\.json
+.*\.template\.json

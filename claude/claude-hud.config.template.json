@@ -1,0 +1,15 @@
+{
+  "display": {
+    "showTools": true,
+    "showAgents": true,
+    "showDuration": true,
+    "showConfigCounts": true,
+    "showEffortLevel": true,
+    "showSessionTokens": true,
+    "usageCompact": true,
+    "sevenDayThreshold": 0
+  },
+  "gitStatus": {
+    "showAheadBehind": true
+  }
+}
