@@ -35,7 +35,7 @@ State is cleared on `SessionEnd`, which a crashed session never reaches, so a pa
 
 `$TMUX_PANE` is not used to find the pane — it is inherited by child processes, so a session started by another pane's process would stamp its parent's pane. The hook walks its own process ancestry until a pid matches a `pane_pid` instead, and marks nothing at all if that fails: stamping the wrong pane is worse than stamping none.
 
-**Customization:** Edit `hooks/scripts/tmux-status-config.sh` to change emoji mappings and the window chip's ordering.
+**Customization:** Edit `hooks/scripts/tmux-status-config.sh` to change emoji mappings.
 
 ### main-drift
 
