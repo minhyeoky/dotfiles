@@ -12,26 +12,18 @@ PANE=$(resolve_pane)
 [[ -n "$PANE" ]] || exit 0
 
 # The pane owns its own state, because a window can hold several sessions and a
-# per-session signal survives nowhere else; the pane border renders @cc_state.
+# per-session signal survives nowhere else. A pane option is also the only thing
+# that survives tmux moving the pane: swap-pane, break-pane and join-pane all
+# carry pane_id and its options along, so maximize (prefix + +, which is
+# new-window + swap-pane, not zoom) never separates a session from its state.
 #
-# The window carries the aggregate of its panes in @cc_win, for the tab list —
-# where the pane borders of other windows are not drawn. It is recomputed from
-# every pane rather than mirroring whichever one fired, so no session can clobber
-# a sibling's status.
+# This writes nothing at the window level. The tab list needs the window's whole
+# set, but a stored aggregate has two inputs — session state, which we see, and
+# window/pane membership, which only tmux sees and never announces. So the tab
+# chip is derived at render time instead, by @cc_chip in tmux.conf looping the
+# window's panes. A value that is never stored cannot go stale.
 mark() {
   tmux set-option -p -t "$PANE" @cc_state "${1:-}" 2>/dev/null || true
-  refresh_window
-}
-
-refresh_window() {
-  local agg
-  agg=$(aggregate_states "$PANE")
-  if [[ -n "$agg" ]]; then
-    tmux set-option -w -t "$PANE" @cc_win "$agg" 2>/dev/null || true
-  else
-    # No live session left in the window; hand the tab back to tmux alone.
-    tmux set-option -wu -t "$PANE" @cc_win 2>/dev/null || true
-  fi
 }
 
 # Park the session id on the pane so a person can lift it without a transcript
@@ -55,7 +47,6 @@ case "$EVENT" in
   SessionEnd)
     tmux set-option -pu -t "$PANE" @cc_state 2>/dev/null || true
     tmux set-option -pu -t "$PANE" @cc_sid 2>/dev/null || true
-    refresh_window
     ;;
   UserPromptSubmit)   mark "$EMOJI_USER_PROMPT_SUBMIT" ;;
   PreToolUse)         mark "$EMOJI_PRE_TOOL_USE" ;;
