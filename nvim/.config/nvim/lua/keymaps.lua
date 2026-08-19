@@ -2,7 +2,9 @@ vim.g.mapleader = ","
 
 vim.keymap.set({ "v" }, "<C-c>", '"*y')
 
-vim.keymap.set({ "n" }, "<Tab>", "za", { silent = true })
+-- fold toggle; not <Tab> because Ctrl-I sends the same byte (0x09) and a
+-- <Tab> mapping swallows jumplist forward on terminals without extended keys
+vim.keymap.set({ "n" }, "<leader>z", "za", { silent = true })
 
 vim.keymap.set({ "n" }, "<leader>tn", ":tabnew<CR>", { silent = true })
 vim.keymap.set({ "n" }, "<leader>tc", ":tabclose<CR>", { silent = true })
