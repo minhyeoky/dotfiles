@@ -1,6 +1,6 @@
 ---
 name: wrapup
-description: Close out a work session by routing every open loop — uncommitted code AND uncaptured context — to a durable home before the session's working memory evaporates. Code goes to git (committed/pushed on the default branch, or a PR); decisions go to memory; an unfinished thread goes to a handoff or an explicit park. Trigger when the user says "wrapup", "wrap-up", "wrap up", "랩업", "작업 마무리", "세션 정리", "끝내자", or at the end of a session with a dirty tree or unrecorded decisions. Proactively suggest when state has accumulated across multiple concerns.
+description: Close out a work session by routing every open loop — uncommitted code AND uncaptured context — to a durable home before the session's working memory evaporates. Code goes to git (committed/pushed on the default branch, or a PR); decisions go to memory; an unfinished thread goes to a handoff or an explicit park. This is the closing *work*, not a closing *summary* — narrating a status recap and stopping there is the failure mode, not the deliverable. Trigger when the user says "wrapup", "wrap-up", "wrap up", "랩업", "작업 마무리", "세션 정리", "정리하고 끝내자", "끝내자", "끊고 가자", "이만 접자", or otherwise signals the session is ending — "compact", "context is running low", "let's continue later", "pick this up next time". Trigger broadly — any request to stop, pause, or hand off the session is this skill, including when those words arrive mid-sentence beside another request. Also trigger at the end of a session with a dirty tree or unrecorded decisions, and proactively suggest when state has accumulated across multiple concerns.
 argument-hint: "[optional: paths or concern to gate behind a PR]"
 ---
 
@@ -153,6 +153,7 @@ left implicit.**
 
 ## Hard rules
 
+- A status recap is not the deliverable. Step 6 reports where things landed *after* routing; it never substitutes for the routing. If nothing was written, nothing was wrapped up — say so and stop, rather than narrating the session back.
 - Every write action needs user confirmation first — even routine commits. The user's intent, not reversibility, is the gate.
 - Routine commits go to the default branch (no PR); a PR is for changes the user explicitly wants gated. Both still require step 4 confirmation.
 - Honour remote visibility (step 2) in **every** written artifact — commit, PR, memory,
