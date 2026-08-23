@@ -1,6 +1,6 @@
 ---
 name: wrapup
-description: Close out a work session by routing every open loop — uncommitted code AND uncaptured context — to a durable home before the session's working memory evaporates. Code goes to git (committed/pushed on the default branch, or a PR); decisions go to memory; an unfinished thread goes to a handoff or an explicit park. Trigger when the user says "wrapup", "wrap up", "작업 마무리", "세션 정리", "끝내자", or at the end of a session with a dirty tree or unrecorded decisions. Proactively suggest when state has accumulated across multiple concerns.
+description: Close out a work session by routing every open loop — uncommitted code AND uncaptured context — to a durable home before the session's working memory evaporates. Code goes to git (committed/pushed on the default branch, or a PR); decisions go to memory; an unfinished thread goes to a handoff or an explicit park. Trigger when the user says "wrapup", "wrap-up", "wrap up", "랩업", "작업 마무리", "세션 정리", "끝내자", or at the end of a session with a dirty tree or unrecorded decisions. Proactively suggest when state has accumulated across multiple concerns.
 argument-hint: "[optional: paths or concern to gate behind a PR]"
 ---
 
