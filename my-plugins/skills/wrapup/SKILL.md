@@ -65,8 +65,11 @@ of things in either home, so neither tells you where to put anything.
 - **CLAUDE.md** = rules you write for Claude to obey. The root one loads **in full, every
   session** — its cost is real and permanent.
 - **memory/** = facts Claude records and reads back on demand. Topic files cost **0 tokens
-  at startup**; only `MEMORY.md` (the index) is always loaded, capped at 200 lines / 25KB —
-  **past the cap it is silently dropped**, so the index is the only thing worth budgeting.
+  at startup**; only the index is always loaded, so the index is the only thing worth
+  budgeting. **Which file is the index, and how it gets loaded, differ by setup** — a
+  machine-local `MEMORY.md` and a repo-tracked index imported from `CLAUDE.md` are both in
+  use, and they have different size limits and failure modes. Read the repo's `CLAUDE.md`
+  for which one applies before writing anything.
 
 Consequences that are easy to get backwards:
 
@@ -76,9 +79,13 @@ Consequences that are easy to get backwards:
 - **Duplication is the real failure, not volume.** When a rule lives in both homes they
   drift, and contradictory rules make Claude pick one arbitrarily. The verb is **delete one
   side**, never "move." Before writing a rule to either home, grep the other for it.
-- **memory is machine-local and not in git** — no history, no diff, no review, lost on a new
-  machine. Anything that needs versioning, sharing, or an audit trail belongs in the repo.
-  Decision *logs* especially: git already remembers why.
+- **Establish whether memory is versioned before you rely on it.** The default store is
+  machine-local and outside git — no history, no diff, no review, lost on a new machine —
+  and under it anything needing versioning, sharing, or an audit trail belongs in the repo
+  instead. A repo that tracks its own memory in git inverts that: the store is reviewable,
+  and the repo's commit and review gates apply to memory writes like any other change. The
+  repo's `CLAUDE.md` says which; assuming the default where it does not hold routes facts
+  to the wrong home. Decision *logs* are the one constant: git already remembers why.
 - **Keep derivable content out of CLAUDE.md** — directory layouts, port tables, app
   inventories, dependency lists. Claude can read those from the tree, and they rot fastest.
   CLAUDE.md earns its cost with pitfalls, rationale, and conventions that differ from
@@ -129,8 +136,9 @@ left implicit.**
    specifics. PRIVATE → detail is fine. This gate applies to memory and handoff content
    too, not just git.
 
-3. **Map out the open loops.** Group code by concern (read the repo's `CLAUDE.md` for
-   commit-prefix and grouping conventions); never bundle unrelated concerns. Note which
+3. **Map out the open loops.** Read the repo's `CLAUDE.md` first — it settles the
+   commit-prefix and grouping conventions, the branch policy, and which memory store is in
+   play. Group code by concern; never bundle unrelated concerns. Note which
    files would go in which commit, which decisions are memory-worthy, and whether any
    thread needs a handoff doc.
 
@@ -154,7 +162,7 @@ left implicit.**
 ## Hard rules
 
 - Every write action needs user confirmation first — even routine commits. The user's intent, not reversibility, is the gate.
-- Routine commits go to the default branch (no PR); a PR is for changes the user explicitly wants gated. Both still require step 4 confirmation.
+- Branch policy comes from the repo, not from this skill — read its `CLAUDE.md`. Absent a stated rule, routine commits go to the default branch and a PR is for changes the user explicitly wants gated; where the repo forbids pushing to the default branch, every concern goes through a PR instead. Both still require step 4 confirmation.
 - Honour remote visibility (step 2) in **every** written artifact — commit, PR, memory,
   handoff alike.
 - Parking is allowed; *silent* parking is not. An unfinished thread must leave a visible
