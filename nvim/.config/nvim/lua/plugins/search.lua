@@ -32,9 +32,12 @@ return {
 
         grep = {
           actions = {
-            ["ctrl-r"] = require("fzf-lua").actions.toggle_ignore,
+            ["ctrl-r"] = {
+              require("fzf-lua").actions.toggle_ignore,
+              require("fzf-lua").actions.toggle_hidden,
+            },
           },
-          rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=256 --glob '!\\.git' --glob '!\\.idea' --glob '!\\tags' --glob '!\\tags.temp' --glob='!{.git,.svn,node_modules,tealdeer,Trash,vendor}' --glob '!*.lock' --glob='!{package-lock.json}' --no-ignore -e",
+          rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=256 --glob '!\\.git' --glob '!\\.idea' --glob '!\\tags' --glob '!\\tags.temp' --glob='!{.git,.svn,node_modules,tealdeer,Trash,vendor}' --glob '!*.lock' --glob='!{package-lock.json}' -e",
         },
       })
     end,
