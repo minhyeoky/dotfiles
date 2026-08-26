@@ -329,6 +329,11 @@ bind-key -r C-n previous-window
 bind-key -r C-u last-window
 bind-key -r C-o run-shell '$HOME/dotfiles/scripts/swap-tmux-pane.sh'
 
+# pane 폭은 화면 폭을 개수로 나눈 값이라, 개수를 고정해야 폭이 고정된다.
+# 4 개면 대략 84 columns 로, 코드 lint 폭과 얼추 맞는다.
+# 목표를 이미 넘었으면 아무것도 하지 않는다 — pane 을 죽이지 않는다.
+bind-key E run-shell '$HOME/dotfiles/scripts/tmux-even-fill.sh 4'
+
 # Pane swapping (index-based, focus follows the moved pane)
 bind -r "<" swap-pane -U  # move current pane to the previous slot
 bind -r ">" swap-pane -D  # move current pane to the next slot
