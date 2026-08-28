@@ -13,6 +13,7 @@ vim.lsp.enable({
   "html",
   "jsonls",
   "pyright",
+  "vtsls",
   "yamlls",
 })
 

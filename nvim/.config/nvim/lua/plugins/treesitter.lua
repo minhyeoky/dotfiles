@@ -5,6 +5,15 @@ return {
     version = false,
     build = ":TSUpdate",
     opts = {
+      ensure_installed = {
+        "css",
+        "html",
+        "javascript",
+        "jsdoc",
+        "json",
+        "tsx",
+        "typescript",
+      },
       highlight = { enable = true },
       indent = { enable = true },
       folds = { enable = true },
