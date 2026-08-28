@@ -63,6 +63,7 @@ return {
         "pyright",
         "ruff",
         "rust_analyzer",
+        "vtsls",
         "yamlls",
       },
       -- Disable auto-enable; vim.lsp.enable() in init.lua handles activation
