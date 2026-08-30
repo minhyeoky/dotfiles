@@ -139,6 +139,11 @@
 ;; set shiftwidth
 (setq evil-shift-width 2)
 
+;; hand the non-editing modes to evil-collection instead of evil's own
+;; evil-keybindings.el. must be set before evil loads, which happens at the
+;; `require' below since evil-leader pulls it in.
+(setq evil-want-keybinding nil)
+
 ;; enable evil-leader-mode. must come before `evil-mode' is turned on: evil-leader
 ;; installs itself via `evil-local-mode-hook', so any buffer that already has evil
 ;; enabled when this runs never gets the leader map. that left `,' dead in the initial
@@ -155,6 +160,36 @@
 ;; enable evil-mode
 (require 'evil)
 (evil-mode 1)
+
+;; vim keys in dired, which stands in for a file explorer: dired plus wdired is the
+;; edit-the-directory-as-a-buffer workflow, so it needs the same keys as everything
+;; else.
+;;
+;; The list is not the package's default of every supported mode. It is exactly what
+;; evil's own evil-keybindings.el used to cover -- Buffer-menu, dictionary, dired,
+;; ert-results, Info, speedbar, ibuffer, ag -- plus wdired, so turning
+;; `evil-want-keybinding' off above loses nothing. Loading both is what the package
+;; warns about at startup.
+(unless (package-installed-p 'evil-collection)
+  (package-install 'evil-collection))
+(setq evil-collection-mode-list
+      '(dired wdired info ibuffer buff-menu ert dictionary speedbar ag))
+;; dired shows the full `ls -l' row; permissions, owner, group, size and date are
+;; noise when the buffer is being used to move around. `dired-hide-details-mode'
+;; leaves the filename column and nothing else, and `(' toggles the rest back on
+;; for the rare time it matters.
+(add-hook 'dired-mode-hook #'dired-hide-details-mode)
+
+;; give back the two motions vim reserves. dired's own bindings win in normal state
+;; otherwise, and `G' is not a harmless mistake there: it runs chgrp on the marked
+;; files. chgrp and `gg''s previous meaning stay reachable through M-x.
+(with-eval-after-load 'dired
+  (evil-define-key 'normal dired-mode-map
+    "gg" #'evil-goto-first-line
+    "G" #'evil-goto-line))
+
+(require 'evil-collection)
+(evil-collection-init)
 
 ;; make <RET> follow org-mode links by disabling evil mode's binding (org-return-follow-link)
 ;; https://emacs.stackexchange.com/questions/46371/how-can-i-get-ret-to-follow-org-mode-links-when-using-evil-mode
