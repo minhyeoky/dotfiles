@@ -116,11 +116,10 @@
 ;; set shiftwidth
 (setq evil-shift-width 2)
 
-;; enable evil-mode
-(require 'evil)
-(evil-mode 1)
-
-;; enable evil-leader-mode
+;; enable evil-leader-mode. must come before `evil-mode' is turned on: evil-leader
+;; installs itself via `evil-local-mode-hook', so any buffer that already has evil
+;; enabled when this runs never gets the leader map. that left `,' dead in the initial
+;; buffers (*scratch*, *Messages*) while working everywhere else.
 (unless (package-installed-p 'evil-leader)
   (package-install 'evil-leader))
 (require 'evil-leader)
@@ -129,6 +128,10 @@
 ;; key bindings - leader key
 (evil-leader/set-leader ",")
 (evil-set-leader 'normal "," t)
+
+;; enable evil-mode
+(require 'evil)
+(evil-mode 1)
 
 ;; make <RET> follow org-mode links by disabling evil mode's binding (org-return-follow-link)
 ;; https://emacs.stackexchange.com/questions/46371/how-can-i-get-ret-to-follow-org-mode-links-when-using-evil-mode
