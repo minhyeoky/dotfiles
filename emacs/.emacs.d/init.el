@@ -64,11 +64,34 @@
 (set-face-attribute 'default nil
                     :family "JetBrainsMono Nerd Font"
                     :height 120  ; 12pt (height is in 1/10pt units)
-                    :weight 'extra-light)
+                    :weight 'light)
 
 ;; Set font for new frames
 (add-to-list 'default-frame-alist
-             '(font . "JetBrainsMono Nerd Font-12:weight=extralight"))
+             '(font . "JetBrainsMono Nerd Font-12:weight=light"))
+
+;; Hangul. Without this the fontset asks only for "something with the ksc5601
+;; registry" and macOS picks the family, weight and width on its own, so Korean
+;; never matches the Latin face.
+;;
+;; :weight must be pinned. Apple SD Gothic Neo ships thin/ultralight/regular/medium
+;; and no light, so an unpinned spec inherits the default face's light and lands on
+;; ultralight, while asking for light outright drops the family and falls through to
+;; whatever else claims the registry.
+;;
+;; The size is deliberately left alone. Scaling Hangul up to exactly two Latin
+;; columns aligns org tables but renders Korean at 16px against 12px Latin, which
+;; reads as two different type sizes on the same line. Prose wins over table
+;; alignment here.
+;;
+;; run per frame: a daemon has no display when init.el is read, and a fontset set up
+;; then does not reach the graphical frames emacsclient creates later.
+(defun my/set-hangul-font (&optional frame)
+  (with-selected-frame (or frame (selected-frame))
+    (set-fontset-font t 'hangul (font-spec :family "Apple SD Gothic Neo" :weight 'regular))))
+
+(add-hook 'after-make-frame-functions #'my/set-hangul-font)
+(unless (daemonp) (my/set-hangul-font))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; exec-path-from-shell
