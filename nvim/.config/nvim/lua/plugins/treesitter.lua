@@ -11,6 +11,8 @@ return {
         "javascript",
         "jsdoc",
         "json",
+        "markdown",
+        "markdown_inline",
         "tsx",
         "typescript",
       },
