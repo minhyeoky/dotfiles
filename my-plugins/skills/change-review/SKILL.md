@@ -9,11 +9,11 @@ When you propose many changes at once (copy edits, design tweaks, refactors, ter
 
 ## Steps
 
-1. **Resolve `$VAULT_PATH`** (`printf '%s' "$VAULT_PATH"`). It is served by the user's local web server, so the file is viewable in a browser. If unset/empty, stop and ask — do not guess a path.
+1. **Resolve the output directory**: `$CHANGE_REVIEW_DIR` if set, else `${TMPDIR:-/tmp}/change-review` (create it). The file is opened directly in a browser, so any local path works.
 2. **Build the review JSON** (schema below). One card per decision. Put images inline as base64 `data:` URIs — the file must be fully self-contained (no CDN, no external paths).
-3. **Render**: read `references/template.html`, replace the contents of `<script type="application/json" id="reviewData">…</script>` with your JSON, write to `$VAULT_PATH/YYYY-MM-DD-<slug>-review.html`. Touch nothing else in the template.
+3. **Render**: read `references/template.html`, replace the contents of `<script type="application/json" id="reviewData">…</script>` with your JSON, write to `<output dir>/YYYY-MM-DD-<slug>-review.html`. Touch nothing else in the template.
 4. **Hand off**: give the user the file path / URL. They review → 「피드백 복사」 → paste back to you → you apply and (if iterating) regenerate the next round.
-5. **Commit only that one file** (`git -C "$VAULT_PATH" add <file> && git commit -m "review: <slug>"`) — never `git add .`; the dir holds other sessions' in-flight HTML. (The review artifact lives in the private `$VAULT_PATH`; its content is not the leak boundary — see 보안 게이트.)
+5. **Do not commit the artifact** — it is disposable review tooling, not a deliverable. (The artifact stays local and private; its content is not the leak boundary — see 보안 게이트.)
 
 ## reviewData schema
 
@@ -53,7 +53,7 @@ When you propose many changes at once (copy edits, design tweaks, refactors, ter
 
 ## 보안 게이트 — 이 SKILL 편집 시 자가검열
 
-누수 경계는 **생성되는 리뷰 산출물이 아니라 이 SKILL.md·template.html 자체**다. 산출물은 비공개 `$VAULT_PATH`(로컬, 외부 비노출)에 저장되므로 그 콘텐츠는 vault 엔트리와 같은 가정 아래 OK다. 반면 이 두 파일은 **공개 dotfiles 레포에 추적**되므로, 여기 적는 예시·기본값을 통해 사용자가 실제로 다루는 게 무엇인지(프로젝트·주제·도메인)가 영구 공개로 새어 나갈 수 있다. 이 파일을 고칠 때 점검한다.
+누수 경계는 **생성되는 리뷰 산출물이 아니라 이 SKILL.md·template.html 자체**다. 산출물은 로컬 디렉토리(외부 비노출)에 저장되므로 그 콘텐츠는 OK다. 반면 이 두 파일은 **공개 dotfiles 레포에 추적**되므로, 여기 적는 예시·기본값을 통해 사용자가 실제로 다루는 게 무엇인지(프로젝트·주제·도메인)가 영구 공개로 새어 나갈 수 있다. 이 파일을 고칠 때 점검한다.
 
 - **예시·기본값은 중립 placeholder만.** title·storageKey·section·카드 샘플에 실제 프로젝트·주제·고유명을 드러내지 않는다(책 제목, 운세/사주 앱, 금액·종목, 지역, 관계 등). `"변경 리뷰"`·`"옛 표현 → 새 표현"`·`"A안/B안"`처럼 도메인 없는 generic으로.
 - **template 기본 JSON·주석에 실제 비밀·PII·개인 경로 금지.**
