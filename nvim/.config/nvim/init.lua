@@ -3,6 +3,10 @@ require("bootstrap")
 require("options")
 require("cc-edit")
 
+vim.lsp.config("*", {
+  capabilities = require("cmp_nvim_lsp").default_capabilities(),
+})
+
 vim.lsp.enable({
   "lua_ls",
   "ruff",
