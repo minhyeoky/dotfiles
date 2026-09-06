@@ -49,6 +49,7 @@ row_format() { # $1: window|pane
 with_age() {
   awk -F'\t' -v now="$(date +%s)" 'BEGIN { OFS = "\t" } {
     d = now - $3
+    if (d < 0) d = 0   # 시계가 뒤로 보정되면 음수가 나오고 폭이 컬럼을 민다
     if (d < 60)         age = d "s"
     else if (d < 3600)  age = int(d / 60) "m"
     else if (d < 86400) age = int(d / 3600) "h"
