@@ -324,6 +324,14 @@ bind-key ! display-popup -E -d '#{pane_current_path}' -w 80% -h 60% \
 bind-key g display-popup -E -d '#{pane_current_path}' -w 80% -h 60% \
   -T ' issue/MR ' "$HOME/dotfiles/scripts/pick-issue.sh"
 
+# choose-tree(내장)는 미리보기를 항상 목록 아래에 그린다 — mode-tree.c 가 y 좌표를
+# `sy - h` 로 박아 놓았고 위치를 바꾸는 옵션도 포맷도 없다. 오른쪽 미리보기가
+# 필요해서 목록을 fzf 로 다시 짰다. 내장 tree mode 는 C-s 에 남긴다
+# (kill·tag·swap 등 fzf 판에 없는 조작은 거기서 한다).
+bind-key s display-popup -E -w 90% -h 80% \
+  -T ' windows ' "$HOME/dotfiles/scripts/tmux-window-picker.sh"
+bind-key C-s choose-tree -Zs
+
 bind-key -r C-p next-window
 bind-key -r C-n previous-window
 bind-key -r C-u last-window
