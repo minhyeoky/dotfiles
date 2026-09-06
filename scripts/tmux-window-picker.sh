@@ -58,8 +58,16 @@ with_age() {
   }'
 }
 
-list_windows() { tmux list-windows -a -F "$(row_format window)" | with_age; }
-list_panes()   { tmux list-panes   -a -F "$(row_format pane)"   | with_age; }
+# tmux 호출이 실패하면 빈 목록과 구분이 안 되므로 파이프 앞에서 끊는다.
+list_rows() {
+  local raw
+  raw=$(tmux "list-$1s" -a -F "$(row_format "$1")") || return 1
+  [ -n "$raw" ] || return 0
+  printf '%s\n' "$raw" | with_age
+}
+
+list_windows() { list_rows window; }
+list_panes()   { list_rows pane; }
 
 case "${1:-}" in
   --windows) list_windows; exit 0 ;;
@@ -94,9 +102,20 @@ line=$(
 
 IFS=$'\t' read -r target session_id _ <<<"$line"
 
+# popup 은 명령이 끝나는 즉시 닫혀 stderr 가 화면에 남지 않는다. 목록을 띄운 뒤
+# 고르기 전에 그 window 가 죽으면 이동만 조용히 실패하고 엉뚱한 자리에 서게 되므로,
+# 실패는 popup 밖에 남는 status line 으로 보고한다.
+go() {
+  local err
+  if ! err=$(tmux "$@" 2>&1); then
+    tmux display-message "picker: ${err:-tmux $1 failed}"
+    exit 1
+  fi
+}
+
 # window target 은 pane id 로도 풀린다 — pane 을 고르면 그 pane 의 window 로 간다.
-tmux select-window -t "$target"
+go select-window -t "$target"
 case "$target" in
-  %*) tmux select-pane -t "$target" ;;
+  %*) go select-pane -t "$target" ;;
 esac
-tmux switch-client -t "$session_id"
+go switch-client -t "$session_id"
