@@ -6,4 +6,6 @@ bash/.bash_constants
 
 local.el
 nvim/.config/nvim/lua/local.lua
+# written by nvim when XDG_CONFIG_HOME points into this tree; holds credentials
+nvim/.config/github-copilot/
 /.claude/

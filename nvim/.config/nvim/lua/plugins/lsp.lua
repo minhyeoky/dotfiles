@@ -60,6 +60,7 @@ return {
         "html",
         "jsonls",
         "lua_ls",
+        "marksman",
         "pyright",
         "ruff",
         "rust_analyzer",
