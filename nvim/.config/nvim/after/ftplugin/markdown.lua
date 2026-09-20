@@ -23,4 +23,11 @@ for _, m in ipairs({ "n", "x" }) do
     undo = undo .. ' | sil! exe "' .. m .. 'unmap <buffer> ' .. k .. '"'
   end
 end
-vim.b.undo_ftplugin = (vim.b.undo_ftplugin and vim.b.undo_ftplugin .. " | " or "") .. undo
+
+-- 저장 시 체크박스 통계 cookie 갱신 (org 의 before-save-hook 과 같은 자리).
+local undo_cookies = require("markdown-cookies").attach(0)
+
+vim.b.undo_ftplugin = (vim.b.undo_ftplugin and vim.b.undo_ftplugin .. " | " or "")
+  .. undo
+  .. " | "
+  .. undo_cookies
