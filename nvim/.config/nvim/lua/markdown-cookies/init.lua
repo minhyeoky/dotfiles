@@ -1,4 +1,4 @@
--- org-mode 의 statistics cookie 를 마크다운으로 옮긴 것.
+-- org-mode 의 statistics cookie 와 C-c C-c 토글을 마크다운으로 옮긴 것.
 -- 줄 끝 [n/m] 을 하위 체크박스 집계로 갱신하고, cookie 가 없는데 체크박스
 -- 자식이 생긴 줄에는 붙이고, 자식이 사라진 줄에서는 뗀다.
 --
@@ -15,7 +15,7 @@ local M = {}
 -- 이 선 덕분에 그런 표기가 저장 때마다 지워지지 않는다.
 local MAX_COUNT = 99
 
-local COOKIE = "%s*%[%d%d?/%d%d?%]%s*$"
+local COOKIE = "%s*%[%d%d?%d?/%d%d?%d?%]%s*$"
 local PERCENT = "%s*%[%d+%%%]%s*$"
 local CHECKBOX = "^%s*[-*+]%s+%[([ xX%-])%]"
 local HEADING = "^#+%s"
@@ -52,11 +52,20 @@ local function fenced_lines(lines)
 end
 
 -- scope 안에서 가장 얕은 체크박스 줄들만 직속 자식으로 센다.
+local function ctx_indent(ctx, i)
+  local cached = ctx.indent[i]
+  if cached == nil then
+    cached = indent_of(ctx.lines[i], ctx.tabstop)
+    ctx.indent[i] = cached
+  end
+  return cached
+end
+
 local function tally(ctx, from, to)
   local shallowest
   for i = from, to do
     if not ctx.fenced[i] and ctx.lines[i]:match(CHECKBOX) then
-      local ind = indent_of(ctx.lines[i], ctx.tabstop)
+      local ind = ctx_indent(ctx, i)
       if not shallowest or ind < shallowest then
         shallowest = ind
       end
@@ -69,7 +78,7 @@ local function tally(ctx, from, to)
   for i = from, to do
     if not ctx.fenced[i] then
       local mark = ctx.lines[i]:match(CHECKBOX)
-      if mark and indent_of(ctx.lines[i], ctx.tabstop) == shallowest then
+      if mark and ctx_indent(ctx, i) == shallowest then
         total = total + 1
         if mark:lower() == "x" then
           done = done + 1
@@ -95,7 +104,7 @@ end
 
 -- 체크박스 항목의 자식: 들여쓰기가 더 깊은 동안. 빈 줄은 끊지 않는다.
 local function item_scope(ctx, i)
-  local base = indent_of(ctx.lines[i], ctx.tabstop)
+  local base = ctx_indent(ctx, i)
   local last = i
   for j = i + 1, #ctx.lines do
     local line = ctx.lines[j]
@@ -103,7 +112,7 @@ local function item_scope(ctx, i)
       -- 계속 훑는다
     elseif ctx.fenced[j] then
       last = j
-    elseif line:match(HEADING) or indent_of(line, ctx.tabstop) <= base then
+    elseif line:match(HEADING) or ctx_indent(ctx, j) <= base then
       break
     else
       last = j
@@ -139,6 +148,7 @@ function M.update(bufnr)
     lines = lines,
     fenced = fenced_lines(lines),
     tabstop = vim.bo[bufnr].tabstop,
+    indent = {},
   }
   local changed = {}
 
@@ -166,6 +176,45 @@ function M.update(bufnr)
   end
 end
 
+-- 체크박스 토글. 체크박스가 없는 리스트 항목이면 `- [ ]` 로 승격한다.
+-- ordered list(`1.`)와 헤딩은 대상이 아니다 — 승격할 자리가 org 에도 없다.
+-- 커서가 선 창의 줄을 고치므로 버퍼 인자를 받지 않는다.
+function M.toggle()
+  local bufnr = vim.api.nvim_get_current_buf()
+  if not vim.bo[bufnr].modifiable then
+    return
+  end
+
+  local row = vim.api.nvim_win_get_cursor(0)[1]
+  local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+  local line = lines[row]
+  if not line or fenced_lines(lines)[row] then
+    return
+  end
+
+  local updated
+  local mark = line:match(CHECKBOX)
+  if mark then
+    -- [-] 는 미완료 쪽이므로 [x] 로 간다.
+    local next_mark = mark:lower() == "x" and " " or "x"
+    updated = line:gsub("^(%s*[-*+]%s+%[)[ xX%-](%])", "%1" .. next_mark .. "%2", 1)
+  elseif line:match("^%s*[-*+]%s+%[[^%]]*%]") then
+    -- 이미 대괄호 마커를 단 항목([/]·[>] 등 확장 상태)은 승격 대상이 아니다.
+    -- 그냥 승격하면 `- [ ] [/] 본문` 이 된다.
+    return
+  elseif line:match("^%s*[-*+]%s") then
+    updated = line:gsub("^(%s*[-*+]%s+)", "%1[ ] ", 1)
+  else
+    return
+  end
+
+  if updated ~= line then
+    vim.api.nvim_buf_set_lines(bufnr, row - 1, row, false, { updated })
+    -- 토글 즉시 상위 cookie 를 맞춘다. 저장까지 기다리면 숫자가 잠깐 거짓이 된다.
+    M.update(bufnr)
+  end
+end
+
 -- ft 가 바뀌면 이 autocmd 도 같이 걷힌다. 버퍼 로컬 autocmd 는 filetype 전환에
 -- 안 딸려가므로 undo_ftplugin 이 지워줘야 한다.
 function M.attach(bufnr)
@@ -179,7 +228,9 @@ function M.attach(bufnr)
       M.update(ev.buf)
     end,
   })
-  return ('sil! lua pcall(vim.api.nvim_del_augroup_by_name, "%s")'):format(name)
+  -- :lua 는 뒤따르는 bar 까지 코드로 먹으므로 :exe 로 감싼다. 그래야 이 조각이
+  -- undo_ftplugin 체인의 어느 자리에 와도 안전하다.
+  return ([[sil! exe 'lua pcall(vim.api.nvim_del_augroup_by_name, "%s")']]):format(name)
 end
 
 return M

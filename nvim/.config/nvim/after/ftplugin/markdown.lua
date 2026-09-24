@@ -25,9 +25,18 @@ for _, m in ipairs({ "n", "x" }) do
 end
 
 -- 저장 시 체크박스 통계 cookie 갱신 (org 의 before-save-hook 과 같은 자리).
-local undo_cookies = require("markdown-cookies").attach(0)
+local cookies = require("markdown-cookies")
+local undo_cookies = cookies.attach(0)
+
+-- org 의 C-c C-c 자리. 체크박스를 토글하고, 체크박스가 없는 리스트 항목이면
+-- `- [ ]` 로 승격한다. 마크다운 버퍼에서 단일 <C-c> 는 timeoutlen 만큼
+-- 늦어진다 — 이 맵이 두 번째 타건을 기다리기 때문이다.
+vim.keymap.set("n", "<C-c><C-c>", function()
+  cookies.toggle()
+end, { buffer = true, silent = true, desc = "Toggle markdown checkbox" })
 
 vim.b.undo_ftplugin = (vim.b.undo_ftplugin and vim.b.undo_ftplugin .. " | " or "")
   .. undo
+  .. ' | sil! exe "nunmap <buffer> <C-c><C-c>"'
   .. " | "
   .. undo_cookies
