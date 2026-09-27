@@ -1,0 +1,20 @@
+font-family = "JetBrainsMono Nerd Font"
+font-style = ExtraLight
+font-style-bold = Bold
+font-style-italic = "Thin Italic"
+font-size = 12
+adjust-cell-width = -2
+adjust-cell-height = -2
+
+background = 282828
+foreground = dfbf8e
+
+window-padding-x = 0
+window-padding-y = 25
+window-padding-balance = true
+macos-titlebar-style = transparent
+macos-window-buttons = hidden
+macos-option-as-alt = true
+
+copy-on-select = true
+confirm-close-surface = false

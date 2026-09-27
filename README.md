@@ -25,6 +25,7 @@ This repository contains my personal configuration files (dotfiles) for various 
 ├── bash/             # Bash shell configuration
 ├── claude/           # Claude Code behavioral guidelines + config templates
 ├── emacs/            # Emacs configuration
+├── ghostty/          # Ghostty terminal configuration
 ├── git/              # Git configuration and aliases
 ├── hammerspoon/      # Hammerspoon configuration
 ├── my-plugins/       # Personal Claude Code plugins
@@ -99,6 +100,7 @@ The following configurations are available:
 - `bash`: Bash shell configuration
 - `claude`: Claude Code behavioral guidelines (CLAUDE.md) and config templates
 - `emacs`: Emacs configuration
+- `ghostty`: Configuration for Ghostty terminal emulator
 - `git`: Git configuration and aliases
 - `hammerspoon`: Hammerspoon configuration for macOS automation
 - `my-plugins`: Personal Claude Code plugins (tmux-status hooks)
