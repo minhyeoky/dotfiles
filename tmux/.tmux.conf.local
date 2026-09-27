@@ -307,8 +307,6 @@ bind-key x kill-pane
 
 set-option -g status-position top
 
-bind-key -r ) run-shell -b "alacritty-opacity increase 0.1"
-bind-key -r ( run-shell -b "alacritty-opacity decrease 0.1"
 # -d '#{pane_current_path}' 가 핵심이다. run-shell·new-window 는 -c 없이는 pane 의
 # cwd 가 아니라 호출한 client 의 cwd 를 쓴다 — attach 한 터미널이 켜진 자리, 즉 보통
 # $HOME 이다. 그래서 이 바인딩은 레포에 의존하는 스크립트(copy-commit-hash.sh 등)를
