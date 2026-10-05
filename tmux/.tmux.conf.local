@@ -350,6 +350,10 @@ set -g display-panes-time 3000
 ################################################################################
 set-option -sa terminal-features ',alacritty:RGB'
 
+# Extended keys (modified Enter etc.); extkeys asks the outer terminal to send them
+set -s extended-keys on
+set -as terminal-features ',alacritty*:extkeys'
+
 # Undercurl
 set -g default-terminal "${TERM}"
 set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
