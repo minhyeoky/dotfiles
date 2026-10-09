@@ -353,6 +353,8 @@ set-option -sa terminal-features ',alacritty:RGB'
 # Extended keys (modified Enter etc.); extkeys asks the outer terminal to send them
 set -s extended-keys on
 set -as terminal-features ',alacritty*:extkeys'
+# Alacritty falls back to TERM=xterm-256color when its terminfo is not installed
+set -as terminal-features ',xterm-256color:extkeys'
 
 # Undercurl
 set -g default-terminal "${TERM}"
