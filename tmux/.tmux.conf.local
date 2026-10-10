@@ -322,10 +322,10 @@ bind-key ! display-popup -E -d '#{pane_current_path}' -w 80% -h 60% \
 bind-key g display-popup -E -d '#{pane_current_path}' -w 80% -h 60% \
   -T ' issue/MR ' "$HOME/dotfiles/scripts/pick-issue.sh"
 
-# tmux-oil: session/window/pane 을 nvim 버퍼로 편집. close_on_switch 는 popup 안에서만
-# 켠다 — <CR> 이 qa! 로 닫으므로 평소 nvim 에서 켜면 다른 버퍼를 버린다.
+# tmux-oil: window 목록을 nvim 버퍼로 편집. popup 여부는 호출자가 선언한다 —
+# popup = true 면 <CR>·q 가 nvim 을 닫으므로 평소 nvim 에서는 켜지 않는다.
 bind-key T display-popup -E -d '#{pane_current_path}' -w 80% -h 80% \
-  -T ' tmux-oil ' "nvim -c 'lua require(\"tmux-oil\").open({ close_on_switch = true })'"
+  -T ' tmux-oil ' "nvim -c 'lua require(\"tmux-oil\").open({ popup = true })'"
 
 bind-key -r C-p next-window
 bind-key -r C-n previous-window
