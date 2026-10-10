@@ -32,7 +32,7 @@
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
   "schemastore.nvim": { "branch": "main", "commit": "cab3cff740114bd6a7d9f862839ed049f5701e47" },
   "snacks.nvim": { "branch": "main", "commit": "882c996cf28183f4d63640de0b4c02ec886d01f2" },
-  "tmux-oil.nvim": { "branch": "main", "commit": "4bf5b493902b7cefe39c9a0f1878c9ac60fd6541" },
+  "tmux-oil.nvim": { "branch": "main", "commit": "f85e34a854b93bfb0c0f9125b61db4db3a0c18a7" },
   "todo-comments.nvim": { "branch": "main", "commit": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668" },
   "vim-autoread": { "branch": "master", "commit": "24061f84652d768bfb85d222c88580b3af138dab" },
   "vim-dadbod": { "branch": "master", "commit": "6d1d41da4873a445c5605f2005ad2c68c99d8770" },

@@ -24,9 +24,10 @@ return {
     },
   },
   {
-    -- tmux session/window/pane 을 oil 처럼 버퍼로 편집. 검증 전 플러그인이라 커밋 고정.
-    "asdf8601/tmux-oil.nvim",
-    commit = "4bf5b493902b7cefe39c9a0f1878c9ac60fd6541",
+    -- tmux window 목록을 oil 처럼 버퍼로 편집 (자체 구현). private repo 라 SSH 로 받는다 —
+    -- lazy 의 HTTPS clone 은 프롬프트 없이 실패한다.
+    "minhyeoky/tmux-oil.nvim",
+    url = "git@github.com:minhyeoky/tmux-oil.nvim.git", -- gitguard-ok: SSH remote, not an email
     cmd = "TmuxOil",
     opts = {},
     keys = {
@@ -35,7 +36,7 @@ return {
         function()
           require("tmux-oil").open()
         end,
-        desc = "Edit tmux windows/panes as a buffer",
+        desc = "Edit tmux windows as a buffer",
       },
     },
   },
