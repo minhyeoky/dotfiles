@@ -48,6 +48,9 @@
 	autostash = true # a dirty tree no longer aborts the pull: stash, merge, pop
 [merge]
 	tool = "nvim"
+[merge "lazy-lock"]
+	name = per-plugin merge of lazy-lock.json
+	driver = python3 scripts/merge-lazy-lock.py %O %A %B
 [mergetool]
 	keepBackup = false
 	prompt = false
