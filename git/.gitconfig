@@ -45,6 +45,7 @@
 	cmd = "nvim -d -c \"wincmd l\" -c \"lua vim.diagnostic.disable(1)\" \"$LOCAL\" \"$REMOTE\""
 [pull]
 	rebase = false
+	autostash = true # a dirty tree no longer aborts the pull: stash, merge, pop
 [merge]
 	tool = "nvim"
 [mergetool]
