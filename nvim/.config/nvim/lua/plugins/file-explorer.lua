@@ -29,7 +29,7 @@ return {
     "minhyeoky/tmux-oil.nvim",
     url = "git@github.com:minhyeoky/tmux-oil.nvim.git", -- gitguard-ok: SSH remote, not an email
     cmd = "TmuxOil",
-    opts = {},
+    opts = { follow_cursor = true }, -- 커서를 옮기면 popup 뒤 window 도 따라간다; q 는 원래 window 로 복귀
     keys = {
       {
         "<leader>fm",
