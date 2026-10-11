@@ -3,13 +3,19 @@
 
 Plugin lines sit next to each other, so a textual 3-way merge conflicts whenever two
 sides bump neighbours. Here each key is merged on its own; a key changed on both sides
-keeps the current side (%A: HEAD on `git stash pop`, the checked-out branch on `git merge`)
-and the dropped value is listed on stderr. `:Lazy restore` then installs what the lock says.
+keeps the current side (%A: HEAD on `git stash pop`, the checked-out branch on `git merge`);
+the dropped value goes to stderr, which git may not show during a pull — the lock wins
+either way, and `:Lazy restore` then installs what the lock says. Invalid JSON on any side
+makes the driver exit non-zero: git reports a conflict and leaves the current side as is.
 
 usage (git config): driver = python3 scripts/merge-lazy-lock.py %O %A %B
 """
 import json
 import sys
+
+
+def dumps(v):
+    return json.dumps(v, ensure_ascii=False)
 
 
 def load(path):
@@ -34,10 +40,10 @@ def main():
             out[key] = v
     # lazy.nvim's own layout: one plugin per line, sorted keys
     def obj(v):
-        return "{ " + ", ".join("%s: %s" % (json.dumps(a), json.dumps(b)) for a, b in v.items()) + " }"
-    lines = ["  %s: %s" % (json.dumps(k), obj(v)) for k, v in out.items()]
+        return "{ " + ", ".join("%s: %s" % (dumps(a), dumps(b)) for a, b in v.items()) + " }"
+    lines = ["  %s: %s" % (dumps(k), obj(v)) for k, v in out.items()]
     with open(cur_path, "w", encoding="utf-8") as f:
-        f.write("{\n" + ",\n".join(lines) + "\n}\n")
+        f.write("{\n" + ",\n".join(lines) + ("\n}\n" if lines else "}\n"))
 
 
 main()
