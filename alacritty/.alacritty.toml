@@ -20,3 +20,11 @@ background = "0x282828"
 
 [env]
 term = "alacritty"
+
+# Ctrl+Tab / Ctrl+Shift+Tab switch browser tabs; in the terminal they switch
+# tmux windows instead (prefix C-a, then C-p next / C-n previous).
+[keyboard]
+bindings = [
+  { key = "Tab", mods = "Control", chars = "\u0001\u0010" },
+  { key = "Tab", mods = "Control|Shift", chars = "\u0001\u000e" },
+]
