@@ -10,7 +10,13 @@ The user has asked for a **retrospective**. You are suggesting improvements to t
 
 ## Steps
 
-1. **Pick the session.** Use the one given in `$ARGUMENTS`; if empty, the current one (`$CLAUDE_CODE_SESSION_ID`). Transcripts live at `~/.claude/projects/<slug>/<session-id>.jsonl`, where the slug is the session's working directory with `/` and `.` replaced by `-` (a worktree has its own slug); delegated agents' transcripts sit under `<session-id>/subagents/`, and struggles inside them are invisible from the main file. A session named by description is found with `grep -l` across `~/.claude/projects/*/*.jsonl`. Read the transcript rather than relying on recall: by the end of a session the struggles from the middle have faded, and recall drifts toward generic advice. Transcripts run to megabytes — filter with `jq`/`grep` for tool calls, tool results and errors instead of reading them whole.
+1. **Pick the session.** Use the session ID or description the user gave; if they gave none, the current session, whose ID the harness exposes in an environment variable (Claude Code `$CLAUDE_CODE_SESSION_ID`, Pi `$PI_SESSION_ID`). Where the transcript lives depends on the harness:
+
+   - **Claude Code**: `~/.claude/projects/<slug>/<session-id>.jsonl`, where the slug is the session's working directory with `/` and `.` replaced by `-`. Delegated agents' transcripts sit under `<session-id>/subagents/`, and struggles inside them are invisible from the main file.
+   - **Pi**: `~/.pi/agent/sessions/--<slug>--/<ISO time>_<session-id>.jsonl`, where the slug is the working directory without its leading `/` and with `/` replaced by `-` (`.` is kept).
+   - **Any other harness**: find its transcript store first; if you cannot, ask the user for the path.
+
+   In both stores a worktree has its own slug. A session named by description is found with `grep -l` across both stores (`~/.claude/projects/*/*.jsonl` and `~/.pi/agent/sessions/*/*.jsonl`). Read the transcript rather than relying on recall: by the end of a session the struggles from the middle have faded, and recall drifts toward generic advice. Transcripts run to megabytes — filter with `jq`/`grep` for tool calls, tool results and errors instead of reading them whole.
 
 2. **Read the environment the session ran in.** The repo's steering files (`CLAUDE.md`/`AGENTS.md`, global and repo), the files its reviewer reads, its check commands (`package.json`/build-tool `lint`/`check` scripts, pre-commit and pre-push hooks, CI workflows). A check that already exists but sits unwired or silently broken is the finding — not a reinvention.
 
