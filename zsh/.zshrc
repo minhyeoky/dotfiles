@@ -74,6 +74,7 @@ export MANPAGER='nvim +Man!'
 # --------------------------------------------------------------------------------
 alias c='claude --permission-mode "auto" --allow-dangerously-skip-permissions --chrome --model "sonnet[1m]"'
 alias cc='claude --permission-mode "auto" --allow-dangerously-skip-permissions --chrome --model "opus[1m]"'
+alias ccc='claude --permission-mode "bypassPermissions" --chrome --model "fable" --effort "xhigh"'
 
 # --------------------------------------------------------------------------------
 # DIRENV
