@@ -13,7 +13,6 @@
   },
   "enableArtifact": false,
   "alwaysThinkingEnabled": true,
-  "effortLevel": "high",
   "askUserQuestionTimeout": "never",
   "tui": "fullscreen",
   "autoDreamEnabled": true,
