@@ -10,6 +10,11 @@
           },
           {
             "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/tmux-window-title.sh SessionStart",
+            "timeout": 5
+          },
+          {
+            "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/cc-edit-context.sh",
             "timeout": 5
           },
@@ -29,6 +34,11 @@
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/tmux-status.sh UserPromptSubmit",
             "timeout": 5,
             "async": true
+          },
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/tmux-window-title.sh UserPromptSubmit",
+            "timeout": 5
           },
           {
             "type": "command",

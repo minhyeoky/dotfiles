@@ -37,6 +37,16 @@ State is cleared on `SessionEnd`, which a crashed session never reaches, so a pa
 
 **Customization:** Edit `hooks/scripts/tmux-status-config.sh` to change emoji mappings.
 
+### tmux-window-title
+
+Name each Claude Code session after its tmux window, so the name peers address it by (`ListAgents`, `SendMessage`) and the resume list match the tab you named. With several sessions in one window, the second and later in pane order get a suffix: `main`, `main·2`, `main·3`.
+
+The window name is read on every `UserPromptSubmit`, so a rename by any means (`prefix + ,`, tmux-oil, `rename-window`) reaches the session on its next prompt. An idle session keeps its old name until then: the only way into a running session from outside is `send-keys`, which would type into whatever is being written.
+
+The title is set only on `UserPromptSubmit`. A title set at `SessionStart` reaches the session's own UI but not the registry peers read, and the first prompt's identical title then changes nothing, leaving the derived name in place. `SessionStart` only drops the cached title on the pane (`@cc_title`), since startup, resume and clear can each bring a different title into it.
+
+A title is emitted only when it differs from that cache, so a manual `/rename` holds until the window name or pane order changes. Windows with `automatic-rename` on are skipped (their name is the command). So is a session that is not the pane's own: its nearest `claude` ancestor must be the pane process or its direct child, so sessions spawned by a script or another session inside the pane keep their names.
+
 ### main-drift
 
 Warn on `SessionStart` / `UserPromptSubmit` when a tracked remote's default branch has commits the current HEAD does not know about. Silent when there is no drift; fetches are throttled to once per 5 minutes per remote.
